@@ -95,6 +95,9 @@ const data = [
 
 const Dashboard: React.FC = () => {
     const [activeMenu, setActiveMenu] = useState('Dashboard');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     const menuItems = [
         { name: 'Dashboard', icon: <DashboardIcon size={20} /> },
@@ -279,8 +282,11 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="dashboard-layout">
+            {/* Sidebar Overlay for Mobile */}
+            {isSidebarOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
+
             {/* Sidebar */}
-            <aside className="sidebar">
+            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-logo">
                     <img src={logo} alt="BHC Logo" className="logo-img" />
                 </div>
@@ -292,19 +298,35 @@ const Dashboard: React.FC = () => {
                         <div
                             key={item.name}
                             className={`nav-item ${activeMenu === item.name ? 'active' : ''}`}
-                            onClick={() => setActiveMenu(item.name)}
+                            onClick={() => {
+                                setActiveMenu(item.name);
+                                if (window.innerWidth <= 1024) setIsSidebarOpen(false);
+                            }}
                         >
                             <span className="nav-icon">{item.icon}</span>
                             {item.name}
                         </div>
                     ))}
                 </nav>
+
+                <button className="sidebar-close-btn" onClick={toggleSidebar}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z" />
+                    </svg>
+                </button>
             </aside>
 
-            {/* Main Content */}
-            <main className="main-content">
+            <main className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
                 {/* Header */}
                 <header className="header">
+                    <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <g fill="currentColor">
+                                <path d="M13 21h6a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-6z" />
+                                <path fillRule="evenodd" d="M11 3H5a2 2 0 0 0-2-2v14a2 2 0 0 0 2 2h6zm-2.293 7.707a1 1 0 0 0-1.414-1.414l-2 2a1 1 0 0 0 0 1.414l2 2a1 1 0 0 0 1.414-1.414L7.414 12z" clipRule="evenodd" />
+                            </g>
+                        </svg>
+                    </button>
                     {!['Accounts', 'Applications', 'Faults&Maintenance', 'Settings', 'Payments'].includes(activeMenu) ? (
                         <>
                             <h1 className="header-title">
