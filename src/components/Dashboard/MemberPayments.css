@@ -1,0 +1,295 @@
+.member-payments-container {
+    padding: 2rem;
+    padding-top: 4rem;
+    width: 100%;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.payments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.pay-now-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #A80000;
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(168, 0, 0, 0.2);
+}
+
+.pay-now-btn:hover {
+    background: #8e0000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(168, 0, 0, 0.3);
+}
+
+/* Stats Cards */
+.payments-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.pay-stat-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #222;
+    margin: 0;
+}
+
+/* Payment Form */
+.payment-form-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+}
+
+.bank-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.bank-card {
+    background: #fcfcfc;
+    border: 1.5px dashed #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.bank-logo-label {
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #A80000;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.bank-info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.bank-info-item .label {
+    color: #666;
+}
+
+.bank-info-item .value {
+    font-weight: 700;
+    color: #222;
+}
+
+.form-disclaimer {
+    background: #fff8f8;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1.5px solid #A8000015;
+    color: #A80000;
+    font-size: 0.85rem;
+}
+
+.form-disclaimer p {
+    margin: 0;
+}
+
+/* Table Styles */
+.history-section {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h3 {
+    font-size: 1.1rem;
+    color: #222;
+    font-weight: 700;
+}
+
+.statement-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1.5px solid #eee;
+    color: #666;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.statement-btn:hover {
+    border-color: #A80000;
+    color: #A80000;
+}
+
+.history-table-wrapper {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th {
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #f5f5f5;
+}
+
+.history-table td {
+    padding: 1.25rem 1rem;
+    font-size: 0.9rem;
+    color: #444;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.ref-cell {
+    font-weight: 700;
+    color: #A80000 !important;
+}
+
+.amount-cell {
+    font-weight: 800;
+    color: #222;
+}
+
+.status-tag {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-tag.paid {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.receipt-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #A8000008;
+    color: #A80000;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.receipt-btn:hover {
+    background: #A80000;
+    color: white;
+}
+
+/* Info Notice */
+.billing-info-notice {
+    margin-top: 2rem;
+    background: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.notice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-icon {
+    color: #888;
+    display: flex;
+    align-items: center;
+}
+
+.billing-info-notice h4 {
+    margin: 0;
+    color: #222;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.billing-info-notice p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    padding-left: 2rem;
+}
+
+@media (max-width: 768px) {
+    .payments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+    .pay-now-btn { width: 100%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+}

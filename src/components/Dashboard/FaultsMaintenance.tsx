@@ -1,62 +1,142 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search } from 'lucide-react';
-import './CardGrid.css'; // Shared styles
+import './CardGrid.css';
 
-interface CardProps {
+type QueryStatus = 'Pending Review' | 'Resolved' | 'Escalated';
+
+interface QueryRecord {
+    initials: string;
     name: string;
-    reference?: string;
-    issue?: string;
-    btnText: string;
+    reference: string;
+    issue: string;
+    status: QueryStatus;
 }
 
-const InfoCard: React.FC<CardProps> = ({ name, reference, issue, btnText }) => {
-    return (
-        <div className="info-card">
-            <div className="avatar-circle">K</div>
-            <h3 className="card-name">{name}</h3>
-
-            {reference && <p className="card-detail ref-num">{reference}</p>}
-            {issue && <p className="card-sub-detail">{issue}</p>}
-
-            <button className="card-action-btn">{btnText}</button>
-        </div>
-    );
+const statusColors: Record<QueryStatus, string> = {
+    'Pending Review': '#A80000',
+    'Resolved': '#16a34a',
+    'Escalated': '#f97316',
 };
 
+const initialQueries: QueryRecord[] = [
+    { initials: 'KN', name: 'Kefilwe Nkosi', reference: '#QRY-2024-001', issue: 'Waiting period clarification', status: 'Pending Review' },
+    { initials: 'TM', name: 'Tebogo Motswedi', reference: '#QRY-2024-002', issue: 'Claim checklist query', status: 'Resolved' },
+    { initials: 'OT', name: 'Oarabile Tau', reference: '#QRY-2024-003', issue: 'Membership transfer request', status: 'Pending Review' },
+    { initials: 'GP', name: 'Gosiame Phikwe', reference: '#QRY-2024-004', issue: 'KYC document resubmission', status: 'Escalated' },
+    { initials: 'DN', name: 'Dineo Ntuane', reference: '#QRY-2024-005', issue: 'Annual admin fee dispute', status: 'Pending Review' },
+    { initials: 'TS', name: 'Thato Segokgo', reference: '#QRY-2024-006', issue: 'Child dependent age query', status: 'Resolved' },
+    { initials: 'MR', name: 'Mpho Rammidi', reference: '#QRY-2024-007', issue: 'Policy cancellation request', status: 'Pending Review' },
+    { initials: 'BS', name: 'Boitumelo Seboni', reference: '#QRY-2024-008', issue: 'Rejoining fee confirmation', status: 'Escalated' },
+];
+
 const FaultsMaintenance: React.FC = () => {
-    const faults = Array(8).fill({
-        name: 'Kamogelo Nkemi',
-        reference: '#RefferenceNumber',
-        issue: 'Electrical Fault',
-        btnText: 'Pending Review'
+    const [queries, setQueries] = useState<QueryRecord[]>(initialQueries);
+    const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState('All');
+
+    const updateStatus = (reference: string, newStatus: QueryStatus) => {
+        setQueries(prev =>
+            prev.map(q => q.reference === reference ? { ...q, status: newStatus } : q)
+        );
+    };
+
+    const filtered = queries.filter(q => {
+        const matchSearch =
+            q.name.toLowerCase().includes(search.toLowerCase()) ||
+            q.reference.toLowerCase().includes(search.toLowerCase()) ||
+            q.issue.toLowerCase().includes(search.toLowerCase());
+        const matchFilter = filter === 'All' || q.status === filter;
+        return matchSearch && matchFilter;
     });
 
     return (
         <div className="grid-page-container">
             <div className="page-header">
-                <h2 className="page-title">Faults & Maintenance</h2>
+                <h2 className="page-title">Queries & Support</h2>
 
                 <div className="header-actions">
                     <div className="search-bar-alt">
                         <Search size={18} color="#999" />
-                        {/* Keeping the placeholder text consistent with the request/image even if it looks like copy-paste error from applications */}
-                        <input type="text" placeholder="Search for applications Here" className="search-input" />
+                        <input
+                            type="text"
+                            placeholder="Search queries here"
+                            className="search-input"
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                        />
                     </div>
 
-                    <button className="filter-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048" style={{ marginRight: '8px' }}>
-                            <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
-                        </svg>
-                        Filter by Location
-                    </button>
-                    <button className="action-btn-red">Pending Review</button>
+                    {['All', 'Pending Review', 'Resolved', 'Escalated'].map(f => (
+                        <button
+                            key={f}
+                            className={f === 'Escalated' ? 'action-btn-red' : 'filter-btn'}
+                            onClick={() => setFilter(f)}
+                            style={{
+                                background: filter === f
+                                    ? (f === 'Resolved' ? '#f0fdf4' : f === 'Escalated' ? '#f97316' : '#fcebeb')
+                                    : 'white',
+                                color: f === 'Resolved' ? '#16a34a' : f === 'Escalated' ? 'white' : '#A80000',
+                                borderColor: f === 'Resolved' ? '#16a34a' : undefined,
+                            }}
+                        >
+                            {f}
+                        </button>
+                    ))}
                 </div>
             </div>
 
             <div className="card-grid">
-                {faults.map((fault, i) => (
-                    <InfoCard key={i} {...fault} />
+                {filtered.map((query, i) => (
+                    <div className="info-card" key={i}>
+                        <div className="avatar-circle" style={{ background: statusColors[query.status] }}>
+                            {query.initials}
+                        </div>
+                        <h3 className="card-name">{query.name}</h3>
+                        <p className="card-detail ref-num">{query.reference}</p>
+                        <p className="card-sub-detail">{query.issue}</p>
+
+                        {query.status === 'Pending Review' ? (
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: '1fr 1fr',
+                                gap: '0.5rem',
+                                width: '100%',
+                                marginTop: '0.5rem'
+                            }}>
+                                <button
+                                    className="card-action-btn"
+                                    style={{ background: '#16a34a', fontSize: '0.8rem', padding: '0.5rem 0.4rem' }}
+                                    onClick={() => updateStatus(query.reference, 'Resolved')}
+                                >
+                                    ✓ Resolved
+                                </button>
+                                <button
+                                    className="card-action-btn"
+                                    style={{ background: '#f97316', fontSize: '0.8rem', padding: '0.5rem 0.4rem' }}
+                                    onClick={() => updateStatus(query.reference, 'Escalated')}
+                                >
+                                    ↑ Escalate
+                                </button>
+                                <button
+                                    className="card-action-btn"
+                                    style={{ background: '#A80000', fontSize: '0.8rem', padding: '0.5rem 0.4rem', gridColumn: '1 / -1' }}
+                                >
+                                    Pending Review
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                className="card-action-btn"
+                                style={{ background: statusColors[query.status] }}
+                            >
+                                {query.status}
+                            </button>
+                        )}
+                    </div>
                 ))}
+                {filtered.length === 0 && (
+                    <p style={{ color: '#999', fontSize: '0.9rem', gridColumn: '1/-1' }}>No queries match your search.</p>
+                )}
             </div>
         </div>
     );

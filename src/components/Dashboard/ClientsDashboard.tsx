@@ -1,16 +1,15 @@
 import React, {
     useState
 } from 'react';
-import './Dashboard.css';
+import './ClientsDashboard.css';
 const logo = '/assets/christianlogo.png';
 
 import { Search } from 'lucide-react';
 import { BarChart, Bar, XAxis, ResponsiveContainer, Cell } from 'recharts';
-import Accounts from './Accounts';
-import Applications from './Applications';
-import FaultsMaintenance from './FaultsMaintenance';
-import Settings from './Settings';
-import Payments from './Payments';
+import MyPolicy from './MyPolicy';
+import ClaimsStatus from './ClaimsStatus';
+import SupportQueries from './SupportQueries';
+import MemberPayments from './MemberPayments';
 import { useEffect } from 'react';
 import Skeleton from '../Skeleton';
 
@@ -42,9 +41,14 @@ const ApplicationsIcon = ({ size = 20, className = '' }) => (
     </svg>
 );
 
-const FaultsIcon = ({ size = 20, className = '' }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" className={className}>
-        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 15v3a1 1 0 0 0 1 1h4v-4m-5 0v-4m0 4h5m-5-4V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v1.99M3 11h5v4m9.47 4.172l-.869-1.439l-2.816-.235l-2.573-4.257l1.487-2.836l1.444 2.389a1.353 1.353 0 1 0 2.316-1.4l-1.444-2.39h3.136l2.61 4.278l-1.072 2.585l.87 1.438" />
+const ActiveQueriesIcon = ({ size = 20, className = '' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 48 48" className={className}>
+        <rect width="48" height="48" fill="none" />
+        <g fill="none" stroke="currentColor" strokeWidth="4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M42 24V9a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h15" />
+            <circle cx="32" cy="32" r="6" fill="currentColor" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="m37 36l5 4M14 16h20m-20 8h8" />
+        </g>
     </svg>
 );
 
@@ -101,7 +105,7 @@ const data = [
     { name: 'Sep', value: 55, color: '#A1A1A1' },
 ];
 
-const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
+const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     const [activeMenu, setActiveMenu] = useState('Dashboard');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -116,10 +120,10 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
 
     const menuItems = [
         { name: 'Dashboard', icon: <DashboardIcon size={20} /> },
-        { name: 'Member Management', icon: <AccountsIcon size={20} /> },
-        { name: 'Claims Processing', icon: <ApplicationsIcon size={20} /> },
-        { name: 'Queries & Support', icon: <FaultsIcon size={20} /> },
-        { name: 'Financials & Reports', icon: <PaymentsIcon size={20} /> },
+        { name: 'My Policy', icon: <AccountsIcon size={20} /> },
+        { name: 'Claims Status', icon: <ApplicationsIcon size={20} /> },
+        { name: 'Support/Queries', icon: <ActiveQueriesIcon size={20} /> },
+        { name: 'Payments', icon: <PaymentsIcon size={20} /> },
         { name: 'Settings', icon: <SettingsIcon size={20} /> },
         { name: 'Logout', icon: <LogoutIcon size={20} /> },
     ];
@@ -127,23 +131,22 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     const DashboardSkeleton = () => (
         <div style={{ padding: '2rem', height: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
-                <Skeleton width="200px" height="32px" />
-                <Skeleton width="150px" height="32px" />
+                <Skeleton width="180px" height="28px" />
+                <Skeleton variant="circle" width="40px" height="40px" />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-                {[1, 2, 3, 4].map(i => (
+                {[1, 2].map(i => (
                     <div key={i} style={{ background: 'white', padding: '1.5rem', borderRadius: '12px', border: '1px solid #eee' }}>
-                        <Skeleton variant="circle" width="40px" height="40px" />
+                        <Skeleton variant="circle" width="36px" height="36px" />
                         <div style={{ marginTop: '1rem' }}>
-                            <Skeleton width="120px" height="12px" />
-                            <Skeleton width="80px" height="24px" />
+                            <Skeleton width="100px" height="12px" />
+                            <Skeleton width="140px" height="20px" />
                         </div>
                     </div>
                 ))}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                <Skeleton height="300px" />
-                <Skeleton height="300px" />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
+                <Skeleton height="400px" />
             </div>
         </div>
     );
@@ -151,14 +154,14 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     const renderContent = () => {
         if (isLoading) return <DashboardSkeleton />;
         switch (activeMenu) {
-            case 'Member Management':
-                return <Accounts />;
-            case 'Claims Processing':
-                return <Applications />;
-            case 'Queries & Support':
-                return <FaultsMaintenance />;
-            case 'Financials & Reports':
-                return <Payments />;
+            case 'My Policy':
+                return <MyPolicy />;
+            case 'Claims Status':
+                return <ClaimsStatus />;
+            case 'Support/Queries':
+                return <SupportQueries />;
+            case 'Payments':
+                return <MemberPayments />;
             case 'Settings':
                 return <Settings />;
             case 'Dashboard':
@@ -173,119 +176,105 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                                     <div className="stat-card">
                                         <div className="stat-icon"><TotalAccountsIcon size={48} /></div>
                                         <div className="stat-info">
-                                            <h3>Global Registered Members</h3>
-                                            <div className="stat-value">5,842</div>
+                                            <h3>Membership Status</h3>
+                                            <div className="stat-value" style={{ fontSize: '1.5rem' }}>Active (Waiting)</div>
                                         </div>
                                     </div>
                                     <div className="stat-card">
                                         <div className="stat-icon"><ApprovedCustomersIcon size={48} /></div>
                                         <div className="stat-info">
-                                            <h3>Total Claims Approved</h3>
-                                            <div className="stat-value">1,124</div>
+                                            <h3>Total Contributions</h3>
+                                            <div className="stat-value">P1,350.00</div>
                                         </div>
                                     </div>
                                     <div className="stat-card">
-                                        <div className="stat-icon"><FaultsIcon size={48} /></div>
+                                        <div className="stat-icon"><ActiveQueriesIcon size={48} /></div>
                                         <div className="stat-info">
-                                            <h3>Pending Queries/Transfers</h3>
-                                            <div className="stat-value">45</div>
+                                            <h3>Active Queries</h3>
+                                            <div className="stat-value">01</div>
                                         </div>
                                     </div>
                                     <div className="stat-card">
                                         <div className="stat-icon"><ApprovedCheckIcon size={48} /></div>
                                         <div className="stat-info">
-                                            <h3>Active Paid-up Policies</h3>
-                                            <div className="stat-value">4,968</div>
+                                            <h3>Benefit Amount</h3>
+                                            <div className="stat-value">P15,000.00</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Charts Row: Applications History + Overall Applications */}
-                                <div className="charts-row">
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h3 className="card-title">Monthly Registration Trends</h3>
-                                            <button style={{
-                                                padding: '4px 12px',
-                                                border: '1px solid #ccc',
-                                                borderRadius: '6px',
-                                                background: 'white',
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '8px',
-                                                fontSize: '0.8rem',
-                                                fontWeight: '500'
-                                            }}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048">
-                                                    <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
-                                                </svg>
-                                                Export Excel/PDF
-                                            </button>
-                                        </div>
-                                        <div className="chart-container">
-                                            <ResponsiveContainer width="100%" height="100%">
-                                                <BarChart data={data}>
-                                                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={10} />
-                                                    <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={20}>
-                                                        {data.map((entry, index) => (
-                                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                                        ))}
-                                                    </Bar>
-                                                </BarChart>
-                                            </ResponsiveContainer>
-                                        </div>
-                                    </div>
+                                 <div className="charts-row">
+                                     <div className="card">
+                                         <div className="card-header">
+                                             <h3 className="card-title">My Contribution History</h3>
+                                             <button style={{
+                                                 padding: '4px 12px',
+                                                 border: '1px solid #ccc',
+                                                 borderRadius: '6px',
+                                                 background: 'white',
+                                                 cursor: 'pointer',
+                                                 display: 'flex',
+                                                 alignItems: 'center',
+                                                 gap: '8px',
+                                                 fontSize: '0.8rem',
+                                                 fontWeight: '500'
+                                             }}>
+                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048">
+                                                     <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
+                                                 </svg>
+                                                 Statement
+                                             </button>
+                                         </div>
+                                         <div className="chart-container">
+                                             <ResponsiveContainer width="100%" height="100%">
+                                                 <BarChart data={data}>
+                                                     <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={10} />
+                                                     <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={20}>
+                                                         {data.map((entry, index) => (
+                                                             <Cell key={`cell-${index}`} fill={entry.color} />
+                                                         ))}
+                                                     </Bar>
+                                                 </BarChart>
+                                             </ResponsiveContainer>
+                                         </div>
+                                     </div>
 
-                                    <div className="card">
-                                        <h3 className="card-title">Policy Lifecycle Status</h3>
-                                        <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: '1rem 0' }}>5,842</h1>
-                                        <div className="overall-bar">
-                                            <div className="bar-segment" style={{ width: '10%', background: '#dc2626' }}></div>
-                                            <div className="bar-segment" style={{ width: '20%', background: '#f97316' }}></div>
-                                            <div className="bar-segment" style={{ width: '70%', background: '#22c55e' }}></div>
-                                        </div>
-                                        <div className="legend">
-                                            <div className="legend-item">
-                                                <div className="dot" style={{ background: '#dc2626' }}></div>
-                                                <div>
-                                                    <div style={{ fontWeight: 'bold' }}>584</div>
-                                                    <div style={{ color: '#666', fontSize: '0.7rem' }}>Defaulters</div>
-                                                </div>
-                                            </div>
-                                            <div className="legend-item">
-                                                <div className="dot" style={{ background: '#f97316' }}></div>
-                                                <div>
-                                                    <div style={{ fontWeight: 'bold' }}>1,168</div>
-                                                    <div style={{ color: '#666', fontSize: '0.7rem' }}>Waiting Period</div>
-                                                </div>
-                                            </div>
-                                            <div className="legend-item">
-                                                <div className="dot" style={{ background: '#22c55e' }}></div>
-                                                <div>
-                                                    <div style={{ fontWeight: 'bold' }}>4,090</div>
-                                                    <div style={{ color: '#666', fontSize: '0.7rem' }}>Active Policies</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button
-                                            className="payment-btn"
-                                            style={{ marginTop: '2rem', background: '#A80000' }}
-                                            onClick={() => setActiveMenu('Applications')}
-                                        >
-                                            Manage Claim Approvals
-                                        </button>
-                                    </div>
+                                     <div className="card">
+                                         <h3 className="card-title">Current Policy Status</h3>
+                                         <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: '1rem 0' }}>92%</h1>
+                                         <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>Waiting period progression to full claim eligibility.</p>
+                                         <div className="overall-bar">
+                                             <div className="bar-segment" style={{ width: '92%', background: '#22c55e' }}></div>
+                                             <div className="bar-segment" style={{ width: '8%', background: '#D1D1D1' }}></div>
+                                         </div>
+                                         <div className="legend">
+                                             <div className="legend-item">
+                                                 <div className="dot" style={{ background: '#22c55e' }}></div>
+                                                 <div>
+                                                     <div style={{ fontWeight: 'bold' }}>Active</div>
+                                                     <div style={{ color: '#666', fontSize: '0.7rem' }}>Paid up to date</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <button
+                                             className="payment-btn"
+                                             style={{ marginTop: '2rem', background: '#A80000' }}
+                                             onClick={() => setActiveMenu('Claims Status')}
+                                         >
+                                             Check Claim Eligibility
+                                         </button>
+                                     </div>
                                 </div>
 
-                                {/* Registry Overview */}
+                                {/* My Coverage Details */}
                                 <div className="card" style={{ height: '300px' }}>
-                                    <h3 className="card-title">Administrative Controls & Rules</h3>
+                                    <h3 className="card-title">My Coverage Details</h3>
                                     <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                        <p>• <b>National Admin:</b> Generate reports, bank reconciliations, claim verification.</p>
-                                        <p>• <b>Waiting Period Rules:</b> 3 months (Principal), 6 months (Additional members).</p>
-                                        <p>• <b>Age Enforcement:</b> Automated flagging/removal of children at 21 years.</p>
-                                        <p>• <b>Data Validation:</b> Branch assistants restricted to branch-specific captures.</p>
+                                        <p>• <b>Principal Member:</b> Covered (3 months waiting period cleared).</p>
+                                        <p>• <b>Additional Members:</b> 4/5 slots used (Nuclear family only).</p>
+                                        <p>• <b>Child Dependents:</b> 2 members (Ages 12, 18).</p>
+                                        <p>• <b>Policy Limit:</b> P15,000.00 standard funeral benefit.</p>
                                     </div>
                                 </div>
                             </div>
@@ -295,32 +284,32 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                                 {/* Wrapper Card for Amounts */}
                                 <div className="card" style={{ padding: '1.5rem' }}>
                                     <div className="red-card" style={{ padding: '1.5rem' }}>
-                                        <h3>Annual Admin Fees Due</h3>
-                                        <p>Total Sep 2026 Projections</p>
-                                        <div className="amount" style={{ fontSize: '1.8rem' }}>BWP87,630.00</div>
+                                        <h3>Make a Payment</h3>
+                                        <p>Monthly Premium Due</p>
+                                        <div className="amount" style={{ fontSize: '1.8rem' }}>P120.00</div>
                                     </div>
 
                                     <div className="red-card" style={{ padding: '1.5rem' }}>
-                                        <h3>Claims Payout Forecast</h3>
-                                        <p>Total Pending Verifications</p>
-                                        <div className="amount">BWP225,000.00</div>
+                                        <h3>Next Admin Fee</h3>
+                                        <p>Annual Due September 2026</p>
+                                        <div className="amount">P15.00</div>
                                     </div>
 
                                     <button
                                         className="payment-btn"
                                         onClick={() => setActiveMenu('Payments')}
                                     >
-                                        Review General Ledger
+                                        Proceed to Pay Now
                                     </button>
                                 </div>
 
-                                {/* System Notifications */}
+                                {/* Account Reminders */}
                                 <div className="card" style={{ height: '300px' }}>
-                                    <h3 className="card-title">National Audit & Reminders</h3>
+                                    <h3 className="card-title">Personalized Notifications</h3>
                                     <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                                        <p><b>- Claim Checklist:</b> 2 claims blocked due to waiting period violations.</p>
-                                        <p><b>- Defaulter Warning:</b> 128 users flagged for deletion (3-month inactivity).</p>
-                                        <p><b>- Branch Activity:</b> Weekly reporting due from all 5 regional branches.</p>
+                                        <p><b>- Policy Reminder:</b> Your annual admin fee is due in 6 months.</p>
+                                        <p><b>- Status Update:</b> Your additional member "Neo" has 2 months left in waiting period.</p>
+                                        <p><b>- Child Dependent:</b> "Mosa" will reach age 21 in 3 years.</p>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +371,7 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                             </g>
                         </svg>
                     </button>
-                    {!['Member Management', 'Claims Processing', 'Queries & Support', 'Settings', 'Financials & Reports'].includes(activeMenu) ? (
+                    {!['My Policy', 'Claims Status', 'Support/Queries', 'Settings', 'Payments'].includes(activeMenu) ? (
                         <>
                             <h1 className="header-title">
                                 {activeMenu}
@@ -402,10 +391,10 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                             <NotificationIcon size={20} />
                         </button>
                         <div className="user-profile">
-                            <div className="avatar">T</div>
+                            <div className="avatar">C</div>
                             <div className="user-info">
-                                <span className="user-name">Ten Ten</span>
-                                <span className="user-role">Admin</span>
+                                <span className="user-name">Client User</span>
+                                <span className="user-role">Client</span>
                             </div>
                         </div>
                     </div>
@@ -419,4 +408,4 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     );
 };
 
-export default Dashboard;
+export default ClientsDashboard;

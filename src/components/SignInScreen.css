@@ -1,7 +1,7 @@
 .signin-container {
     min-height: 100vh;
     width: 100%;
-    background-color: #990000;
+    background-color: white;
     /* Match loading screen */
     display: flex;
     flex-direction: column;
@@ -11,75 +11,174 @@
     position: relative;
 }
 
+.signin-split-layout {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 4rem;
+    align-items: center;
+}
+
+/* ── LEFT SIDE: Welcome Section ── */
+.signin-welcome-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .signin-logo-container {
-    margin-bottom: 2rem;
-    text-align: center;
+    margin-bottom: 1rem;
+    text-align: left;
+    margin-left: -10px;
 }
 
 .signin-logo {
-    max-width: 150px;
+    max-width: 180px;
     height: auto;
 }
 
+.welcome-title {
+    color: #A80000;
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.welcome-text {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.welcome-support-box {
+    background: #fcebeb;
+    padding: 1rem;
+    border-radius: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.support-title {
+    color: #A80000;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-support-box p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.support-contacts {
+    margin-top: 0.5rem;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 0;
+    font-size: 0.95rem;
+}
+
+.support-contacts p {
+    margin: 0.25rem 0;
+}
+
+.welcome-safety-notice {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.5;
+    background: #fdfdfd;
+    padding: 0.85rem 1rem;
+    border: 1px solid #eaeaea;
+    border-radius: 0;
+}
+
+/* ── RIGHT SIDE: Sign In Form ── */
 .glass-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex: 1;
+    background: white;
+    border: 1px solid #eaeaea;
     border-radius: 20px;
     padding: 3rem;
     width: 100%;
-    max-width: 500px;
     text-align: center;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .signin-split-layout {
+        flex-direction: column-reverse;
+        gap: 3rem;
+        padding: 1rem 0;
+    }
+    .signin-welcome-section {
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 2rem;
+    }
+    .signin-logo-container {
+        text-align: center;
+    }
+    .welcome-support-box {
+        text-align: center;
+    }
+    .support-contacts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .signin-title {
-    color: white;
+    color: #222;
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .signin-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .signin-input {
     width: 100%;
-    padding: 1rem;
+    padding: 0.8rem;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid #ddd;
     border-radius: 8px;
-    color: white;
+    color: #222;
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
 }
 
 .signin-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #999;
 }
 
 .signin-input:focus {
-    border-color: white;
-    background: rgba(255, 255, 255, 0.05);
+    border-color: #A80000;
+    background: #fdfdfd;
 }
 
 .login-button {
     width: 100%;
-    padding: 1rem;
-    background-color: white;
-    color: #990000;
+    padding: 0.8rem;
+    background-color: #A80000;
+    color: white;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .login-button:hover {
@@ -88,13 +187,13 @@
 }
 
 .signin-footer {
-    margin-top: 2rem;
-    color: rgba(255, 255, 255, 0.8);
+    margin-top: 1.25rem;
+    color: #666;
     font-size: 0.9rem;
 }
 
 .contact-link {
-    color: white;
+    color: #A80000;
     text-decoration: none;
     font-weight: 600;
     margin-left: 5px;

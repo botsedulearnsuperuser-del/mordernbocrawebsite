@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import './SignInScreen.css';
 const logo = '/assets/christianlogo.png';
 
-interface SignInScreenProps {
+interface ClientSignInScreenProps {
     onLogin: () => void;
-    onSwitchToClient: () => void;
+    onBackToAdmin: () => void;
 }
 
-const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient }) => {
+const ClientSignInScreen: React.FC<ClientSignInScreenProps> = ({ onLogin, onBackToAdmin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Login attempt:', { email, password });
-        // In a real app, validate credentials here.
-        // For now, simulate success:
+        console.log('Client Login attempt:', { email, password });
         onLogin();
     };
 
@@ -28,9 +26,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient }
                     <div className="signin-logo-container">
                         <img src={logo} alt="Church Logo" className="signin-logo" />
                     </div>
-                    <h1 className="welcome-title">Welcome to TFJCCFP Admin Portal</h1>
+                    <h1 className="welcome-title">Welcome to TFJCCFP Member Portal</h1>
                     <p className="welcome-text">
-                        The structured management system for The Follower of Jesus Christ Church Funeral Policy. Please sign in to securely access the administrative tools.
+                        Welcome back! Access your personal funeral policy details, check your membership status, and manage your payments securely from the client portal.
                     </p>
 
                     <div className="welcome-support-box">
@@ -59,57 +57,57 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient }
 
                 {/* Right Side: Login Form */}
                 <div style={{ flex: 1, textAlign: 'center' }}>
-                <h1 className="signin-title">Sign In to the Admin Panel</h1>
+                    <h1 className="signin-title">Sign In to the Client Portal</h1>
 
-                <form onSubmit={handleSubmit} className="signin-form">
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            placeholder="admin email address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="signin-input"
-                        />
-                    </div>
+                    <form onSubmit={handleSubmit} className="signin-form">
+                        <div className="input-group">
+                            <input
+                                type="text"
+                                placeholder="membership number or email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="signin-input"
+                            />
+                        </div>
 
-                    <div className="input-group">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="signin-input"
-                        />
-                    </div>
+                        <div className="input-group">
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="signin-input"
+                            />
+                        </div>
 
-                    <button type="submit" className="login-button">Login</button>
-                </form>
+                        <button type="submit" className="login-button">Login to My Policy</button>
+                    </form>
 
-                <div className="signin-footer">
-                    <div>
-                        <span>Dont have an account? </span>
-                        <button 
-                            type="button" 
-                            className="contact-link" 
-                            style={{ 
-                                background: 'none', 
-                                border: 'none', 
-                                font: 'inherit', 
-                                cursor: 'pointer',
-                                color: '#A80000',
-                                padding: 0,
-                                textDecoration: 'underline'
-                            }}
-                            onClick={onSwitchToClient}
-                        >
-                            Sign In to Client Portal
-                        </button>
+                    <div className="signin-footer">
+                        <div>
+                            <span>Are you an Admin? </span>
+                            <button 
+                                type="button" 
+                                className="contact-link" 
+                                style={{ 
+                                    background: 'none', 
+                                    border: 'none', 
+                                    font: 'inherit', 
+                                    cursor: 'pointer',
+                                    color: '#A80000',
+                                    padding: 0,
+                                    textDecoration: 'underline'
+                                }}
+                                onClick={onBackToAdmin}
+                            >
+                                Sign In to Admin Panel
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     );
 };
 
-export default SignInScreen;
+export default ClientSignInScreen;

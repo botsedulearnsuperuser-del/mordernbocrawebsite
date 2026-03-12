@@ -1,0 +1,325 @@
+/* Claims Processing — horizontal row layout */
+
+.claims-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.claim-row-card {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background: #fcebeb;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    /* single line, no wrap */
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.claim-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.claim-info {
+    min-width: 160px;
+    flex: 1;
+}
+
+.claim-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #222;
+    white-space: nowrap;
+}
+
+.claim-branch {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 2px;
+    white-space: nowrap;
+}
+
+.claim-ref-block {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.claim-ref {
+    font-size: 0.8rem;
+    color: #999;
+    white-space: nowrap;
+}
+
+.claim-type {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
+}
+
+.claim-status-btn {
+    color: white;
+    border: none;
+    padding: 0.45rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-left: auto;
+    min-width: 90px;
+}
+/* View button on the left of each row */
+.claim-view-btn {
+    background: transparent;
+    border: 1.5px solid #A80000;
+    color: #A80000;
+    padding: 0.35rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+
+.claim-view-btn:hover {
+    background: #A80000;
+    color: white;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-card {
+    background: white;
+    border-radius: 0; /* Sharp 90-degree edges */
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px; /* Increased from 620px */
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #222;
+}
+
+.modal-close-btn {
+    background: #f5f5f5;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #555;
+}
+
+.modal-close-btn:hover {
+    background: #fcebeb;
+    color: #A80000;
+}
+
+.modal-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-status-badge {
+    margin-left: auto;
+    color: white;
+    padding: 0.35rem 1rem;
+    border-radius: 0; /* Sharp 90-degree edges */
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-info-item {
+    background: #fafafa;
+    border-radius: 0; /* Sharp 90-degree edges */
+    padding: 0.75rem 1rem;
+}
+
+.modal-info-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+}
+
+.modal-info-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.modal-checklist {
+    background: #fcebeb;
+    border-radius: 0; /* Sharp 90-degree edges */
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-checklist-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #A80000;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+}
+
+.modal-checklist-item {
+    font-size: 0.85rem;
+    color: #444;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checklist-tick {
+    color: #A80000;
+    font-weight: 800;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Make action buttons inside the modal 90 degrees */
+.modal-actions .card-action-btn {
+    border-radius: 0;
+}
+
+/* Filter buttons with count badge */
+.claims-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    border: 1.5px solid;
+    font-weight: 600;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.claims-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0 5px;
+}
+
+/* ── Print Styles ── */
+.print-only {
+    display: none;
+}
+
+@media print {
+    /* Hide everything else on the dashboard */
+    .sidebar, .page-header, .claims-list, .header, .no-print {
+        display: none !important;
+    }
+
+    /* Reset all layout constraints to allow endless scrolling/paging */
+    html, body, #root, .app-container, .main-content, .grid-page-container, .dashboard-layout, .content-scroll-area {
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .print-only {
+        display: block !important;
+        position: relative !important;
+        width: 100%;
+        background: white;
+    }
+
+    .print-page {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        page-break-after: always;
+        break-after: page;
+        padding: 1rem 0;
+        margin: 0;
+        border: none !important;
+        box-shadow: none !important;
+        width: 100%;
+    }
+
+    /* Ensure grid layouts still function correctly within the print view */
+    .modal-info-grid {
+        display: grid !important;
+    }
+
+    .modal-avatar-row, .modal-checklist-item {
+        display: flex !important;
+    }
+
+    /* Ensure backgrounds and colours render accurately in PDF */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
