@@ -1,5 +1,5 @@
-import React from 'react';
-import { Users, CreditCard, FileText, Download, AlertCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { AlertCircle } from 'lucide-react';
 import './MyPolicy.css';
 
 const DownloadIcon = ({ size = 20 }: { size?: number }) => (
@@ -114,7 +114,7 @@ const MyPolicy: React.FC = () => {
                     <div style={{ marginTop: '2rem', borderTop: '2px dashed #eee', paddingTop: '2rem' }}>
                         <h4 className="detail-label" style={{ marginBottom: '1rem', color: '#A80000' }}>Dependents & Beneficiaries</h4>
                         
-                        {formDependents.map((dep, index) => (
+                        {formDependents.map((dep) => (
                             <div key={dep.id} className="reg-form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                                 <div className="form-group">
                                     <label className="detail-label" style={{ fontSize: '0.65rem' }}>Full Name</label>

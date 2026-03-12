@@ -10,6 +10,7 @@ import MyPolicy from './MyPolicy';
 import ClaimsStatus from './ClaimsStatus';
 import SupportQueries from './SupportQueries';
 import MemberPayments from './MemberPayments';
+import Settings from './Settings';
 import { useEffect } from 'react';
 import Skeleton from '../Skeleton';
 

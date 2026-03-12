@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, MessageSquare, Clock, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, AlertTriangle } from 'lucide-react';
 import './SupportQueries.css';
 
 const PhoneIcon = ({ size = 24 }: { size?: number }) => (

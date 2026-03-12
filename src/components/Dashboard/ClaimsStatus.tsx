@@ -1,23 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Plus, FileText, ExternalLink, Download, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { FileText, AlertCircle } from 'lucide-react';
 import './ClaimsStatus.css';
-
-const PendingIcon = ({ size = 20 }: { size?: number }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
-        <rect width="24" height="24" fill="none" />
-        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5">
-            <path d="M5.636 18.364A9 9 0 1 0 3 12.004V14" />
-            <path d="m1 12l2 2l2-2m6-4v5h5" />
-        </g>
-    </svg>
-);
-
-const ApprovedIcon = ({ size = 20 }: { size?: number }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
-        <rect width="24" height="24" fill="none" />
-        <path fill="currentColor" fillRule="evenodd" d="M2 3v18h20V3zm8 14H5v-2h5zm0-4H5v-2h5zm0-4H5V7h5zm4.82 6L12 12.16l1.41-1.41l1.41 1.42L17.99 9l1.42 1.42z" />
-    </svg>
-);
 
 const SubmitClaimIcon = ({ size = 24 }: { size?: number }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 26 26">
