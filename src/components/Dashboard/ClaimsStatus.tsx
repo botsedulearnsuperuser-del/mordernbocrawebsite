@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, AlertCircle, X, ArrowRight, ArrowLeft, UploadCloud } from 'lucide-react';
+import { AlertCircle, X, ArrowRight, ArrowLeft, UploadCloud } from 'lucide-react';
 import './ClaimsStatus.css';
 
 const SubmitClaimIcon = ({ size = 24 }: { size?: number }) => (

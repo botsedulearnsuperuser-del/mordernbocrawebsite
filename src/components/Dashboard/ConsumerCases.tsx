@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, AlertTriangle, UploadCloud, Send, X } from 'lucide-react';
+import { Search, Plus, UploadCloud, Send, X } from 'lucide-react';
 import './CardGrid.css';
 
 type CaseStatus = 'Submitted' | 'Provider Notified' | 'Mediation' | 'Resolved';
@@ -27,7 +27,7 @@ const initialCases: ConsumerCase[] = [
 ];
 
 const ConsumerCases: React.FC = () => {
-    const [cases, setCases] = useState<ConsumerCase[]>(initialCases);
+    const [cases] = useState<ConsumerCase[]>(initialCases);
     const [showNewCaseForm, setShowNewCaseForm] = useState(false);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('All');

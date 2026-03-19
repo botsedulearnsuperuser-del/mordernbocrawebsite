@@ -28,7 +28,7 @@ const initialQueries: QueryRecord[] = [
 ];
 
 const FaultsMaintenance: React.FC = () => {
-    const [queries, setQueries] = useState<QueryRecord[]>(initialQueries);
+    const [queries] = useState<QueryRecord[]>(initialQueries);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('All');
 

@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import './MemberPayments.css';
 
-interface PaymentHistory {
-    id: string;
-    date: string;
-    description: string;
-    amount: string;
-    status: 'Paid' | 'Pending' | 'Failed';
-    receipt?: string;
-}
-
 const ReceiptIcon = ({ size = 16 }: { size?: number }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
         <rect width="24" height="24" fill="none" />

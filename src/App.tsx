@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SignInScreen from './components/SignInScreen';
 import ClientSignInScreen from './components/ClientSignInScreen';
 import Dashboard from './components/Dashboard/Dashboard';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './LegaeLandingPage.css';
 import Dither from '../Dither/Dither';
 
@@ -11,7 +11,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
     const logoImg = '/assets/bocralogo.png';
 
     // Images based on the directory scan
-    const heroHandImg = `${assetsPath}Untitled_design__2_-removebg-preview.png`;
+    
     const featureImg1 = '/assets/Untitled design (7) (1).png';
     const featureImg2 = '/assets/Untitled design (8) (1).png';
     const featureImg3 = '/assets/Untitled design (9) (1).png';
@@ -23,32 +23,8 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
         setActiveFaq(activeFaq === index ? null : index);
     };
 
-    const [showWaitlist, setShowWaitlist] = useState(false);
     const [showPrivacy, setShowPrivacy] = useState(false);
-    const [waitlistEmail, setWaitlistEmail] = useState('');
-    const [waitlistStep, setWaitlistStep] = useState(1);
-    const [agreedToEmails, setAgreedToEmails] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         setShowWaitlist(true);
-    //     }, 3000);
-    //     return () => clearTimeout(timer);
-    // }, []);
-
-    const handleWaitlistSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setWaitlistStep(2);
-    };
-
-    const handleFinalConfirm = () => {
-        alert(`Thank you! Your inquiry has been submitted.`);
-        setShowWaitlist(false);
-        setWaitlistEmail('');
-        setWaitlistStep(1);
-        setAgreedToEmails(false);
-    };
 
     const faqData = [
         {
