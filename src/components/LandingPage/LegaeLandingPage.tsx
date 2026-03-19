@@ -7,7 +7,6 @@ interface LegaeLandingPageProps {
 }
 
 const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) => {
-    const assetsPath = '/assets/legaemobile/';
     const logoImg = '/assets/bocralogo.png';
 
     // Images based on the directory scan
