@@ -275,7 +275,7 @@
 
 @media print {
     /* Hide everything else on the dashboard */
-    .sidebar, .page-header, .claims-list, .header, .no-print {
+    .sidebar, .page-header, .header, .no-print, .modal-overlay {
         display: none !important;
     }
 

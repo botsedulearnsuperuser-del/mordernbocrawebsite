@@ -293,3 +293,50 @@
 .animate-fadeIn {
     animation: fadeIn 0.4s ease-out forwards;
 }
+
+.print-only {
+    display: none;
+}
+
+@media print {
+    .sidebar, .page-header, .header, .no-print, .payments-header, .payments-stats-grid, .billing-info-notice, .receipt-btn, .statement-btn {
+        display: none !important;
+    }
+
+    html, body, #root, .app-container, .main-content, .member-payments-container, .dashboard-layout, .content-scroll-area {
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    .member-payments-container {
+        padding-top: 0 !important;
+    }
+
+    .print-only {
+        display: block !important;
+        padding: 0;
+        background: white !important;
+        border-bottom: 2px solid #A80000;
+        margin-bottom: 2rem;
+    }
+
+    .history-section {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .history-table th, .history-table td {
+        border-bottom: 1px solid #eee !important;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

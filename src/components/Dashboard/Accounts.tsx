@@ -2,32 +2,27 @@ import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import './Accounts.css';
 
-const members = [
-    { memberId: 'BRA-2024-001', name: 'Kefilwe Modise', branch: 'Gaborone', phone: '+26771234567', joinDate: '2024-01-15', kyc: 'Approved', status: 'Active', type: 'Principal' },
-    { memberId: 'BRA-2024-002', name: 'Tebogo Sithole', branch: 'Francistown', phone: '+26772345678', joinDate: '2024-02-03', kyc: 'Pending', status: 'Active', type: 'Additional' },
-    { memberId: 'BRA-2024-003', name: 'Mpho Kgosi', branch: 'Palapye', phone: '+26773456789', joinDate: '2024-02-10', kyc: 'Approved', status: 'Defaulted', type: 'Principal' },
-    { memberId: 'BRA-2024-004', name: 'Oarabile Tau', branch: 'Maun', phone: '+26774567890', joinDate: '2024-03-01', kyc: 'Approved', status: 'Active', type: 'Principal' },
-    { memberId: 'BRA-2024-005', name: 'Gosiame Rammidi', branch: 'Serowe', phone: '+26775678901', joinDate: '2024-03-12', kyc: 'Pending', status: 'Active', type: 'Additional' },
-    { memberId: 'BRA-2024-006', name: 'Dineo Phiri', branch: 'Gaborone', phone: '+26776789012', joinDate: '2024-04-05', kyc: 'Approved', status: 'Defaulted', type: 'Principal' },
-    { memberId: 'BRA-2024-007', name: 'Thato Sebonego', branch: 'Francistown', phone: '+26777890123', joinDate: '2024-04-20', kyc: 'Approved', status: 'Active', type: 'Principal' },
-    { memberId: 'BRA-2024-008', name: 'Boitumelo Gaone', branch: 'Palapye', phone: '+26778901234', joinDate: '2024-05-08', kyc: 'Pending', status: 'Active', type: 'Additional' },
-    { memberId: 'BRA-2024-009', name: 'Naledi Mogorosi', branch: 'Serowe', phone: '+26779012345', joinDate: '2024-05-22', kyc: 'Approved', status: 'Active', type: 'Principal' },
-    { memberId: 'BRA-2024-010', name: 'Lebogang Seleka', branch: 'Maun', phone: '+26770123456', joinDate: '2024-06-01', kyc: 'Pending', status: 'Defaulted', type: 'Principal' },
+const licensees = [
+    { entityId: 'BOC-NFP-001', name: 'BTCL (Botswana Telecom)', licenseType: 'NFP (Fixed)', contact: '+267 395 8000', issueDate: '2024-01-15', compliance: 'Approved', status: 'Active', category: 'Major' },
+    { entityId: 'BOC-SAP-002', name: 'Mascom Wireless', licenseType: 'SAP (Mobile)', contact: '+267 390 3396', issueDate: '2024-02-03', compliance: 'Approved', status: 'Active', category: 'Major' },
+    { entityId: 'BOC-SAP-003', name: 'Orange Botswana', licenseType: 'SAP (Mobile)', contact: '+267 317 0113', issueDate: '2024-02-10', compliance: 'Approved', status: 'Active', category: 'Major' },
+    { entityId: 'BOC-NFP-004', name: 'Liquid Intelligent', licenseType: 'NFP (Fibre)', contact: '+267 391 1996', issueDate: '2024-03-01', compliance: 'Approved', status: 'Active', category: 'Regional' },
+    { entityId: 'BOC-VOD-005', name: 'Paratus Botswana', licenseType: 'SAP (V-SAT)', contact: '+267 397 5030', issueDate: '2024-03-12', compliance: 'Pending', status: 'Active', category: 'Enterprise' },
+    { entityId: 'BOC-NFP-006', name: 'BBI (Broadband)', licenseType: 'NFP (Carrier)', contact: '+267 395 1011', issueDate: '2024-04-05', compliance: 'Approved', status: 'Suspended', category: 'Major' },
 ];
 
 const Accounts: React.FC = () => {
     const [showRegForm, setShowRegForm] = useState(false);
     const [search, setSearch] = useState('');
 
-    const filtered = members.filter(m =>
+    const filtered = licensees.filter(m =>
         m.name.toLowerCase().includes(search.toLowerCase()) ||
-        m.memberId.toLowerCase().includes(search.toLowerCase()) ||
-        m.branch.toLowerCase().includes(search.toLowerCase())
+        m.entityId.toLowerCase().includes(search.toLowerCase()) ||
+        m.licenseType.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <div className="accounts-container">
-            {/* Page Header */}
             <div className="page-header">
                 <h2 className="page-title">Member Management</h2>
 
@@ -36,7 +31,7 @@ const Accounts: React.FC = () => {
                         <Search size={18} color="#999" />
                         <input
                             type="text"
-                            placeholder="Search members here"
+                            placeholder="Search licensees here"
                             className="search-input"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
@@ -47,107 +42,105 @@ const Accounts: React.FC = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048" style={{ marginRight: '8px' }}>
                             <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
                         </svg>
-                        Filter by Branch
+                        Filter by Category
                     </button>
 
                     <button className="action-btn-red" onClick={() => setShowRegForm(!showRegForm)}>
-                        {showRegForm ? 'View Members' : '+ Register New Member'}
+                        {showRegForm ? 'View Registry' : '+ Issue New License'}
                     </button>
                 </div>
             </div>
 
-            {/* Register New Member Form */}
             {showRegForm && (
                 <div className="reg-form-card">
-                    <h3 className="reg-form-title">Register New Member</h3>
+                    <h3 className="reg-form-title">Issue New NFP/SAP License</h3>
                     <div className="reg-form-grid">
                         <div className="form-group">
-                            <label>Full Name</label>
-                            <input type="text" className="form-input" placeholder="e.g. Kefilwe Modise" />
+                            <label>Entity Name</label>
+                            <input type="text" className="form-input" placeholder="e.g. BTC" />
                         </div>
                         <div className="form-group">
-                            <label>Omang / ID Number</label>
-                            <input type="text" className="form-input" placeholder="National ID" />
+                            <label>Registered Company No.</label>
+                            <input type="text" className="form-input" placeholder="UIN / CIPA No." />
                         </div>
                         <div className="form-group">
-                            <label>Phone Number</label>
+                            <label>Technical Contact</label>
                             <input type="tel" className="form-input" placeholder="+267..." />
                         </div>
                         <div className="form-group">
-                            <label>Branch</label>
+                            <label>License Category</label>
                             <select className="form-input">
-                                <option>Gaborone</option>
-                                <option>Francistown</option>
-                                <option>Palapye</option>
-                                <option>Serowe</option>
-                                <option>Maun</option>
+                                <option>Major (National)</option>
+                                <option>Regional</option>
+                                <option>Value Added Services</option>
+                                <option>Private Network</option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Member Type</label>
+                            <label>License Type</label>
                             <select className="form-input">
-                                <option>Principal</option>
-                                <option>Additional</option>
+                                <option>NFP (Network Facilities Provider)</option>
+                                <option>SAP (Service & Applications Provider)</option>
+                                <option>Content Provider</option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Registration Date</label>
+                            <label>Effective Date</label>
                             <input type="date" className="form-input" max={new Date().toISOString().split('T')[0]} />
                         </div>
                         <div className="form-group">
-                            <label>KYC Document Upload</label>
+                            <label>Technical Docs Upload</label>
                             <input type="file" className="form-input" />
                         </div>
                         <div className="form-group">
-                            <label>Joining Fee Type</label>
+                            <label>Issuance Fee Tier</label>
                             <select className="form-input">
-                                <option>New – P30.00</option>
-                                <option>Rejoin – P45.00</option>
-                                <option>Rejoin (Defaulter) – P100.00</option>
+                                <option>Major Tier – P500k</option>
+                                <option>Mid Tier – P250k</option>
+                                <option>Small/VAS – P25k</option>
                             </select>
                         </div>
                     </div>
                     <div className="form-actions">
-                        <button className="action-btn-red">Submit & Generate Membership ID</button>
+                        <button className="action-btn-red">Approve & Generate BOCRA License</button>
                         <button className="filter-btn" onClick={() => setShowRegForm(false)}>Cancel</button>
                     </div>
                 </div>
             )}
 
-            {/* Members Table */}
             {!showRegForm && (
                 <div className="accounts-table-container">
                     <table className="accounts-table">
                         <thead>
                             <tr>
-                                <th>MEMBERSHIP ID</th>
-                                <th>FULL NAME</th>
-                                <th>BRANCH</th>
-                                <th>PHONE NUMBER</th>
-                                <th>JOIN DATE</th>
-                                <th>MEMBER TYPE</th>
-                                <th>KYC STATUS</th>
+                                <th>LICENSEE ID</th>
+                                <th>ENTITY NAME</th>
+                                <th>LICENSE TYPE</th>
+                                <th>CONTACT OFFICE</th>
+                                <th>ISSUE DATE</th>
+                                <th>OPERATOR CATEGORY</th>
+                                <th>COMPLIANCE</th>
                                 <th>STATUS</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filtered.map((m, index) => (
                                 <tr key={index}>
-                                    <td className="location-text">{m.memberId}</td>
+                                    <td className="location-text">{m.entityId}</td>
                                     <td style={{ fontWeight: 600 }}>{m.name}</td>
-                                    <td>{m.branch}</td>
-                                    <td>{m.phone}</td>
-                                    <td>{m.joinDate}</td>
+                                    <td>{m.licenseType}</td>
+                                    <td>{m.contact}</td>
+                                    <td>{m.issueDate}</td>
                                     <td>
-                                        <span className="type-badge" style={{ background: m.type === 'Principal' ? '#A80000' : '#555' }}>
-                                            {m.type}
+                                        <span className="type-badge" style={{ background: m.category === 'Major' ? '#A80000' : '#555' }}>
+                                            {m.category}
                                         </span>
                                     </td>
                                     <td>
                                         <span className="type-badge" style={{
-                                            background: m.kyc === 'Approved' ? '#16a34a' : '#f97316'
+                                            background: m.compliance === 'Approved' ? '#16a34a' : '#f97316'
                                         }}>
-                                            {m.kyc}
+                                            {m.compliance}
                                         </span>
                                     </td>
                                     <td>

@@ -26,23 +26,30 @@ const MakePaymentIcon = ({ size = 20 }: { size?: number }) => (
 
 const MemberPayments: React.FC = () => {
     const [showPaymentForm, setShowPaymentForm] = useState(false);
-    const [history] = useState<PaymentHistory[]>([
-        { id: "#INV-98210", date: "March 01, 2024", description: "Monthly Premium - March", amount: "P120.00", status: "Paid" },
-        { id: "#INV-97542", date: "February 01, 2024", description: "Monthly Premium - February", amount: "P120.00", status: "Paid" },
-        { id: "#INV-96831", date: "January 01, 2024", description: "Monthly Premium - January", amount: "P120.00", status: "Paid" },
-        { id: "#INV-94210", date: "September 01, 2023", description: "Annual Admin Fee", amount: "P15.00", status: "Paid" },
+    const [history] = useState<any[]>([
+        { id: "#LAB-98210", date: "March 01, 2024", description: "Standard Compliance Sticker (Batch 50)", amount: "Approved", status: "Paid" },
+        { id: "#LAB-97542", date: "February 01, 2024", description: "BOCRA QR Code License (Digital)", amount: "Approved", status: "Paid" },
+        { id: "#LAB-96831", date: "January 01, 2024", description: "Type Approval Embossment Design", amount: "Approved", status: "Paid" },
+        { id: "#LAB-94210", date: "September 01, 2023", description: "Renewal Hologram (Pack 100)", amount: "Approved", status: "Paid" },
     ]);
 
     return (
         <div className="member-payments-container">
+            <div className="print-only">
+                <div style={{ textAlign: 'center', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '2px solid #A80000' }}>
+                    <img src="/assets/bocralogo.png" alt="BOCRA Logo" style={{ width: '150px', marginBottom: '1rem' }} />
+                    <h1 style={{ color: '#222', margin: 0, fontSize: '1.8rem' }}>Botswana Communications Regulatory Authority</h1>
+                    <p style={{ margin: '0.5rem 0', fontWeight: 600, fontSize: '1.1rem' }}>BOCRA Official Compliance Label</p>
+                </div>
+            </div>
             <div className="payments-header">
                 <div>
-                    <h2 className="page-title">Payments & Billing</h2>
-                    <p className="page-subtitle">Manage your policy premiums and view billing history</p>
+                    <h2 className="page-title">Compliance Label Generator</h2>
+                    <p className="page-subtitle">Generate official BOCRA labels for approved equipment packaging</p>
                 </div>
                 {!showPaymentForm && (
                     <button className="pay-now-btn" onClick={() => setShowPaymentForm(true)}>
-                        <MakePaymentIcon size={20} /> Make a Payment
+                        <MakePaymentIcon size={20} /> Generate New Label
                     </button>
                 )}
             </div>
@@ -50,48 +57,31 @@ const MemberPayments: React.FC = () => {
             {showPaymentForm ? (
                 <div className="payment-form-card animate-fadeIn">
                     <div className="form-header">
-                        <h3>Policy Payment</h3>
-                        <p>Transfer your policy payment using the banking details below.</p>
-                    </div>
-
-                    <div className="bank-details-grid">
-                        <div className="bank-card">
-                            <div className="bank-logo-label">FNB</div>
-                            <div className="bank-info-item">
-                                <span className="label">Account Name:</span>
-                                <span className="value">The Follower of Jesus Christ Church Funeral Policy</span>
-                            </div>
-                            <div className="bank-info-item">
-                                <span className="label">Account Number:</span>
-                                <span className="value">6224 5589 102 (DEMO)</span>
-                            </div>
-                            <div className="bank-info-item">
-                                <span className="label">Branch Code:</span>
-                                <span className="value">280167</span>
-                            </div>
-                            <div className="bank-info-item">
-                                <span className="label">Reference:</span>
-                                <span className="value">TFJ-2024-08812</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-disclaimer">
-                        <p><strong>Please Note:</strong> These banking details are for demonstration purposes only and shall soon be revised. Do not make actual payments to these accounts.</p>
+                        <h3>Label Specifications</h3>
+                        <p>Select the approved equipment to generate a compliance label.</p>
                     </div>
 
                     <div style={{ marginTop: '2rem' }}>
                         <div className="form-group">
-                            <label>Amount to Pay (P)</label>
-                            <input type="text" className="query-input" placeholder="e.g. 120.00" defaultValue="120.00" />
+                            <label>Select Approved Model</label>
+                            <select className="query-input">
+                                <option>Samsung Galaxy S24 Ultra (BOC-TA-2024-S24U)</option>
+                                <option>Cisco Catalyst 9300 (BOC-TA-2023-CS93)</option>
+                                <option>Nokia AirScale 5G (BOC-TA-2024-NAS5)</option>
+                            </select>
                         </div>
                         <div className="form-group" style={{ marginTop: '1rem' }}>
-                            <label>Upload Proof of Payment (Optional)</label>
-                            <input type="file" className="query-input" />
+                            <label>Label Format</label>
+                            <select className="query-input">
+                                <option>Standard Physical Sticker (40x20mm)</option>
+                                <option>Digital QR Code (Vector)</option>
+                                <option>E-Label for OS Display</option>
+                                <option>Product Embossment Map</option>
+                            </select>
                         </div>
                         <div className="form-actions" style={{ marginTop: '2rem' }}>
                             <button className="submit-query-btn" onClick={() => setShowPaymentForm(false)}>
-                                Confirm Payment Submission
+                                <ReceiptIcon size={18} /> Generate & Download
                             </button>
                             <button className="cancel-query-btn" onClick={() => setShowPaymentForm(false)}>
                                 Back
@@ -101,33 +91,32 @@ const MemberPayments: React.FC = () => {
                 </div>
             ) : (
                 <>
-                    {/* Quick Stats Grid */}
                     <div className="payments-stats-grid">
                         <div className="pay-stat-card">
                             <div className="stat-content">
-                                <span className="stat-label">Next Payment Due</span>
-                                <h4 className="stat-value">April 01, 2024</h4>
+                                <span className="stat-label">Labels Generated (MTD)</span>
+                                <h4 className="stat-value">1,450</h4>
                             </div>
                         </div>
                         <div className="pay-stat-card">
                             <div className="stat-content">
-                                <span className="stat-label">Monthly Premium</span>
-                                <h4 className="stat-value">P120.00</h4>
+                                <span className="stat-label">Active Approvals</span>
+                                <h4 className="stat-value">24</h4>
                             </div>
                         </div>
                         <div className="pay-stat-card">
                             <div className="stat-content">
-                                <span className="stat-label">Account Status</span>
-                                <h4 className="stat-value" style={{ color: '#222' }}>Up to Date</h4>
+                                <span className="stat-label">Certification Status</span>
+                                <h4 className="stat-value" style={{ color: '#A80000' }}>Compliant</h4>
                             </div>
                         </div>
                     </div>
 
                     <div className="history-section">
                         <div className="section-header">
-                            <h3>Payment History</h3>
+                            <h3>Label History</h3>
                             <button className="statement-btn">
-                                <ReceiptIcon size={16} /> Download Statement
+                                <ReceiptIcon size={16} /> Asset Inventory
                             </button>
                         </div>
                         
@@ -135,10 +124,10 @@ const MemberPayments: React.FC = () => {
                             <table className="history-table">
                                 <thead>
                                     <tr>
-                                        <th>REFERENCE</th>
-                                        <th>DATE</th>
+                                        <th>LABEL ID</th>
+                                        <th>GEN DATE</th>
                                         <th>DESCRIPTION</th>
-                                        <th>AMOUNT</th>
+                                        <th>RESULT</th>
                                         <th>STATUS</th>
                                         <th>ACTION</th>
                                     </tr>
@@ -157,7 +146,7 @@ const MemberPayments: React.FC = () => {
                                             </td>
                                             <td>
                                                 <button className="receipt-btn">
-                                                    <ReceiptIcon size={14} /> Receipt
+                                                    <ReceiptIcon size={14} /> Download
                                                 </button>
                                             </td>
                                         </tr>
@@ -167,7 +156,6 @@ const MemberPayments: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Payment Methods / Info */}
                     <div className="billing-info-notice">
                         <div className="notice-header">
                             <div className="info-icon">
@@ -175,9 +163,9 @@ const MemberPayments: React.FC = () => {
                                     <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                                 </svg>
                             </div>
-                            <h4>Auto-Payment Information</h4>
+                            <h4>Labeling Standards</h4>
                         </div>
-                        <p>Your premiums are currently set to be collected via Debit Order on the 1st of every month. Please ensure sufficient funds are available to maintain your cover.</p>
+                        <p>All communication equipment sold in Botswana MUST display the official BOCRA compliance label. Failure to label products according to the "Type Approval Guidelines 2024" attracts administrative fines. QR codes must lead to the official BOCRA certificate verification path.</p>
                     </div>
                 </>
             )}

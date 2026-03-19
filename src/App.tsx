@@ -3,42 +3,28 @@ import SignInScreen from './components/SignInScreen';
 import ClientSignInScreen from './components/ClientSignInScreen';
 import Dashboard from './components/Dashboard/Dashboard';
 import ClientsDashboard from './components/Dashboard/ClientsDashboard';
+import LegaeLandingPage from './components/LandingPage/LegaeLandingPage';
 import './App.css';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<'admin' | 'client' | null>(null);
-  const [currentSignInView, setCurrentSignInView] = useState<'admin' | 'client'>('admin');
-
-  useEffect(() => {
-    const savedLogin = localStorage.getItem('isLoggedIn');
-    const savedRole = localStorage.getItem('userRole') as 'admin' | 'client' | null;
-    
-    if (savedLogin === 'true' && savedRole) {
-      setIsLoggedIn(true);
-      setUserRole(savedRole);
-    }
-  }, []);
+  const [currentSignInView, setCurrentSignInView] = useState<'admin' | 'client' | 'landing'>('landing');
 
   const handleLogin = () => {
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', 'admin');
     setUserRole('admin');
     setIsLoggedIn(true);
   };
 
   const handleClientLogin = () => {
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', 'client');
     setUserRole('client');
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userRole');
     setIsLoggedIn(false);
     setUserRole(null);
+    setCurrentSignInView('landing');
   };
 
   return (
@@ -46,7 +32,9 @@ const App: React.FC = () => {
       {isLoggedIn ? (
         userRole === 'admin' ? <Dashboard onLogout={handleLogout} /> : <ClientsDashboard onLogout={handleLogout} />
       ) : (
-        currentSignInView === 'admin' ? (
+        currentSignInView === 'landing' ? (
+          <LegaeLandingPage onPortalLogin={() => setCurrentSignInView('admin')} />
+        ) : currentSignInView === 'admin' ? (
           <SignInScreen 
             onLogin={handleLogin} 
             onSwitchToClient={() => setCurrentSignInView('client')} 

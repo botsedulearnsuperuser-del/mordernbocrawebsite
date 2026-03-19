@@ -22,15 +22,11 @@ const statusColors: Record<PayStatus, string> = {
 };
 
 const payments: PaymentRecord[] = [
-    { memberId: 'BRA-2024-001', memberName: 'Kefilwe Modise', paymentType: 'Monthly Premium', amountDue: 'P120.00', dateDue: '01 Jan 2026', datePaid: '31 Dec 2025', status: 'Paid' },
-    { memberId: 'BRA-2024-002', memberName: 'Tebogo Sithole', paymentType: 'Monthly Premium', amountDue: 'P120.00', dateDue: '01 Jan 2026', datePaid: '-', status: 'Overdue' },
-    { memberId: 'BRA-2024-003', memberName: 'Mpho Kgosi', paymentType: 'Annual Admin Fee', amountDue: 'P15.00', dateDue: '01 Sep 2025', datePaid: '28 Aug 2025', status: 'Paid' },
-    { memberId: 'BRA-2024-004', memberName: 'Oarabile Tau', paymentType: 'Joining Fee', amountDue: 'P30.00', dateDue: '01 Mar 2024', datePaid: '01 Mar 2024', status: 'Paid' },
-    { memberId: 'BRA-2024-005', memberName: 'Gosiame Rammidi', paymentType: 'Monthly Premium', amountDue: 'P120.00', dateDue: '01 Feb 2026', datePaid: '-', status: 'Pending' },
-    { memberId: 'BRA-2024-006', memberName: 'Dineo Phiri', paymentType: 'Rejoining Fee', amountDue: 'P100.00', dateDue: '15 Nov 2025', datePaid: '-', status: 'Defaulted' },
-    { memberId: 'BRA-2024-007', memberName: 'Thato Sebonego', paymentType: 'Monthly Premium', amountDue: 'P120.00', dateDue: '01 Jan 2026', datePaid: '30 Dec 2025', status: 'Paid' },
-    { memberId: 'BRA-2024-008', memberName: 'Boitumelo Gaone', paymentType: 'Annual Admin Fee', amountDue: 'P15.00', dateDue: '01 Sep 2025', datePaid: '-', status: 'Overdue' },
-    { memberId: 'BRA-2024-009', memberName: 'Naledi Mogorosi', paymentType: 'Monthly Premium', amountDue: 'P120.00', dateDue: '01 Feb 2026', datePaid: '-', status: 'Pending' },
+    { memberId: 'BOC-NFP-001', memberName: 'BTCL (Botswana Telecom)', paymentType: 'Annual Turnover Fee (0.8%)', amountDue: 'P2,450,000', dateDue: '31 Mar 2026', datePaid: '28 Mar 2026', status: 'Paid' },
+    { memberId: 'BOC-SAP-002', memberName: 'Mascom Wireless', paymentType: 'Spectrum Usage (700MHz)', amountDue: 'P1,200,000', dateDue: '01 Jan 2026', datePaid: '-', status: 'Overdue' },
+    { memberId: 'BOC-SAP-003', memberName: 'Orange Botswana', paymentType: 'Type Approval Lab Fee', amountDue: 'P15,000', dateDue: '15 Feb 2026', datePaid: '14 Feb 2026', status: 'Paid' },
+    { memberId: 'BOC-NFP-004', memberName: 'Liquid Intelligent', paymentType: 'NFP License Renewal', amountDue: 'P250,000', dateDue: '01 Apr 2026', datePaid: '-', status: 'Pending' },
+    { memberId: 'BOC-VOD-005', memberName: 'Paratus Botswana', paymentType: 'SAP (V-SAT) License', amountDue: 'P25,000', dateDue: '01 Feb 2026', datePaid: '-', status: 'Pending' },
 ];
 
 const Payments: React.FC = () => {
@@ -48,6 +44,13 @@ const Payments: React.FC = () => {
 
     return (
         <div className="payments-container">
+            <div className="print-only">
+                <div style={{ textAlign: 'center', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '2px solid #A80000' }}>
+                    <img src="/assets/bocralogo.png" alt="BOCRA Logo" style={{ width: '150px', marginBottom: '1rem' }} />
+                    <h1 style={{ color: '#222', margin: 0, fontSize: '1.8rem' }}>Botswana Communications Regulatory Authority</h1>
+                    <p style={{ margin: '0.5rem 0', fontWeight: 600, fontSize: '1.1rem' }}>BOCRA Financial Revenue Report</p>
+                </div>
+            </div>
             <div className="page-header">
                 <h2 className="page-title">Financials & Reports</h2>
 
@@ -93,10 +96,10 @@ const Payments: React.FC = () => {
             {/* Summary Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
                 {[
-                    { label: 'Total Collected', value: 'P87,630', color: '#A80000' },
-                    { label: 'Pending Payments', value: 'P2,160', color: '#f97316' },
-                    { label: 'Overdue Accounts', value: 'P1,320', color: '#dc2626' },
-                    { label: 'Claims Paid Out', value: 'P225,000', color: '#A80000' },
+                    { label: 'Fees Collected', value: 'P12,450k', color: '#A80000' },
+                    { label: 'Overdue Spectrum', value: 'P1,200k', color: '#dc2626' },
+                    { label: 'Industry Invoiced', value: 'P15,840k', color: '#f97316' },
+                    { label: 'Active Licenses', value: '142', color: '#A80000' },
                 ].map((card, i) => (
                     <div key={i} style={{ background: '#fcebeb', borderRadius: '10px', padding: '1.2rem', textAlign: 'center' }}>
                         <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#888', textTransform: 'uppercase', marginBottom: '0.5rem' }}>{card.label}</div>
@@ -110,9 +113,9 @@ const Payments: React.FC = () => {
                 <table className="payments-table">
                     <thead>
                         <tr>
-                            <th>MEMBER ID</th>
-                            <th>MEMBER NAME</th>
-                            <th>PAYMENT TYPE</th>
+                            <th>OPERATOR ID</th>
+                            <th>OPERATOR NAME</th>
+                            <th>REVENUE TYPE</th>
                             <th>AMOUNT DUE</th>
                             <th>DATE DUE</th>
                             <th>DATE PAID</th>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, AlertCircle } from 'lucide-react';
+import { FileText, AlertCircle, X, ArrowRight, ArrowLeft, UploadCloud } from 'lucide-react';
 import './ClaimsStatus.css';
 
 const SubmitClaimIcon = ({ size = 24 }: { size?: number }) => (
@@ -9,51 +9,44 @@ const SubmitClaimIcon = ({ size = 24 }: { size?: number }) => (
     </svg>
 );
 
-interface ClaimRecord {
-    id: string;
-    type: string;
-    beneficiary: string;
-    dateSubmitted: string;
-    status: 'Pending' | 'Approved' | 'Rejected' | 'Required Action';
-    amount: string;
-}
-
 const ClaimsStatus: React.FC = () => {
-    const [claims] = useState<ClaimRecord[]>([
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedAuction, setSelectedAuction] = useState<any>(null);
+    const [bids, setBids] = useState<any[]>([
         {
-            id: "#CLM-2024-00812",
-            type: "Additional Member Death",
-            beneficiary: "Mmoloki Modise (Parent)",
+            id: "#BID-2024-001",
+            type: "5G Spectrum Auction (700MHz)",
+            lead: "Mascom Wireless",
             dateSubmitted: "March 10, 2024",
-            status: "Pending",
-            amount: "P15,000.00"
+            status: "Bidding Active",
+            amount: "BWP12,000,000"
         },
         {
-            id: "#CLM-2023-00456",
-            type: "Child Dependent Death",
-            beneficiary: "Lebo Modise (Child)",
+            id: "#BID-2023-002",
+            type: "4G Frequency Expansion (1800MHz)",
+            lead: "Orange Botswana",
             dateSubmitted: "August 15, 2023",
-            status: "Approved",
-            amount: "P5,000.00"
+            status: "Winner Identified",
+            amount: "BWP8,500,000"
         }
     ]);
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'Approved': return '#16a34a';
-            case 'Pending': return '#f59e0b';
+            case 'Winner Identified': return '#16a34a';
+            case 'Bidding Active': return '#3b82f6';
             case 'Rejected': return '#dc2626';
-            case 'Required Action': return '#A80000';
+            case 'Deposit Required': return '#A80000';
             default: return '#666';
         }
     };
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'Approved': return null;
-            case 'Pending': return null;
+            case 'Winner Identified': return null;
+            case 'Bidding Active': return null;
             case 'Rejected': return <AlertCircle size={16} />;
-            case 'Required Action': return <FileText size={16} />;
+            case 'Deposit Required': return null;
             default: return null;
         }
     };
@@ -62,56 +55,55 @@ const ClaimsStatus: React.FC = () => {
         <div className="claims-status-container">
             <div className="claims-header">
                 <div>
-                    <h2 className="page-title">Claims History & Status</h2>
-                    <p className="page-subtitle">Track and manage your funeral policy claims</p>
+                    <h2 className="page-title">Spectrum Bidding & Auctions</h2>
+                    <p className="page-subtitle">Participate in national frequency allocation lotteries</p>
                 </div>
-                <button className="new-claim-btn" style={{ gap: '0.5rem' }}>
-                    <SubmitClaimIcon size={22} /> Submit New Claim
+                <button className="new-claim-btn" style={{ gap: '0.5rem' }} onClick={() => setIsModalOpen(true)}>
+                    <SubmitClaimIcon size={22} /> Participate in Auction
                 </button>
             </div>
 
             <div className="claims-grid">
-                {claims.map((claim) => (
-                    <div className="claim-status-card" key={claim.id}>
+                {bids.map((bid) => (
+                    <div className="claim-status-card" key={bid.id}>
                         <div className="claim-card-header">
-                            <div className="claim-id">{claim.id}</div>
+                            <div className="claim-id">{bid.id}</div>
                             <div 
                                 className="status-badge" 
                                 style={{ 
-                                    background: `${getStatusColor(claim.status)}15`, 
-                                    color: getStatusColor(claim.status) 
+                                    background: `${getStatusColor(bid.status)}15`, 
+                                    color: getStatusColor(bid.status) 
                                 }}
                             >
-                                {getStatusIcon(claim.status)} {claim.status}
+                                {getStatusIcon(bid.status)} {bid.status}
                             </div>
                         </div>
 
                         <div className="claim-card-body">
                             <div className="claim-info-row">
-                                <span className="info-label">Claim Type:</span>
-                                <span className="info-value">{claim.type}</span>
+                                <span className="info-label">Auction Type:</span>
+                                <span className="info-value">{bid.type}</span>
                             </div>
                             <div className="claim-info-row">
-                                <span className="info-label">Beneficiary:</span>
-                                <span className="info-value">{claim.beneficiary}</span>
+                                <span className="info-label">Technical Lead:</span>
+                                <span className="info-value">{bid.lead}</span>
                             </div>
                             <div className="claim-info-row">
-                                <span className="info-label">Date Submitted:</span>
-                                <span className="info-value">{claim.dateSubmitted}</span>
+                                <span className="info-label">Last Bid Date:</span>
+                                <span className="info-value">{bid.dateSubmitted}</span>
                             </div>
                             <div className="claim-info-row">
-                                <span className="info-label">Benefit Amount:</span>
-                                <span className="info-value" style={{ fontWeight: 800, color: '#222' }}>{claim.amount}</span>
+                                <span className="info-label">Current High Bid:</span>
+                                <span className="info-value" style={{ fontWeight: 800, color: '#222' }}>{bid.amount}</span>
                             </div>
                         </div>
 
                         <div className="claim-card-footer">
                             <button 
-                                className={`claim-action-btn ${claim.status === 'Approved' ? 'claimed' : 'primary'}`} 
+                                className={`claim-action-btn ${bid.status === 'Winner Identified' ? 'claimed' : 'primary'}`} 
                                 style={{ width: '100%' }}
-                                disabled={claim.status === 'Approved'}
                             >
-                                {claim.status === 'Approved' ? 'Claimed' : 'Edit Claim'}
+                                {bid.status === 'Winner Identified' ? 'Auction Closed' : 'Place New Bid'}
                             </button>
                         </div>
                     </div>
@@ -122,14 +114,130 @@ const ClaimsStatus: React.FC = () => {
             <div className="claim-info-notice" style={{ display: 'block' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
                     <AlertCircle size={22} color="#888" />
-                    <h4 style={{ margin: 0 }}>Important Claim Processing Information</h4>
+                    <h4 style={{ margin: 0 }}>Auction Rules & Deposits</h4>
                 </div>
                 <div style={{ marginLeft: '1.95rem' }}>
                     <p style={{ fontSize: '0.9rem', color: '#666', lineHeight: '1.5', margin: 0 }}>
-                        Claims are usually processed within 24-48 hours after all required documents are submitted. Ensure you have the original Death Certificate and ID copies of the principal member.
+                        All participants must have a valid NFP License. A security deposit of BWP 50,000 is required for high-demand bands (5G/700MHz). Bidding follows the simultaneous multiple-round ascending price format.
                     </p>
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className="modal-overlay" onClick={() => { setIsModalOpen(false); setSelectedAuction(null); }}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                {selectedAuction && (
+                                    <button className="back-btn" onClick={() => setSelectedAuction(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', color: '#666' }}>
+                                        <ArrowLeft size={20} />
+                                    </button>
+                                )}
+                                <h3>{selectedAuction ? 'Application Form' : 'Ongoing Auctions'}</h3>
+                            </div>
+                            <button className="close-btn" onClick={() => { setIsModalOpen(false); setSelectedAuction(null); }}><X size={20} /></button>
+                        </div>
+                        <div className="modal-body">
+                            {!selectedAuction ? (
+                                <>
+                                    <p className="modal-desc">Select an ongoing frequency allocation lot or auction to participate in. Ensure your NFP License tier matches the eligibility requirements.</p>
+                                    
+                                    <div className="auction-list">
+                                {[
+                                    { id: 'AUC-2024-005', type: '5G Spectrum Allocation (3.5GHz)', deadline: 'April 15, 2024', basePrice: 'BWP 25,000,000', highestBid: 'BWP 28,500,000', highestBidder: 'Mas*** Wireless', eligibility: 'NFP Tier 1' },
+                                    { id: 'AUC-2024-006', type: 'Rural Broadband Band (700MHz)', deadline: 'May 02, 2024', basePrice: 'BWP 5,000,000', highestBid: 'BWP 5,200,000', highestBidder: 'Ana*** Bidder', eligibility: 'NFP Tier 1 & 2' }
+                                ].map((auction, idx) => (
+                                    <div key={idx} className="auction-item">
+                                        <div className="auction-item-left">
+                                            <div className="auction-id">{auction.id}</div>
+                                            <div className="auction-type">{auction.type}</div>
+                                            <div className="auction-details">
+                                                <span><strong>Base Price:</strong> {auction.basePrice}</span>
+                                                <span style={{ color: '#A80000' }}><strong>Current Highest Bid:</strong> {auction.highestBid} ({auction.highestBidder})</span>
+                                                <span><strong>Deadline:</strong> {auction.deadline}</span>
+                                                <span><strong>Eligibility:</strong> <span className="eligibility-tag">{auction.eligibility}</span></span>
+                                            </div>
+                                        </div>
+                                        <div className="auction-item-right">
+                                            <button className="apply-btn" onClick={() => setSelectedAuction(auction)}>
+                                                Apply <ArrowRight size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            </>
+                            ) : (
+                                <div className="auction-form">
+                                    <div className="form-auction-summary" style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', border: '1px solid #eee' }}>
+                                        <h4 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>{selectedAuction.type}</h4>
+                                        <div style={{ fontSize: '0.85rem', color: '#666', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                                            <span><strong>ID:</strong> {selectedAuction.id}</span>
+                                            <span><strong>Base Price:</strong> {selectedAuction.basePrice}</span>
+                                            <span style={{ color: '#A80000' }}><strong>Current Highest Bid:</strong> {selectedAuction.highestBid} ({selectedAuction.highestBidder})</span>
+                                            <span><strong>Eligibility:</strong> {selectedAuction.eligibility}</span>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                                        <div className="form-group">
+                                            <label>Applicant / Operating Company</label>
+                                            <input type="text" placeholder="Enter full registered company name" defaultValue="BOCRA Licensed Client" />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Current NFP License Tier</label>
+                                            <select defaultValue="">
+                                                <option value="" disabled>Select your license tier</option>
+                                                <option value="tier1">NFP Tier 1</option>
+                                                <option value="tier2">NFP Tier 2</option>
+                                                <option value="sap">SAP License</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Initial Bid Amount (BWP)</label>
+                                            <div style={{ position: 'relative' }}>
+                                                <span style={{ position: 'absolute', left: '12px', top: '10px', color: '#666', fontWeight: 600 }}>BWP</span>
+                                                <input type="text" placeholder="0.00" defaultValue={selectedAuction.highestBid.replace('BWP ', '')} style={{ paddingLeft: '3.5rem', width: '100%', boxSizing: 'border-box' }} />
+                                            </div>
+                                            <span style={{ fontSize: '0.75rem', color: '#888' }}>Must be greater than the current highest bid setup for this lot.</span>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Technical & Financial Proposal</label>
+                                            <div className="file-upload-input" style={{ padding: '1rem' }}>
+                                                <UploadCloud size={24} style={{ marginBottom: '0.5rem', color: '#A80000' }} />
+                                                <div style={{ fontSize: '0.8rem' }}>Click to upload proposal</div>
+                                                <div style={{ fontSize: '0.7rem', color: '#999' }}>PDF or ZIP up to 50MB</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-actions">
+                                        <button className="btn-secondary" onClick={() => setSelectedAuction(null)}>Cancel</button>
+                                        <button className="btn-primary" onClick={() => {
+                                            const newBid = {
+                                                id: `#BID-2024-00${bids.length + 3}`,
+                                                type: selectedAuction.type,
+                                                lead: "Client User",
+                                                dateSubmitted: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                                                status: "Deposit Required",
+                                                amount: selectedAuction.basePrice
+                                            };
+                                            setBids([newBid, ...bids]);
+                                            setIsModalOpen(false);
+                                            setSelectedAuction(null);
+                                        }}>
+                                            Submit Application
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

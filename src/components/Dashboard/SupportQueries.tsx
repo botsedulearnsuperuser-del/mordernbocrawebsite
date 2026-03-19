@@ -42,19 +42,19 @@ const SupportQueries: React.FC = () => {
     const [showNewQueryForm, setShowNewQueryForm] = useState(false);
     const [queries] = useState<QueryRecord[]>([
         {
-            id: "#QRY-2024-00124",
-            subject: "Waiting period clarification",
-            description: "I would like to know if the waiting period for my spouse has been reduced since we upgraded our plan two months ago.",
+            id: "#TCA-2024-001",
+            subject: "ITU Region 1 Compliance Check",
+            description: "Submitting technical documentation for the Nokia AirScale 5G Base Station for ITU Region 1 spectral efficiency verification.",
             dateSubmitted: "March 08, 2024",
             status: "Pending Review"
         },
         {
-            id: "#QRY-2024-00082",
-            subject: "Membership card replacement",
-            description: "I lost my physical membership card and would like to request a new one for my principal member account.",
+            id: "#TCA-2024-002",
+            subject: "Terminal Type Approval",
+            description: "Samsung Galaxy S24 Ultra - Declaration of Conformity and SAR testing results attached.",
             dateSubmitted: "February 20, 2024",
             status: "Resolved",
-            lastResponse: "Your new card has been printed and is ready for collection at the Gaborone branch."
+            lastResponse: "Certification Issued: BOC-TA-2024-S24U. Your digital certificate is now available in the vault."
         }
     ]);
 
@@ -80,12 +80,12 @@ const SupportQueries: React.FC = () => {
         <div className="support-queries-container">
             <div className="support-header">
                 <div>
-                    <h2 className="page-title">Support & Queries</h2>
-                    <p className="page-subtitle">We're here to help with any policy concerns</p>
+                    <h2 className="page-title">Technical Certification Vault</h2>
+                    <p className="page-subtitle">Submit ITU Region 1 certificates and Declarations of Conformity</p>
                 </div>
                 {!showNewQueryForm && (
                     <button className="new-query-btn" onClick={() => setShowNewQueryForm(true)}>
-                        <Plus size={20} /> New Support Ticket
+                        <Plus size={20} /> New Approval Request
                     </button>
                 )}
             </div>
@@ -93,31 +93,31 @@ const SupportQueries: React.FC = () => {
             {showNewQueryForm ? (
                 <div className="query-form-card">
                     <div className="form-header">
-                        <h3>Submit a New Query</h3>
-                        <p>Our team will review your ticket and respond within 24 hours.</p>
+                        <h3>Submit New Equipment Approval</h3>
+                        <p>Our technical lab will review your compliance docs within 5–14 days.</p>
                     </div>
                     <div className="query-form-content">
                         <div className="form-group">
-                            <label>Subject / Topic</label>
+                            <label>Approval Type</label>
                             <select className="query-input">
-                                <option>Policy Upgrade/Downgrade</option>
-                                <option>Dependent Updates</option>
-                                <option>Waiting Period Status</option>
-                                <option>Payment Discrepancy</option>
-                                <option>General Inquiry</option>
+                                <option>Type Approval request</option>
+                                <option>Declaration of Conformity</option>
+                                <option>ITU Compliance Waiver</option>
+                                <option>SAR Testing Results</option>
+                                <option>Local Repair Center Verification</option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <label>Description of Issue</label>
+                            <label>Technical Specifications (Brief)</label>
                             <textarea 
                                 className="query-input" 
                                 rows={5} 
-                                placeholder="Please provide as much detail as possible..."
+                                placeholder="Include frequency range, output power, and ITU standards met..."
                             ></textarea>
                         </div>
                         <div className="form-actions">
                             <button className="submit-query-btn">
-                                <SendMessageIcon size={18} /> Send Message
+                                <SendMessageIcon size={18} /> Submit Documents
                             </button>
                             <button className="cancel-query-btn" onClick={() => setShowNewQueryForm(false)}>
                                 Cancel
@@ -150,7 +150,7 @@ const SupportQueries: React.FC = () => {
                                 </div>
                                 {query.lastResponse && (
                                     <div className="query-response">
-                                        <strong>Latest Response:</strong>
+                                        <strong>Latest Lab Response:</strong>
                                         <p>{query.lastResponse}</p>
                                     </div>
                                 )}
@@ -167,8 +167,8 @@ const SupportQueries: React.FC = () => {
                         <PhoneIcon size={24} />
                     </div>
                     <div>
-                        <h5>Call Support</h5>
-                        <p>+267 312 3456</p>
+                        <h5>Technical Lab</h5>
+                        <p>+267 368 5500</p>
                     </div>
                 </div>
                 <div className="contact-card">
@@ -176,8 +176,8 @@ const SupportQueries: React.FC = () => {
                         <EmailIcon size={24} />
                     </div>
                     <div>
-                        <h5>Email Us</h5>
-                        <p>support@tfjfuneral.co.bw</p>
+                        <h5>Email Lab</h5>
+                        <p>typeapproval@bocra.org.bw</p>
                     </div>
                 </div>
             </div>

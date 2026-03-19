@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+# BOCRA Regulatory Portal - Innovation Hackathon 2026
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This project is a comprehensive regulatory portal for the Botswana Communications Regulatory Authority (BOCRA). Developed for the 2026 Innovation Hackathon, the platform aims to streamline regulatory processes, Enhance consumer protection, and provide a unified interface for both administrators and licensees in the communications sector.
 
-Currently, two official plugins are available:
+## Key Features
+- Anonymous Whistleblower Reporting: A secure and direct channel for citizens to report regulatory violations anonymously.
+- Integrated Admin Panel: A robust dashboard for BOCRA staff to manage licensee registries, process applications, and track industry revenue.
+- Client Portal: A dedicated space for service providers to manage licenses, participate in spectrum bidding, and respond to consumer disputes.
+- Real-time Analytics: Dynamic visualization of operator growth, industry compliance, and revenue trends.
+- Consumer Protection Suite: Tools for managing and resolving consumer disputes with automated status tracking.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technology Stack
+- Frontend: React with TypeScript
+- Build Tool: Vite
+- Styling: Custom CSS with glassmorphism and modern aesthetics
+- Components: Dithered background effects, custom-built UI components, and Lucide icons (code-based)
+- Data Visualization: Recharts for dynamic industry reporting
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- Node.js (Latest LTS version recommended)
+- npm
 
-## Expanding the ESLint configuration
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Hackathon Objectives
+- Regulatory Maturity: Elevating from Generation 1 to Generation 4 (policy-led, integrated regulation).
+- Digital Inclusivity: Ensuring Botswana's digital services are accessible even in rural settlements through UASF integration.
+- Cybersecurity: Monitoring national security through CSIRT integration.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Development Team
+- Tlhalefang Ntshilane: Lead Developer (Full-Stack)
+- Kesego Mothokatse: Project Manager
+- Amogelang Tshukudu: UI/UX Designer
+- Benhard Chepete: Front-End Developer
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## License
+Developed for the official 2026 Innovation Hackathon. All rights reserved by the development team and mostly for BOCRA.
