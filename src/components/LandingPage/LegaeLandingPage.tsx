@@ -342,8 +342,6 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                                         placeholder="Search services, regulations, or licensee registry..." 
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        onFocus={() => setIsSearchFocused(true)}
-                                        onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                         style={{ 
                                             border: 'none', 
                                             background: 'transparent', 
