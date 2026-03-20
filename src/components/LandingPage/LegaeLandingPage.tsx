@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LegaeLandingPage.css';
-import Dither from '../Dither/Dither';
 
 interface LegaeLandingPageProps {
     onPortalLogin?: () => void;
@@ -8,6 +7,23 @@ interface LegaeLandingPageProps {
 
 const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) => {
     const logoImg = '/assets/bocralogo.png';
+
+    const heroBgImages = [
+        '/assets/justice-hubane-OjmO-dNF0lQ-unsplash (1).jpg',
+        '/assets/justice-hubane-tyCcpbkgaR4-unsplash (2).jpg',
+        '/assets/matt-artz-DAWOv3XpPWY-unsplash.jpg',
+        '/assets/michael-bennett-AMk9rGzVSHs-unsplash.jpg',
+        '/assets/colin-watts-newE0057quQ-unsplash.jpg'
+    ];
+    
+    const [currentBgIndex, setCurrentBgIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentBgIndex(prev => (prev + 1) % heroBgImages.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [heroBgImages.length]);
 
     // Images based on the directory scan
     
@@ -23,7 +39,34 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
     };
 
     const [showPrivacy, setShowPrivacy] = useState(false);
+    const [showDemoModal, setShowDemoModal] = useState(false);
+    const [showChatWindow, setShowChatWindow] = useState(false);
+    const [messages, setMessages] = useState([
+        { id: 1, text: "👋 Want to chat about BOCRA? I'm an AI chatbot here to help you find your way.", sender: 'bot' },
+        { id: 2, text: "Ask me or select an option below.", sender: 'bot' }
+    ]);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowDemoModal(true), 3000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+    const searchSuggestions = [
+        { title: 'Consumer Protection', type: 'Service', desc: 'File a complaint or dispute against an operator' },
+        { title: 'Type Approval Guidelines', type: 'Regulation', desc: 'Equipment certification guidelines 2024' },
+        { title: 'Mascom Wireless', type: 'Licensee', desc: 'Public Telecommunications Operator (Tier 1)' },
+        { title: 'Orange Botswana', type: 'Licensee', desc: 'Public Telecommunications Operator (Tier 1)' },
+        { title: 'Spectrum Auction 5G', type: 'Resource', desc: 'Ongoing frequency allocation and mapping' },
+        { title: '.BW Domain Registry', type: 'Service', desc: 'Register a national web domain for business' },
+    ];
+
+    const filteredSuggestions = searchQuery 
+        ? searchSuggestions.filter(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()) || s.type.toLowerCase().includes(searchQuery.toLowerCase()))
+        : searchSuggestions.slice(0, 3);
 
     const faqData = [
         {
@@ -46,6 +89,41 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
 
     return (
         <div className="legae-landing">
+            <style>
+                {`
+                    .modal-card-button:hover {
+                        transform: scale(1.05);
+                        filter: brightness(1.1);
+                    }
+                    .chatbot-trigger:hover {
+                        transform: translateY(-5px) scale(1.05);
+                        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+                        background-color: #f8f8f8 !important;
+                    }
+                    .chat-action-btn {
+                        background: #fff;
+                        border: 1px solid #ddd;
+                        padding: 0.6rem 1rem;
+                        border-radius: 8px;
+                        font-size: 0.85rem;
+                        color: #333;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        text-align: left;
+                        width: fit-content;
+                    }
+                    .chat-action-btn:hover {
+                        background: #f0f2f7;
+                        border-color: #3F4E60;
+                        color: #3F4E60;
+                        transform: translateX(5px);
+                    }
+                    @keyframes chatSlideUp {
+                        from { transform: translateY(20px) scale(0.95); opacity: 0; }
+                        to { transform: translateY(0) scale(1); opacity: 1; }
+                    }
+                `}
+            </style>
             {/* Navigation */}
             <nav className="navbar">
                 <div className="logo">
@@ -68,7 +146,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
 
 
                         <li className="nav-item">
-                            <a href="#protection" className="nav-link-trigger">Consumer Protection</a>
+                            <a href="#protection" className="nav-link-trigger">Consumer Affairs</a>
                             <div className="mega-menu">
                                 <div className="mega-menu-content">
                                     <div className="mega-menu-header">Consumer Services</div>
@@ -160,35 +238,8 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                             </div>
                         </li>
 
-                        <li className="nav-item">
-                            <span className="nav-link-trigger">About BOCRA</span>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">The Authority</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item">
-                                            <strong>Mission & Vision</strong>
-                                            <span>BOCRA's strategic goals and core regulatory values.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>The Board</strong>
-                                            <span>Authority governance and strategic oversight members.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Management Team</strong>
-                                            <span>Executive leadership and operations management.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Careers</strong>
-                                            <span>Opportunities to join the regulatory authority.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Tenders</strong>
-                                            <span>Procurement and corporate partnership opportunities.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <li className="nav-item" style={{ marginLeft: '-32px' }}>
+                            <a href="#about" className="nav-link-trigger no-caret">About BOCRA</a>
                         </li>
 
                         <li className="nav-item">
@@ -237,20 +288,27 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
 
             {/* Hero Section */}
             <header className="hero" id="strategy">
-                <div className="hero-dither-bg">
-                    <Dither
-                        waveColor={[0.5, 0.5, 0.5]}
-                        disableAnimation={false}
-                        enableMouseInteraction
-                        mouseRadius={0.3}
-                        colorNum={4}
-                        waveAmplitude={0.3}
-                        waveFrequency={3}
-                        waveSpeed={0.05}
-                    />
+                <div className="hero-slider-bg" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+                    {heroBgImages.map((src, index) => (
+                        <div 
+                            key={index}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                backgroundImage: `url("${src}")`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                opacity: currentBgIndex === index ? 1 : 0,
+                                transition: 'opacity 1.5s ease-in-out'
+                            }}
+                        />
+                    ))}
                 </div>
                 <div className="hero-overlay"></div>
-                <div className="hero-container">
+                <div className="hero-container" style={{ alignItems: 'flex-start' }}>
                     <div className="hero-content-wrapper">
                         <h1>Regulating for a Digitally Enabled Economy</h1>
                         <p className="hero-subtitle">
@@ -262,7 +320,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                     </div>
 
                     <div className="hero-image-container">
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '650px', gap: '1.5rem', alignItems: 'flex-end' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '650px', gap: '1.5rem', alignItems: 'flex-end', marginTop: '1.25rem' }}>
                             {/* Search Bar */}
                             <div className="hero-search-wrapper" style={{ width: '100%', position: 'relative' }}>
                                 <div className="hero-search-bar" style={{ 
@@ -283,6 +341,10 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                                     <input 
                                         type="text" 
                                         placeholder="Search services, regulations, or licensee registry..." 
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        onFocus={() => setIsSearchFocused(true)}
+                                        onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                         style={{ 
                                             border: 'none', 
                                             background: 'transparent', 
@@ -294,84 +356,62 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                                         }}
                                     />
                                 </div>
-                            </div>
-
-                            {/* Whistleblower Card */}
-                            <div className="hero-login-card" style={{ maxWidth: '480px', border: '3px solid #168a42', padding: '2rem' }}>
-                                <h2>Anonymous Whistleblower Report</h2>
-                                <form className="hero-login-form" onSubmit={(e) => { e.preventDefault(); alert('Your anonymous report has been submitted to BOCRA.'); }} style={{ gap: '0.75rem' }}>
-                                    <textarea 
-                                        placeholder="Provide details about the issue or regulatory violation..." 
-                                        required 
-                                        style={{ 
-                                            width: '100%', 
-                                            padding: '0.8rem 1rem', 
-                                            border: '1px solid #ddd', 
-                                            borderRadius: '8px', 
-                                            minHeight: '90px',
-                                            fontSize: '0.95rem',
-                                            resize: 'none',
-                                            background: '#fff',
-                                            color: '#222',
-                                            fontFamily: 'inherit',
-                                            transition: 'all 0.3s ease'
-                                        }}
-                                    />
-                                    <div style={{ 
-                                        display: 'flex', 
-                                        gap: '10px', 
-                                        fontSize: '0.8rem', 
-                                        textAlign: 'left',
-                                        marginTop: '4px'
-                                    }}>
-                                        <div style={{ flex: 1 }}>
-                                            <strong style={{ color: '#168a42' }}>✓ DO:</strong>
-                                            <ul style={{ margin: '1px 0', paddingLeft: '11px', color: '#666', listStyleType: 'disc' }}>
-                                                <li>Be specific/factual</li>
-                                                <li>Mention provider</li>
-                                            </ul>
+                                
+                                {/* Search Dropdown */}
+                                <div className="search-dropdown" style={{
+                                    position: 'absolute',
+                                    top: 'calc(100% + 10px)',
+                                    left: 0,
+                                    width: '100%',
+                                    background: 'rgba(255, 255, 255, 0.98)',
+                                    backdropFilter: 'blur(16px)',
+                                    borderRadius: '16px',
+                                    boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                                    border: '1px solid rgba(255,255,255,0.5)',
+                                    overflow: 'hidden',
+                                    zIndex: 50,
+                                    animation: 'fadeInDown 0.2s ease forwards',
+                                    textAlign: 'left'
+                                }}>
+                                    {filteredSuggestions.length > 0 ? (
+                                        <ul style={{ listStyle: 'none', padding: '0.5rem', margin: 0 }}>
+                                            {filteredSuggestions.map((suggestion, idx) => (
+                                                <li key={idx} style={{ 
+                                                    padding: '0.75rem 1rem', 
+                                                    borderRadius: '10px',
+                                                    cursor: 'pointer',
+                                                    transition: 'background 0.2s ease',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    gap: '4px'
+                                                }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = '#FDF2F2'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                                                onClick={() => { setSearchQuery(suggestion.title); alert('Navigating to: ' + suggestion.title); }}
+                                                >
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                        <strong style={{ color: '#222', fontSize: '0.95rem' }}>{suggestion.title}</strong>
+                                                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#A80000', background: '#ffe4e4', padding: '2px 8px', borderRadius: '12px' }}>{suggestion.type}</span>
+                                                    </div>
+                                                    <span style={{ color: '#666', fontSize: '0.85rem' }}>{suggestion.desc}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div style={{ padding: '1.5rem', textAlign: 'center', color: '#888', fontSize: '0.95rem' }}>
+                                            No results found for "{searchQuery}"
                                         </div>
-                                        <div style={{ flex: 1 }}>
-                                            <strong style={{ color: '#A80000' }}>✗ DON'T:</strong>
-                                            <ul style={{ margin: '1px 0', paddingLeft: '11px', color: '#666', listStyleType: 'disc' }}>
-                                                <li>Include IDs</li>
-                                                <li>Share passwords</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <button type="submit" className="hero-login-btn" style={{ 
-                                        padding: '0.85rem', 
-                                        fontSize: '1rem', 
-                                        fontWeight: '700', 
-                                        letterSpacing: '0.5px',
-                                        marginTop: '0.5rem',
-                                        backgroundColor: '#A31D1D',
-                                        width: '100%',
-                                        borderRadius: '8px',
-                                        color: '#fff',
-                                        border: 'none',
-                                        cursor: 'pointer'
-                                    }}>Submit Anonymous Report</button>
-                                </form>
-                                <div className="hero-login-footer" style={{ marginTop: '1.2rem', fontSize: '0.85rem', color: '#666' }}>
-                                    Formal complaint? <button onClick={onPortalLogin} style={{ 
-                                        color: '#A31D1D', 
-                                        fontWeight: '700', 
-                                        background: 'none', 
-                                        border: 'none', 
-                                        cursor: 'pointer', 
-                                        textDecoration: 'underline',
-                                        padding: 0
-                                    }}>Sign In to Client Portal</button>
+                                    )}
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </header>
 
             {/* Pillars Section */}
-            <section style={{ padding: '2rem 10%', background: '#fff' }}>
+            <section style={{ padding: '2rem 10%', background: '#fff', borderBottom: '1px solid #eee' }}>
                 <div style={{ 
                     display: 'flex', 
                     gap: '1rem', 
@@ -396,6 +436,40 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                             {pillar}
                         </div>
                     ))}
+                </div>
+            </section>
+
+            {/* Regulated Entities Marquee */}
+            <section style={{ padding: '6rem 10% 3rem', background: '#fff', overflow: 'hidden' }}>
+                <div className="section-header" style={{ justifyContent: 'center', textAlign: 'center', marginBottom: '4rem' }}>
+                    <h2 style={{ maxWidth: 'none' }}>Entities Regulated by BOCRA</h2>
+                </div>
+                <div className="marquee-container">
+                    <div className="marquee-content">
+                        {[
+                            'Mascom Wireless', 'Orange Botswana', 'BTC', 'BoFiNet', 
+                            'Paratus Botswana', 'Liquid Intelligent Technologies', 
+                            'BotswanaPost', 'DStv Botswana', 'Vumatel', 'BBI', 
+                            'Abari', 'MicroTeck'
+                        ].map((company, i) => (
+                            <div key={i} className="marquee-item">
+                                <img src={brandLogo} alt={company} style={{ height: '2.5rem', opacity: 0.6, marginBottom: '0.5rem' }} />
+                                <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#333' }}>{company}</span>
+                            </div>
+                        ))}
+                        {/* Duplicate for infinite loop */}
+                        {[
+                            'Mascom Wireless', 'Orange Botswana', 'BTC', 'BoFiNet', 
+                            'Paratus Botswana', 'Liquid Intelligent Technologies', 
+                            'BotswanaPost', 'DStv Botswana', 'Vumatel', 'BBI', 
+                            'Abari', 'MicroTeck'
+                        ].map((company, i) => (
+                            <div key={`dup-${i}`} className="marquee-item">
+                                <img src={brandLogo} alt={company} style={{ height: '2.5rem', opacity: 0.6, marginBottom: '0.5rem' }} />
+                                <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#333' }}>{company}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
@@ -444,8 +518,17 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
 
             {/* Consumer Rights Section */}
             <section className="how-it-works" id="protection">
-                <div className="section-header">
-                    <h2>Consumer Rights & Protection</h2>
+                <div className="section-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem' }}>
+                    <h2 style={{ marginBottom: 0 }}>Consumer Rights & Protection</h2>
+                    <img 
+                        src="/assets/undraw_two-factor-authentication_ofho (1).svg" 
+                        alt="Security Illustration" 
+                        style={{ 
+                            height: '140px', 
+                            width: 'auto', 
+                            objectFit: 'contain'
+                        }} 
+                    />
                 </div>
 
                 <div className="steps-list">
@@ -667,6 +750,369 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                     </div>
                 </div>
             )}
+
+            {/* Personalized Action Modal */}
+            {showDemoModal && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    zIndex: 9999,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                }}>
+                    <div style={{
+                        width: '100%',
+                        maxWidth: '1150px',
+                        background: '#ffffff',
+                        borderRadius: '0px',
+                        overflow: 'hidden',
+                        boxShadow: '0 50px 100px rgba(0, 0, 0, 0.4)',
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        minHeight: '480px'
+                    }}>
+                        <button 
+                            className="modal-close-btn"
+                            onClick={() => setShowDemoModal(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '30px',
+                                right: '20px',
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '18px',
+                                border: 'none',
+                                background: '#A31D1D',
+                                color: '#ffffff',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                zIndex: 100,
+                                boxShadow: '0 4px 12px rgba(163, 29, 29, 0.2)'
+                            }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M11.4 10l2.83-2.83l-1.41-1.41L10 8.59L7.17 5.76L5.76 7.17L8.59 10l-2.83 2.83l1.41 1.41L10 11.41l2.83 2.83l1.41-1.41L11.41 10z"/></svg>
+                        </button>
+                        
+                        <div style={{
+                            width: '32%',
+                            backgroundImage: `url("${heroBgImages[2]}")`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            position: 'relative'
+                        }} >
+                            <div style={{ 
+                                width: '100%', 
+                                height: '100%', 
+                                background: 'linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.2))',
+                                padding: '3.5rem 2.5rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'flex-end'
+                            }}>
+                                <h1 style={{ color: '#000000', fontSize: '2.8rem', fontWeight: '900', lineHeight: '1.1', margin: 0 }}>BOCRA<br/>UPDATES</h1>
+                                <p style={{ color: '#000000', opacity: 0.95, marginTop: '1rem', fontWeight: '600', fontSize: '1.1rem' }}>Regulating for the Future.</p>
+                            </div>
+                        </div>
+
+                        <div style={{ padding: '4.5rem 3rem 2.5rem', width: '68%', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                                {/* Card 1: Phishing */}
+                                <div 
+                                    className="modal-card-item"
+                                    style={{ 
+                                        background: '#FFF5F5', 
+                                        padding: '1.25rem', 
+                                        borderRadius: '0px', 
+                                        border: '1px solid #FFE4E4', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        height: '100%',
+                                        cursor: 'default'
+                                    }}
+                                >
+                                    <div style={{ color: '#000', marginBottom: '0.75rem' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 48 48"><rect width="48" height="48" fill="none"/><path fill="currentColor" d="M28.002 40.462a11 11 0 0 1-.942-1.612Q26 36.614 26 33.9v-5.775a.83.83 0 0 1 .833-.825q2.333 0 4.606-.863a16 16 0 0 0 2.547-1.253a19 19 0 0 0 1.514-1.019a.84.84 0 0 1 1 0q1.132.84 2.278 1.455q1.379.74 2.778 1.153a13 13 0 0 0 2.186.446q.71.081 1.425.081c.46 0 .833.37.833.825V33.9c0 5.501-3.286 9.543-9.695 12.043a.84.84 0 0 1-.61 0q-3.177-1.24-5.323-2.98a14 14 0 0 1-.63-.54q-.436-.4-.823-.823q-.501-.549-.917-1.138m6.306-17.903q-.162.12-.322.234a49 49 0 0 0-.287-4.293h9.535a20 20 0 0 1 .729 6.731a11 11 0 0 1-1.84-.376a12.7 12.7 0 0 1-2.4-.997q-1.006-.54-2.03-1.299a2.84 2.84 0 0 0-3.385 0m-8.139 20.362q.324-.308.65-.704a13 13 0 0 1-1.567-2.512C24.41 37.924 24 35.977 24 33.9v-1.4h-6.718c.471 2.437 1.135 4.603 1.931 6.395c.82 1.844 1.732 3.183 2.618 4.026C22.704 43.75 23.433 44 24 44s1.296-.248 2.169-1.08m.664-17.621c1.544 0 3.095-.337 4.666-1.056L31.5 24a47 47 0 0 0-.317-5.5H16.817A47 47 0 0 0 16.5 24c0 2.098.134 4.111.38 6H24v-1.875a2.83 2.83 0 0 1 2.833-2.825M14.36 30a49 49 0 0 1-.36-6c0-1.897.104-3.74.3-5.5H4.767A20 20 0 0 0 4 24c0 2.09.32 4.106.916 6zm-8.47 2.5c2.49 5.295 7.235 9.321 12.997 10.84c-1.856-2.49-3.324-6.293-4.149-10.84zM28.788 9.105c.85 1.914 1.55 4.254 2.025 6.895H17.188c.476-2.64 1.175-4.981 2.026-6.895c.82-1.844 1.731-3.183 2.617-4.026C22.704 4.25 23.433 4 24 4s1.296.248 2.169 1.08c.886.842 1.798 2.18 2.617 4.025M33.349 16h8.987c-2.421-5.541-7.281-9.774-13.223-11.34c1.924 2.58 3.43 6.572 4.236 11.34M5.664 16h8.987c.806-4.768 2.312-8.76 4.236-11.34C12.945 6.226 8.085 10.459 5.664 16M35.5 24.165l-1.192-1.606Z"/></svg>
+                                    </div>
+                                    <h3 style={{ color: '#000000', fontWeight: '800', marginBottom: '0.4rem', fontSize: '1.05rem' }}>
+                                        A wena o batlile go tsietswa?
+                                    </h3>
+                                    <p style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.5', marginBottom: '1rem', flexGrow: 1 }}>
+                                        Scams are on the rise. Report phishing to protect your family and help build safer online spaces for all Batswana.
+                                    </p>
+                                    <button 
+                                        className="modal-card-button"
+                                        onClick={(e) => { e.stopPropagation(); setShowDemoModal(false); alert('Opening Scams Report...'); }}
+                                        style={{ width: 'fit-content', padding: '0.5rem 1.2rem', borderRadius: '50px', border: 'none', background: '#A31D1D', color: '#fff', fontWeight: '700', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                                    >
+                                        Report Phishing
+                                    </button>
+                                </div>
+
+                                {/* Card 2: Org Complaint */}
+                                <div 
+                                    className="modal-card-item"
+                                    style={{ 
+                                        background: '#F8F9FF', 
+                                        padding: '1.25rem', 
+                                        borderRadius: '0px', 
+                                        border: '1px solid #E4E7FF', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        height: '100%',
+                                        cursor: 'default'
+                                    }}
+                                >
+                                    <div style={{ color: '#000', marginBottom: '0.75rem' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 0a12 12 0 1 0 12 12A12 12 0 0 0 12 0m6.48 15.38a1 1 0 0 1-1.19.76A6.2 6.2 0 0 0 16 16a6 6 0 0 0-4.6 2.14a1 1 0 0 1-.76.36a1 1 0 0 1-.77-1.64A8 8 0 0 1 16 14a7.5 7.5 0 0 1 1.71.19a1 1 0 0 1 .77 1.19M9.5 9a2 2 0 1 1-2-2a2 2 0 0 1 2 2m5 0a2 2 0 1 1 2 2a2 2 0 0 1-2-2"/></svg>
+                                    </div>
+                                    <h3 style={{ color: '#000000', fontWeight: '800', marginBottom: '0.4rem', fontSize: '1.05rem' }}>
+                                        Unhappy with a service?
+                                    </h3>
+                                    <p style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.5', marginBottom: '1rem', flexGrow: 1 }}>
+                                        Experience poor service or unfair billing? We regulate telecoms, postal, and radio to ensure you get what you pay for.
+                                    </p>
+                                    <button 
+                                        className="modal-card-button"
+                                        onClick={(e) => { e.stopPropagation(); setShowDemoModal(false); alert('Opening Complaint Form...'); }}
+                                        style={{ width: 'fit-content', padding: '0.5rem 1.2rem', borderRadius: '50px', border: 'none', background: '#A31D1D', color: '#fff', fontWeight: '700', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                                    >
+                                        Report Provider
+                                    </button>
+                                </div>
+
+                                {/* Card 3: Cyber Intel */}
+                                <div 
+                                    className="modal-card-item"
+                                    style={{ 
+                                        background: '#F5FFF9', 
+                                        padding: '1.25rem', 
+                                        borderRadius: '0px', 
+                                        border: '1px solid #E4FFE9', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        height: '100%',
+                                        cursor: 'default'
+                                    }}
+                                >
+                                    <div style={{ color: '#000', marginBottom: '0.75rem' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="M9.767 18.849L12 14l2.233 4.849c.647 1.406.971 2.109.628 2.617l-.029.04C14.466 22 13.644 22 12 22s-2.466 0-2.832-.493l-.03-.041c-.342-.508-.018-1.211.63-2.617"/><circle cx="12" cy="12" r="2"/><path d="M4 18.001A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 2.252-.744 4.33-2 6.001"/><path d="M7.528 16a6 6 0 1 1 8.944 0"/></g></svg>
+                                    </div>
+                                    <h3 style={{ color: '#000000', fontWeight: '800', marginBottom: '0.4rem', fontSize: '1.05rem' }}>
+                                        Botswana Cyber Intel
+                                    </h3>
+                                    <p style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.5', marginBottom: '1rem', flexGrow: 1 }}>
+                                        Your reports help build our public threat analytics dashboard, helping the nation stay ahead of cyber threats.
+                                    </p>
+                                    <button 
+                                        className="modal-card-button"
+                                        onClick={(e) => { e.stopPropagation(); setShowDemoModal(false); alert('Opening Analytics Dashboard...'); }}
+                                        style={{ width: 'fit-content', padding: '0.5rem 1.2rem', borderRadius: '50px', border: 'none', background: '#A31D1D', color: '#fff', fontWeight: '700', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                                    >
+                                        View Analytics
+                                    </button>
+                                </div>
+
+                                {/* Card 4: Support */}
+                                <div 
+                                    className="modal-card-item"
+                                    style={{ 
+                                        background: '#FFFBF5', 
+                                        padding: '1.25rem', 
+                                        borderRadius: '0px', 
+                                        border: '1px solid #FFF1E4', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        height: '100%',
+                                        cursor: 'default'
+                                    }}
+                                >
+                                    <div style={{ color: '#000', marginBottom: '0.75rem' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 48 48"><rect width="48" height="48" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M13 19.5a8 8 0 0 1 4.023-6.943Q17.002 11.238 17 9.5c0-2.551.044-4.405.09-5.645c.043-1.2.854-2.187 2.05-2.285c.51-.041 1.128-.07 1.86-.07s1.35.029 1.86-.07c1.196.098 2.007 1.085 2.05 2.285c.046 1.24.09 3.094.09 5.645q-.001 1.738-.023 3.057A8 8 0 1 1 13 19.5m14.995-8.49Q28 10.3 28 9.5c0-2.585-.044-4.476-.091-5.755a5.6 5.6 0 0 0-.183-1.224c7.348 2.504 12.663 9.335 12.829 17.423l3.88 5.41c.693.967.62 2.38-.505 3.069c-.853.52-2.099 1.127-3.771 1.57l-.576 6.83a3.5 3.5 0 0 1-3.917 3.18l-2.52-.312v2.917c0 1.507-.981 2.87-2.519 3.155c-1.851.345-4.884.737-9.098.737s-7.246-.392-9.098-.737c-1.537-.286-2.52-1.648-2.52-3.155V35.25C5.407 31.808 2.5 26.407 2.5 20.333c0-7.824 4.82-14.53 11.677-17.375q-.07.39-.086.787C14.044 5.024 14 6.915 14 9.5q0 .8.005 1.51A10.98 10.98 0 0 0 10 19.5c0 5.866 4.592 10.66 10.377 10.983C23.645 33.517 28.4 35.5 33 35.5a1.5 1.5 0 0 0 0-3c-2.922 0-5.969-.983-8.462-2.581C28.878 28.446 32 24.337 32 19.5a10.98 10.98 0 0 0-4.005-8.49" clip-rule="evenodd"/></svg>
+                                    </div>
+                                    <h3 style={{ color: '#000000', fontWeight: '800', marginBottom: '0.4rem', fontSize: '1.05rem' }}>
+                                        Technical Guidance?
+                                    </h3>
+                                    <p style={{ color: '#000000', fontSize: '0.88rem', lineHeight: '1.5', marginBottom: '1rem', flexGrow: 1 }}>
+                                        Have questions about Type Approval, licensing, or spectrum use? Our experts are here to help you navigate regulations.
+                                    </p>
+                                    <button 
+                                        className="modal-card-button"
+                                        onClick={(e) => { e.stopPropagation(); setShowDemoModal(false); onPortalLogin?.(); }}
+                                        style={{ width: 'fit-content', padding: '0.5rem 1.2rem', borderRadius: '50px', border: 'none', background: '#A31D1D', color: '#fff', fontWeight: '700', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                                    >
+                                        Ask an Expert 
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p style={{ marginTop: '2.5rem', textAlign: 'center', color: '#000000', fontSize: '0.85rem', fontWeight: '600' }}>
+                                Securely powered by the Communications Regulatory Authority of Botswana.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Chatbot Window */}
+            {showChatWindow && (
+                <div style={{
+                    position: 'fixed',
+                    bottom: '100px',
+                    right: '30px',
+                    width: '380px',
+                    height: '420px',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '16px',
+                    boxShadow: '0 12px 48px rgba(0,0,0,0.2)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'hidden',
+                    zIndex: 9999,
+                    animation: 'chatSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)'
+                }}>
+                    {/* Header */}
+                    <div style={{ background: '#3F4E60', padding: '1.25rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ 
+                            width: '40px', 
+                            height: '40px', 
+                            background: '#ffffff', 
+                            borderRadius: '50%', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center', 
+                            position: 'relative',
+                            color: '#000000'
+                        }}>
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 15 15"><rect width="15" height="15" fill="none"/><path fill="currentColor" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="currentColor" fill-rule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clip-rule="evenodd"/></svg>
+                            <div style={{ position: 'absolute', bottom: '2px', right: '2px', width: '10px', background: '#4CAF50', border: '2px solid #3F4E60', borderRadius: '50%', height: '10px', zIndex: 10 }}></div>
+                        </div>
+                        <div>
+                            <div style={{ fontWeight: '700', fontSize: '1.1rem' }}>BOCRA Bot</div>
+                            <div style={{ fontSize: '0.8rem', opacity: 0.8 }}>Online</div>
+                        </div>
+                    </div>
+
+                    {/* Messages Area */}
+                    <div style={{ flexGrow: 1, padding: '1.5rem', background: '#fff', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {messages.map((msg) => (
+                            <div key={msg.id} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                                {msg.sender === 'bot' && (
+                                    <div style={{ 
+                                        width: '28px', 
+                                        height: '28px', 
+                                        background: '#ffffff', 
+                                        border: '1px solid #ddd',
+                                        borderRadius: '50%', 
+                                        display: 'flex', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center', 
+                                        flexShrink: 0,
+                                        color: '#000000'
+                                    }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 15 15"><rect width="15" height="15" fill="none"/><path fill="currentColor" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="currentColor" fill-rule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clip-rule="evenodd"/></svg>
+                                    </div>
+                                )}
+                                <div style={{ 
+                                    background: msg.sender === 'bot' ? '#F0F2F7' : '#3F4E60', 
+                                    color: msg.sender === 'bot' ? '#333' : '#fff', 
+                                    padding: '0.85rem 1rem', 
+                                    borderRadius: '14px', 
+                                    borderTopLeftRadius: msg.sender === 'bot' ? '2px' : '14px',
+                                    borderTopRightRadius: msg.sender === 'bot' ? '14px' : '2px',
+                                    fontSize: '0.9rem', 
+                                    lineHeight: '1.4',
+                                    maxWidth: '85%',
+                                    marginLeft: msg.sender === 'bot' ? '0' : 'auto'
+                                }}>
+                                    {msg.text}
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Quick Actions */}
+                        <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start', marginLeft: '38px' }}>
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Launching Regulatory Guide...')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><rect width="16" height="16" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M7.684.895L6.074.358a1 1 0 0 0-1.296.753L4.2 4H2.5a.5.5 0 0 0 0 1h1.626a4 4 0 0 0 .11 2.359l-2.072-.345A1 1 0 0 0 1 8v1c.364 0 .706.097 1 .268V8l1 .167l1.859.31l2.163.36l.478.08v6L2 14v-1.268A2 2 0 0 1 1 13v1a1 1 0 0 0 .836.986l6 1c.108.018.22.018.328 0l6-1A1 1 0 0 0 15 14v-1a2 2 0 0 1-1-.268V14l-5.5.917v-6l.478-.08l2.163-.36L13 8.166L14 8v1.268A2 2 0 0 1 15 9V8a1 1 0 0 0-1.164-.986l-2.073.345A4 4 0 0 0 11.874 5H13.5a.5.5 0 0 0 0-1h-1.7l-.578-2.89A1 1 0 0 0 9.925.359L8.316.895a1 1 0 0 1-.632 0m2.88 6.664A3.01 3.01 0 0 0 10.83 5H5.17a3.01 3.01 0 0 0 .266 2.559L8 7.986zM10.8 4H9.2L9 3l1.5-.5zM1 12a1 1 0 1 0 0-2a1 1 0 0 0 0 2m14 0a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/></svg>
+                                Learn Regulations
+                            </button>
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Starting Phishing Report...')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M11 8h2v1h-2zm0-4h2v1h-2zm0 6h2v1h-2z"/><path fill="currentColor" d="M21 12V9a13.12 13.12 0 0 0-8.354 3h-1.292A13.12 13.12 0 0 0 3 9v3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v4a13.15 13.15 0 0 1 9 3.55A13.2 13.2 0 0 1 21 20v-4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><circle cx="9" cy="4" r="1" fill="currentColor"/><circle cx="15" cy="4" r="1" fill="currentColor"/><path fill="currentColor" d="M16 8H8a3.003 3.003 0 0 1-3-3V3a3.003 3.003 0 0 1 3-3h8a3.003 3.003 0 0 1 3 3v2a3.003 3.003 0 0 1-3 3M8 2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/></svg>
+                                Report Phishing
+                            </button>
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Connecting to human expert...')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M5.8 12.2V6H2C.9 6 0 6.9 0 8v6c0 1.1.9 2 2 2h1v3l3-3h5c1.1 0 2-.9 2-2v-1.82a1 1 0 0 1-.2.021h-7zM18 1H9c-1.1 0-2 .9-2 2v8h7l3 3v-3h1c1.1 0 2-.899 2-2V3c0-1.1-.9-2-2-2"/></svg>
+                                Chat with an expert
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Input Area */}
+                    <div style={{ padding: '1rem', borderTop: '1px solid #eee', background: '#fff' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#f9f9f9', padding: '0.5rem 1rem', borderRadius: '24px' }}>
+                            <input 
+                                type="text" 
+                                placeholder="Write a message" 
+                                style={{ flexGrow: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: '0.9rem', color: '#333' }}
+                                onKeyPress={(e) => {
+                                    if(e.key === 'Enter' && e.currentTarget.value) {
+                                        const text = e.currentTarget.value;
+                                        setMessages([...messages, { id: Date.now(), text, sender: 'user' }]);
+                                        e.currentTarget.value = '';
+                                        setTimeout(() => {
+                                            setMessages(prev => [...prev, { id: Date.now() + 1, text: "I've received your query about " + text + ". Let me find an expert to assist you.", sender: 'bot' }]);
+                                        }, 1000);
+                                    }
+                                }}
+                            />
+                            <div style={{ color: '#3F4E60', cursor: 'pointer' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z"/></svg>
+                            </div>
+                        </div>
+                        <div style={{ fontSize: '0.7rem', textAlign: 'center', marginTop: '10px', color: '#999' }}>
+                            HubBot uses the information you provide to us to contact you... <span style={{ color: '#3F4E60', cursor: 'pointer', fontWeight: '600' }}>privacy policy</span>.
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Chatbot Bubble Trigger */}
+            <div 
+                className="chatbot-trigger"
+                onClick={() => setShowChatWindow(!showChatWindow)}
+                style={{
+                    position: 'fixed',
+                    bottom: '30px',
+                    right: '30px',
+                    width: '60px',
+                    height: '60px',
+                    backgroundColor: showChatWindow ? '#3F4E60' : '#ffffff',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+                    cursor: 'pointer',
+                    zIndex: 10000,
+                    transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                }}
+            >
+                <div style={{ color: showChatWindow ? '#ffffff' : '#000000' }}>
+                    {showChatWindow ? (
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5 5l14 14M5 19l14 -14"><animate fill="freeze" attributeName="d" dur="0.4s" values="M5 5l14 0M5 19l14 0;M5 5l14 14M5 19l14 -14"/></path><path d="M12 12h0"><animate fill="freeze" attributeName="d" dur="0.4s" values="M5 12h14;M12 12h0"/><set fill="freeze" attributeName="opacity" begin="0.4s" to="0"/></path></g></svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 15 15"><rect width="15" height="15" fill="none"/><path fill="currentColor" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="currentColor" fill-rule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clip-rule="evenodd"/></svg>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
