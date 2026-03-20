@@ -53,7 +53,6 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
     }, []);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [isSearchFocused, setIsSearchFocused] = useState(false);
 
     const searchSuggestions = [
         { title: 'Consumer Protection', type: 'Service', desc: 'File a complaint or dispute against an operator' },
