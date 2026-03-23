@@ -58,7 +58,8 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient }
                 </div>
 
                 {/* Right Side: Login Form */}
-                <div style={{ flex: 1, textAlign: 'center' }}>
+                <div className="glass-card">
+
                 <h1 className="signin-title">Sign In to the Admin Panel</h1>
 
                 <form onSubmit={handleSubmit} className="signin-form">
@@ -98,14 +99,38 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient }
                                 cursor: 'pointer',
                                 color: '#A80000',
                                 padding: 0,
-                                textDecoration: 'underline'
+                                textDecoration: 'underline',
+                                fontWeight: 'bold'
                             }}
                             onClick={onSwitchToClient}
                         >
                             Sign In to Client Portal
                         </button>
                     </div>
+                    
+                    <div style={{ marginTop: '0.75rem' }}>
+                         <span>Are you a consumer? </span>
+                        <button 
+                            type="button" 
+                            className="contact-link" 
+                            style={{ 
+                                background: 'none', 
+                                border: 'none', 
+                                font: 'inherit', 
+                                cursor: 'pointer',
+                                color: '#A80000',
+                                padding: 0,
+                                textDecoration: 'underline',
+                                fontWeight: 'bold'
+                            }}
+                            onClick={onSwitchToClient}
+                        >
+                            Consumer Sign In
+                        </button>
+                    </div>
                 </div>
+
+
             </div>
             </div>
         </div>

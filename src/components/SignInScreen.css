@@ -1,8 +1,10 @@
 .signin-container {
     min-height: 100vh;
     width: 100%;
-    background-color: white;
-    /* Match loading screen */
+    background-image: url('/assets/nasa-Q1p7bh3SHj8-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,6 +12,10 @@
     padding: 20px;
     position: relative;
 }
+
+
+
+
 
 .signin-split-layout {
     display: flex;
@@ -26,12 +32,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem 2rem;
+    border-radius: 0;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
+
 .signin-logo-container {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     text-align: left;
-    margin-left: -10px;
+    margin-left: -5px;
 }
 
 .signin-logo {
@@ -41,24 +52,24 @@
 
 .welcome-title {
     color: #A80000;
-    font-size: 1.6rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
 }
 
 .welcome-text {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #444;
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
 }
 
 .welcome-support-box {
     background: #fcebeb;
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     border-radius: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     color: #333;
 }
 
@@ -70,17 +81,17 @@
 }
 
 .welcome-support-box p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
 }
 
 .support-contacts {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     background: white;
-    padding: 0.5rem;
+    padding: 0.4rem 0.6rem;
     border-radius: 0;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .support-contacts p {
@@ -88,11 +99,11 @@
 }
 
 .welcome-safety-notice {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #666;
-    line-height: 1.5;
+    line-height: 1.4;
     background: #fdfdfd;
-    padding: 0.85rem 1rem;
+    padding: 0.6rem 0.8rem;
     border: 1px solid #eaeaea;
     border-radius: 0;
 }
@@ -102,7 +113,7 @@
     flex: 1;
     background: white;
     border: 1px solid #eaeaea;
-    border-radius: 20px;
+    border-radius: 0;
     padding: 3rem;
     width: 100%;
     text-align: center;
@@ -151,7 +162,7 @@
     padding: 0.8rem;
     background: transparent;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 0;
     color: #222;
     font-size: 1rem;
     outline: none;
@@ -173,7 +184,7 @@
     background-color: #A80000;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 0;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;

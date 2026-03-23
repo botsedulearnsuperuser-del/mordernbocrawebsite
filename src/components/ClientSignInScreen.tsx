@@ -56,7 +56,8 @@ const ClientSignInScreen: React.FC<ClientSignInScreenProps> = ({ onLogin, onBack
                 </div>
 
                 {/* Right Side: Login Form */}
-                <div style={{ flex: 1, textAlign: 'center' }}>
+                <div className="glass-card">
+
                     <h1 className="signin-title">Sign In to the Client Portal</h1>
 
                     <form onSubmit={handleSubmit} className="signin-form">

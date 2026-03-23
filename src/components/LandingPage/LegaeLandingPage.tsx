@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './LegaeLandingPage.css';
+import Navbar from '../Shared/Navbar';
 
 interface LegaeLandingPageProps {
     onPortalLogin?: () => void;
+    onClientPortalLogin?: () => void;
+    onAboutUs?: () => void;
+    onNavigate?: (page: string) => void;
 }
 
-const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) => {
+const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onClientPortalLogin, onAboutUs, onNavigate }) => {
     const logoImg = '/assets/bocralogo.png';
 
     const heroBgImages = [
@@ -41,11 +45,11 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
     const [showPrivacy, setShowPrivacy] = useState(false);
     const [showDemoModal, setShowDemoModal] = useState(false);
     const [showChatWindow, setShowChatWindow] = useState(false);
+    const [showChatTeaser, setShowChatTeaser] = useState(true);
     const [messages, setMessages] = useState([
         { id: 1, text: "👋 Want to chat about BOCRA? I'm an AI chatbot here to help you find your way.", sender: 'bot' },
         { id: 2, text: "Ask me or select an option below.", sender: 'bot' }
     ]);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setShowDemoModal(true), 3000);
@@ -55,6 +59,8 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
     const [searchQuery, setSearchQuery] = useState('');
 
     const searchSuggestions = [
+        { title: 'Best Cybersecurity Practices', type: 'Guide', desc: 'Learn best cybersecurity practices to protect your data online' },
+        { title: 'AI Regulation Laws', type: 'Framework', desc: 'Learn how BOCRA works with laws in AI regulation in Botswana' },
         { title: 'Consumer Protection', type: 'Service', desc: 'File a complaint or dispute against an operator' },
         { title: 'Type Approval Guidelines', type: 'Regulation', desc: 'Equipment certification guidelines 2024' },
         { title: 'Mascom Wireless', type: 'Licensee', desc: 'Public Telecommunications Operator (Tier 1)' },
@@ -124,166 +130,16 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                 `}
             </style>
             {/* Navigation */}
-            <nav className="navbar">
-                <div className="logo">
-                    <img 
-                        src={brandLogo} 
-                        alt="BOCRA Logo" 
-                        style={{ 
-                            height: '3rem', 
-                            width: 'auto', 
-                            objectFit: 'contain'
-                        }} 
-                    />
-                </div>
-                
-                <div className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-                    <button className="close-menu-btn" onClick={() => setIsMobileMenuOpen(false)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path d="M5 5l14 14M5 19l14 -14"/></g></svg>
-                    </button>
-                    <ul className="nav-links">
-
-
-                        <li className="nav-item">
-                            <a href="#protection" className="nav-link-trigger">Consumer Affairs</a>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">Consumer Services</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item">
-                                            <strong>File a Complaint</strong>
-                                            <span>Digital form for billing, service, or network issues.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Verify My Device</strong>
-                                            <span>Check if a phone/router is legally BOCRA-approved.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>License Checker</strong>
-                                            <span>Public database to verify if a provider is licensed.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Network Status</strong>
-                                            <span>Live maps showing 4G/5G coverage across Botswana.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Dispute Resolution</strong>
-                                            <span>Mediation process between consumers and providers.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li className="nav-item">
-                            <span className="nav-link-trigger">Regulatory Hub</span>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">Governance & Rules</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item">
-                                            <strong>Legislation</strong>
-                                            <span>CRA Act 2012, Evidence Act, and Cybersecurity Act 2025.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Licensing</strong>
-                                            <span>NFP (Facilities) and SAP (Services) requirements.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Type Approval</strong>
-                                            <span>Technical requirements for importing communication devices.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>CSIRT</strong>
-                                            <span>National Computer Security Incident Response Team advisories.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Technical Standards</strong>
-                                            <span>Compliance with global ITU Region 1 standards.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li className="nav-item">
-                            <span className="nav-link-trigger">Resources</span>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">Information Bank</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item">
-                                            <strong>Market Statistics</strong>
-                                            <span>Broadband penetration and mobile money transaction data.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Consultations</strong>
-                                            <span>Open papers for public comment on new regulations.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>News & Media</strong>
-                                            <span>Official press releases, bulletins, and educational videos.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Annual Reports</strong>
-                                            <span>Authority performance, financial, and strategic reviews.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Statistics</strong>
-                                            <span>User growth and communications market penetration.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li className="nav-item" style={{ marginLeft: '-32px' }}>
-                            <a href="#about" className="nav-link-trigger no-caret">About BOCRA</a>
-                        </li>
-
-                        <li className="nav-item">
-                            <span className="nav-link-trigger">Portals</span>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">Self-Service Portals</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item">
-                                            <strong>Licensee Dashboard</strong>
-                                            <span>Single Sign-On (SSO) for current service providers.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Consumer Case Tracker</strong>
-                                            <span>Follow-up on your formal dispute and complaint status.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>.BW Registrar Portal</strong>
-                                            <span>Domain management for accredited registrars.</span>
-                                        </div>
-                                        <div className="mega-menu-item">
-                                            <strong>Type Approval Lab</strong>
-                                            <span>Online application for technical equipment certification.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li style={{ marginLeft: '1.5rem' }}>
-                            <button className="get-started-btn" style={{ padding: '0.7rem 1.8rem', whiteSpace: 'nowrap' }} onClick={() => { setIsMobileMenuOpen(false); onPortalLogin?.(); }}>Consumer Portal</button>
-                        </li>
-                    </ul>
-                </div>
-
-                <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"/></svg>
-                </button>
-            </nav>
+            <Navbar 
+                onNavigate={onNavigate} 
+                onPortalLogin={onPortalLogin} 
+                onClientPortalLogin={onClientPortalLogin} 
+                onAboutUs={onAboutUs} 
+                activePage="landing" 
+            />
 
             {/* Mobile Menu Overlay */}
-            <div 
-                className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`} 
-                onClick={() => setIsMobileMenuOpen(false)}
-            ></div>
+            {/* The Navbar component now handles its own mobile menu state and overlay */}
 
             {/* Hero Section */}
             <header className="hero" id="strategy">
@@ -384,7 +240,16 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                                                 }}
                                                 onMouseOver={(e) => e.currentTarget.style.background = '#FDF2F2'}
                                                 onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
-                                                onClick={() => { setSearchQuery(suggestion.title); alert('Navigating to: ' + suggestion.title); }}
+                                                onClick={() => { 
+                                                    setSearchQuery(suggestion.title); 
+                                                    if (suggestion.title === 'Best Cybersecurity Practices' && onNavigate) {
+                                                        onNavigate('cybersecurity');
+                                                    } else if (suggestion.title === 'AI Regulation Laws' && onNavigate) {
+                                                        onNavigate('airegulation');
+                                                    } else {
+                                                        alert('Navigating to: ' + suggestion.title); 
+                                                    }
+                                                }}
                                                 >
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                         <strong style={{ color: '#222', fontSize: '0.95rem' }}>{suggestion.title}</strong>
@@ -1110,6 +975,86 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin }) =>
                     )}
                 </div>
             </div>
+
+            {/* Chatbot Teaser Bubble */}
+            {!showChatWindow && showChatTeaser && (
+                <div 
+                    style={{
+                        position: 'fixed',
+                        bottom: '105px',
+                        right: '30px',
+                        width: '280px',
+                        backgroundColor: '#ffffff',
+                        borderRadius: '24px',
+                        padding: '1.5rem',
+                        boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+                        zIndex: 9999,
+                        animation: 'chatSlideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                        border: '1px solid rgba(0,0,0,0.05)',
+                        cursor: 'default'
+                    }}
+                >
+                    {/* Close Button */}
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); setShowChatTeaser(false); }}
+                        style={{
+                            position: 'absolute',
+                            top: '-10px',
+                            right: '-10px',
+                            width: '24px',
+                            height: '24px',
+                            backgroundColor: '#94a3b8',
+                            color: '#ffffff',
+                            border: 'none',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+
+                    {/* Overlapping Avatar */}
+                    <div 
+                        style={{
+                            position: 'absolute',
+                            top: '-25px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            width: '50px',
+                            height: '50px',
+                            backgroundColor: '#FF8A65',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            border: '4px solid #ffffff',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                            color: '#ffffff'
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 15 15"><path fill="currentColor" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="currentColor" fill-rule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clip-rule="evenodd"/></svg>
+                    </div>
+
+                    <div style={{ marginTop: '10px' }}>
+                        <p style={{ 
+                            margin: 0, 
+                            fontSize: '0.95rem', 
+                            color: '#334155', 
+                            lineHeight: '1.5',
+                            fontWeight: '500',
+                            textAlign: 'center'
+                        }}>
+                             <span style={{ fontSize: '1.2rem', marginRight: '4px' }}>👋</span>
+                             Want to chat about BOCRA? I'm an AI chatbot here to help you find your way.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
