@@ -16,7 +16,6 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBackToLanding, onPortalLogin, onCli
 
 
     const [showPrivacy, setShowPrivacy] = useState(false);
-    const [showDemoModal, setShowDemoModal] = useState(false);
 
     const [showGlobeModal, setShowGlobeModal] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);

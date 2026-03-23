@@ -5,7 +5,7 @@ import React, {
 import './ClientsDashboard.css'; // Reusing base styles for layout consistency
 const logo = '/assets/bocralogo.png';
 
-import { Search, LogOut, Search as SearchIcon } from 'lucide-react';
+import { Search, Search as SearchIcon } from 'lucide-react';
 
 
 import { ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
@@ -14,12 +14,10 @@ import Skeleton from '../Skeleton';
 
 // Reuse some components/styles from the project
 import ConsumerCases from './ConsumerCases'; 
-import SupportQueries from './SupportQueries';
 import CybersecurityAlerts from './CybersecurityAlerts';
 import DeviceVerification from './DeviceVerification';
 import ConsumerRights from './ConsumerRights';
 import Tenders from './Tenders';
-import Settings from './Settings';
 
 const DashboardIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
