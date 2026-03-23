@@ -5,9 +5,11 @@ import React, {
 import './ClientsDashboard.css'; // Reusing base styles for layout consistency
 const logo = '/assets/bocralogo.png';
 
-import { Search, ShieldAlert, FileText, CheckCircle, HelpCircle, LogOut, LayoutDashboard, Search as SearchIcon, Briefcase } from 'lucide-react';
+import { Search, LogOut, Search as SearchIcon } from 'lucide-react';
 
-import { BarChart, Bar, XAxis, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+
+import { ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+
 import Skeleton from '../Skeleton';
 
 // Reuse some components/styles from the project
@@ -29,6 +31,12 @@ const ComplaintsIcon = () => (
         <rect width="512" height="512" fill="none"/><path fill="currentColor" d="M307.94 248L216 154.52V242a6 6 0 0 0 6 6Z"/><path fill="currentColor" d="M184 268V144H60a12 12 0 0 0-12 12v328a12 12 0 0 0 12 12h248a12 12 0 0 0 12-12V280H196a12 12 0 0 1-12-12m182-148h85.94L360 26.52V114a6 6 0 0 0 6 6"/><path fill="currentColor" d="M340 152a12 12 0 0 1-12-12V16H172a12 12 0 0 0-12 12v84h42.12A40.8 40.8 0 0 1 231 124.14l109.16 111a41.1 41.1 0 0 1 11.83 29V400H452a12 12 0 0 0 12-12V152Z"/>
     </svg>
 );
+const FileIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm1.17 10L12 12l-.59-.59L12 10l3.17 2zM13 9V3.5L18.5 9z"/>
+    </svg>
+);
+
 
 const DeviceIcon = () => <SearchIcon size={18} />;
 const AlertIcon = () => (
@@ -59,7 +67,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
     const [activeMenu, setActiveMenu] = useState('Dashboard Overview');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+
 
     useEffect(() => {
         setIsLoading(true);
@@ -199,7 +207,8 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
                                 <HelpIcon /> Consumer Rights FAQ
                             </li>
                             <li className="nav-item" style={{ background: '#fdf2f2', border: '1px solid #ffe4e4' }}>
-                                <FileText /> Tariff Comparison Guide
+                                <FileIcon /> Tariff Comparison Guide
+
                             </li>
                         </ul>
                     </div>
@@ -296,7 +305,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
 
                     <div className="header-right">
                          <div className="notification-wrapper">
-                             <button className="notification-btn" onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}>
+                             <button className="notification-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
                                     <rect width="512" height="512" fill="none"/>
                                     <path fill="currentColor" fillRule="evenodd" d="M469.333 149.333V384h-64.04l.04 85.333L250.516 384H149.333V149.333zM362.667 64v42.667h-256v170.666H64V64z"/>

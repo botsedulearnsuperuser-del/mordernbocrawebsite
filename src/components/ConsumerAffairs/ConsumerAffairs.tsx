@@ -15,13 +15,8 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
 
 
     const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-    const toggleFaq = (index: number) => {
-        setActiveFaq(activeFaq === index ? null : index);
-    };
-
-    const [showPrivacy, setShowPrivacy] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+
 
     const searchSuggestions = [
         { title: 'Consumer Rights', type: 'Guide', desc: 'Learn your rights when dealing with communications providers' },
@@ -256,7 +251,8 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                 </div>
                 <div className="faq-list">
                     {faqData.map((faq, index) => (
-                        <div key={index} className={`faq-item ${activeFaq === index ? 'active' : ''}`} onClick={() => toggleFaq(index)}>
+                        <div key={index} className={`faq-item ${activeFaq === index ? 'active' : ''}`} onClick={() => setActiveFaq(activeFaq === index ? null : index)}>
+
                             <div className="faq-question-row">
                                 <span className="faq-question">{faq.question}</span>
                                 <span className="faq-icon">{activeFaq === index ? '-' : '+'}</span>
@@ -288,7 +284,8 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                         <ul>
                             <li><a href="#">Type Approval</a></li>
                             <li><a href="#">CSIRT Monitor</a></li>
-                            <li><a href="#" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>Terms & Privacy</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); }}>Terms & Privacy</a></li>
+
                         </ul>
                     </div>
                 </div>

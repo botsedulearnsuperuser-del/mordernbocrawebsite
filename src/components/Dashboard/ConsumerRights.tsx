@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronRight, Gavel, ShieldCheck, Mail, Phone, ExternalLink } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+
 
 const ConsumerRights: React.FC = () => {
     const [activeRight, setActiveRight] = useState(0);

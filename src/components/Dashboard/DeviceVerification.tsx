@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, CheckCircle, XCircle, Info, ShieldAlert } from 'lucide-react';
+import { Search, CheckCircle, XCircle } from 'lucide-react';
+
 
 const DeviceVerification: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');

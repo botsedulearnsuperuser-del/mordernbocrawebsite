@@ -1,5 +1,6 @@
 import React from 'react';
-import { FileText, Calendar, Clock, Download, Search, AlertCircle } from 'lucide-react';
+import { Search } from 'lucide-react';
+
 
 const Tenders: React.FC = () => {
     const tenders = [

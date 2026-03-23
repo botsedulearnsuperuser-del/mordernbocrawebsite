@@ -15,13 +15,8 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
 
 
     const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
-    const toggleFaq = (index: number) => {
-        setActiveFaq(activeFaq === index ? null : index);
-    };
-
-    const [showPrivacy, setShowPrivacy] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+
 
     const searchSuggestions = [
         { title: 'CRA Act 2012', type: 'Legislation', desc: 'The base framework for communication regulation' },
@@ -74,8 +69,9 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                         </p>
                         <div style={{ display: 'flex', gap: '15px' }}>
                             <button className="try-free-btn" onClick={onClientPortalLogin}>Licensee Portal</button>
-                            <button className="watch-demo-btn" onClick={() => setShowPrivacy(true)}>Download Regulations</button>
+                            <button className="watch-demo-btn">Download Regulations</button>
                         </div>
+
                     </div>
 
                     <div className="hero-image-container">
@@ -244,7 +240,8 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                 </div>
                 <div className="faq-list">
                     {faqData.map((faq, index) => (
-                        <div key={index} className={`faq-item ${activeFaq === index ? 'active' : ''}`} onClick={() => toggleFaq(index)}>
+                        <div key={index} className={`faq-item ${activeFaq === index ? 'active' : ''}`} onClick={() => setActiveFaq(activeFaq === index ? null : index)}>
+
                             <div className="faq-question-row">
                                 <span className="faq-question">{faq.question}</span>
                                 <span className="faq-icon">{activeFaq === index ? '-' : '+'}</span>
