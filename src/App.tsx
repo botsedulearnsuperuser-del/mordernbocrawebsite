@@ -29,11 +29,14 @@ const App: React.FC = () => {
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+        
         setIsLoggedIn(true);
-        // In a real app, you'd fetch the role from the 'profiles' table here.
-        // For now, we'll try to get it from metatada or just default if needed.
-        const role = session.user.user_metadata?.role || 'consumer';
-        setUserRole(role);
+        setUserRole(profile?.role || 'consumer');
       } else {
         setIsLoggedIn(false);
       }
@@ -43,9 +46,14 @@ const App: React.FC = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+        
         setIsLoggedIn(true);
-        const role = session.user.user_metadata?.role || 'consumer';
-        setUserRole(role);
+        setUserRole(profile?.role || 'consumer');
       } else {
         setIsLoggedIn(false);
         setUserRole(null);
@@ -54,6 +62,7 @@ const App: React.FC = () => {
 
     return () => subscription.unsubscribe();
   }, []);
+
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
