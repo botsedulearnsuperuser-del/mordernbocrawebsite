@@ -4,6 +4,7 @@ import SignInScreen from './components/SignInScreen';
 import ClientSignInScreen from './components/ClientSignInScreen';
 import ConsumerSignInScreen from './components/ConsumerSignInScreen';
 import ConsumerSignUpScreen from './components/ConsumerSignUpScreen';
+import AccountCreatedScreen from './components/AccountCreatedScreen';
 import Dashboard from './components/Dashboard/Dashboard';
 import ClientsDashboard from './components/Dashboard/ClientsDashboard';
 import ConsumerDashboard from './components/Dashboard/ConsumerDashboard';
@@ -148,7 +149,8 @@ const App: React.FC = () => {
           <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => {}} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
           <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} />} />
           <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
-          <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => {}} onBackToSignIn={() => navigate('/consumer-signin')} />} />
+          <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => navigate('/account-created')} onBackToSignIn={() => navigate('/consumer-signin')} />} />
+          <Route path="/account-created" element={isLoggedIn ? <Navigate to="/dashboard" /> : <AccountCreatedScreen onContinueToLogin={() => navigate('/consumer-signin')} />} />
 
           {/* Protected Dashboard Routes */}
           <Route 
