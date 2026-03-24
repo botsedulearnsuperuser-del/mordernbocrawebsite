@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import SignInScreen from './components/SignInScreen';
 import ClientSignInScreen from './components/ClientSignInScreen';
 import ConsumerSignInScreen from './components/ConsumerSignInScreen';
