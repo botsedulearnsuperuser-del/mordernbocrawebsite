@@ -1245,7 +1245,7 @@ body {
 @media (max-width: 800px) {
     .privacy-grid {
         grid-template-columns: 1fr !important;
-        gap: 2rem !important;
+        gap: 1.5rem !important;
     }
 
     .privacy-section {
@@ -1264,6 +1264,138 @@ body {
 .privacy-content-wrapper::-webkit-scrollbar-thumb {
     background: var(--legae-red);
     border-radius: 10px;
+}
+
+/* =============================================
+   DEMO MODAL — MOBILE RESPONSIVE
+   ============================================= */
+.demo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.demo-modal-container {
+    width: 100%;
+    max-width: 1150px;
+    background: #ffffff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-height: 480px;
+    max-height: 90vh;
+}
+
+.demo-modal-image-panel {
+    width: 32%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.demo-modal-image-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0.85), rgba(255,255,255,0.2));
+    padding: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+.demo-modal-content {
+    padding: 4.5rem 3rem 2.5rem;
+    width: 68%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.demo-modal-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+@media (max-width: 700px) {
+    .demo-modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .demo-modal-container {
+        flex-direction: column;
+        min-height: unset;
+        max-height: 90vh;
+        border-radius: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .demo-modal-image-panel {
+        display: none;
+    }
+
+    .demo-modal-content {
+        width: 100%;
+        padding: 3.5rem 1.25rem 2rem;
+        overflow-y: auto;
+    }
+
+    .demo-modal-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .demo-modal-close-btn {
+        top: 1rem !important;
+        right: 1rem !important;
+    }
+
+    /* Privacy popup mobile override */
+    .waitlist-popup {
+        max-width: 100% !important;
+        border-radius: 0 !important;
+    }
+
+    .privacy-popup .close-popup {
+        top: 1.25rem !important;
+        right: 1.25rem !important;
+    }
+
+    .privacy-popup .privacy-content-wrapper {
+        padding: 3.5rem 1.25rem 2rem !important;
+    }
+
+    .privacy-popup h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .privacy-popup h3 {
+        font-size: 0.95rem !important;
+    }
+
+    .privacy-popup p {
+        font-size: 0.88rem !important;
+    }
 }
 
 /* Marquee Styles */

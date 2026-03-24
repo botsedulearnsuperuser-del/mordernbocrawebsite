@@ -8,10 +8,11 @@ interface AboutUsProps {
     onBackToLanding: () => void;
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
+    onConsumerPortalLogin?: () => void;
     onNavigate?: (page: string) => void;
 }
 
-const AboutUs: React.FC<AboutUsProps> = ({ onBackToLanding, onPortalLogin, onClientPortalLogin, onNavigate }) => {
+const AboutUs: React.FC<AboutUsProps> = ({ onBackToLanding, onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onNavigate }) => {
     const heroBgImage = '/assets/7d6a5316-288a-4446-96e3-1046f0b9092b.png';
 
 
@@ -167,6 +168,7 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBackToLanding, onPortalLogin, onCli
                 onNavigate={onNavigate} 
                 onPortalLogin={onPortalLogin} 
                 onClientPortalLogin={onClientPortalLogin} 
+                onConsumerPortalLogin={onConsumerPortalLogin}
                 activePage="about" 
             />
 

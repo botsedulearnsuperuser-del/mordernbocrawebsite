@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^2.16.2",
+    "@supabase/supabase-js": "^2.100.0",
     "@types/three": "^0.160.0",
     "cobe": "^2.0.1",
     "dotted-map": "^3.1.0",
@@ -20,6 +21,7 @@
     "postprocessing": "^6.38.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.2",
     "recharts": "^3.6.0",
     "three": "^0.160.0"
   },

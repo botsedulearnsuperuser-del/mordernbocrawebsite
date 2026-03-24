@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import SignInScreen from './components/SignInScreen';
 import ClientSignInScreen from './components/ClientSignInScreen';
+import ConsumerSignInScreen from './components/ConsumerSignInScreen';
+import ConsumerSignUpScreen from './components/ConsumerSignUpScreen';
 import Dashboard from './components/Dashboard/Dashboard';
+import ClientsDashboard from './components/Dashboard/ClientsDashboard';
 import ConsumerDashboard from './components/Dashboard/ConsumerDashboard';
 
 import LegaeLandingPage from './components/LandingPage/LegaeLandingPage';
@@ -10,60 +14,94 @@ import CybersecurityPractices from './components/AboutUs/CybersecurityPractices'
 import AIRegulationLaws from './components/AboutUs/AIRegulationLaws';
 import ConsumerAffairs from './components/ConsumerAffairs/ConsumerAffairs';
 import RegulatoryHub from './components/RegulatoryHub/RegulatoryHub';
+import Resources from './components/Resources/Resources';
+import { supabase } from './lib/supabase';
 import './App.css';
 
 const App: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState<'admin' | 'client' | null>(null);
-  const [currentSignInView, setCurrentSignInView] = useState<'admin' | 'client' | 'landing' | 'about' | 'cybersecurity' | 'airegulation' | 'consumeraffairs' | 'regulatoryhub'>('landing');
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // null means loading
+  const [userRole, setUserRole] = useState<'admin' | 'client' | 'consumer' | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleLogin = () => {
-    setUserRole('admin');
-    setIsLoggedIn(true);
-  };
+  useEffect(() => {
+    // Check initial session
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setIsLoggedIn(true);
+        // In a real app, you'd fetch the role from the 'profiles' table here.
+        // For now, we'll try to get it from metatada or just default if needed.
+        const role = session.user.user_metadata?.role || 'consumer';
+        setUserRole(role);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    checkUser();
 
-  const handleClientLogin = () => {
-    setUserRole('client');
-    setIsLoggedIn(true);
-  };
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session?.user) {
+        setIsLoggedIn(true);
+        const role = session.user.user_metadata?.role || 'consumer';
+        setUserRole(role);
+      } else {
+        setIsLoggedIn(false);
+        setUserRole(null);
+      }
+    });
 
-  const handleLogout = () => {
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setIsLoggedIn(false);
     setUserRole(null);
-    setCurrentSignInView('landing');
+    navigate('/');
   };
+
+  if (isLoggedIn === null) {
+    return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>;
+  }
 
   return (
     <div className="app-container">
-      {isLoggedIn ? (
-        userRole === 'admin' ? <Dashboard onLogout={handleLogout} /> : <ConsumerDashboard onLogout={handleLogout} />
-      ) : (
-        currentSignInView === 'landing' ? (
-          <LegaeLandingPage onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onAboutUs={() => setCurrentSignInView('about')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'about' ? (
-          <AboutUs onBackToLanding={() => setCurrentSignInView('landing')} onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'cybersecurity' ? (
-          <CybersecurityPractices onBackToLanding={() => setCurrentSignInView('landing')} onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'airegulation' ? (
-          <AIRegulationLaws onBackToLanding={() => setCurrentSignInView('landing')} onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'consumeraffairs' ? (
-          <ConsumerAffairs onBackToLanding={() => setCurrentSignInView('landing')} onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'regulatoryhub' ? (
-          <RegulatoryHub onBackToLanding={() => setCurrentSignInView('landing')} onPortalLogin={() => setCurrentSignInView('admin')} onClientPortalLogin={() => setCurrentSignInView('client')} onNavigate={(view) => setCurrentSignInView(view as any)} />
-        ) : currentSignInView === 'admin' ? (
-          <SignInScreen 
-            onLogin={handleLogin} 
-            onSwitchToClient={() => setCurrentSignInView('client')} 
-          />
-        ) : (
-          <ClientSignInScreen 
-            onLogin={handleClientLogin} 
-            onBackToAdmin={() => setCurrentSignInView('admin')} 
-          />
-        )
-      )}
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<LegaeLandingPage onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onAboutUs={() => navigate('/about')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/about" element={<AboutUs onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/cybersecurity" element={<CybersecurityPractices onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/airegulation" element={<AIRegulationLaws onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/consumeraffairs" element={<ConsumerAffairs onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/regulatoryhub" element={<RegulatoryHub onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+        <Route path="/resources" element={<Resources onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+
+        {/* Auth Routes */}
+        <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => {}} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
+        <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} />} />
+        <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
+        <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => navigate('/consumer-signin')} onBackToSignIn={() => navigate('/consumer-signin')} />} />
+
+        {/* Protected Dashboard Routes */}
+        <Route 
+          path="/dashboard" 
+          element={
+            !isLoggedIn ? <Navigate to="/" /> : 
+            userRole === 'admin' ? <Dashboard onLogout={handleLogout} /> : 
+            userRole === 'client' ? <ClientsDashboard onLogout={handleLogout} /> : 
+            <ConsumerDashboard onLogout={handleLogout} />
+          } 
+        />
+
+        {/* Catch-all/Default */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+

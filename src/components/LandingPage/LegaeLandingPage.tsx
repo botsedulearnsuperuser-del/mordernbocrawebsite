@@ -5,11 +5,12 @@ import Navbar from '../Shared/Navbar';
 interface LegaeLandingPageProps {
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
+    onConsumerPortalLogin?: () => void;
     onAboutUs?: () => void;
     onNavigate?: (page: string) => void;
 }
 
-const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onClientPortalLogin, onAboutUs, onNavigate }) => {
+const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onAboutUs, onNavigate }) => {
     const logoImg = '/assets/bocralogo.png';
 
     const heroBgImages = [
@@ -47,10 +48,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
 
 
 
-    useEffect(() => {
-        const timer = setTimeout(() => setShowDemoModal(true), 3000);
-        return () => clearTimeout(timer);
-    }, []);
+
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -130,6 +128,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                 onNavigate={onNavigate} 
                 onPortalLogin={onPortalLogin} 
                 onClientPortalLogin={onClientPortalLogin} 
+                onConsumerPortalLogin={onConsumerPortalLogin}
                 onAboutUs={onAboutUs} 
                 activePage="landing" 
             />
@@ -165,8 +164,9 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         <p className="hero-subtitle">
                             <strong>Mission:</strong> To regulate and promote an inclusive and impactful communications sector through innovation, fair competition, and effective consumer protection.
                         </p>
-                        <div style={{ display: 'flex', gap: '15px' }}>
-                            <button className="try-free-btn" onClick={onPortalLogin}>Report an Issue (Consumer Portal)</button>
+                        <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                            <button className="try-free-btn" onClick={onConsumerPortalLogin}>Report an Issue (Consumer Portal)</button>
+                            <button className="watch-demo-btn" onClick={onClientPortalLogin}>Portal for Licensees</button>
                         </div>
                     </div>
 
@@ -502,7 +502,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
             <section className="early-access">
                 <h2>Access Customer Portal</h2>
                 <p>Track your complaints, check type-approved devices, and manage your registrations in one place.</p>
-                <button className="try-free-btn" style={{ background: '#A31D1D', marginBottom: '2rem' }} onClick={onPortalLogin}>Login to Portal</button>
+                <button className="try-free-btn" style={{ background: '#A31D1D', marginBottom: '2rem' }} onClick={onConsumerPortalLogin}>Login to Portal</button>
                 <div className="early-access-images">
                     <img src={featureImg1} alt="Portal 1" />
                     <img src={featureImg2} alt="Portal 2" />
@@ -541,8 +541,8 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                     <div className="footer-links">
                         <h4>Resources</h4>
                         <ul>
-                            <li><a href="#">Type Approval</a></li>
-                            <li><a href="#">CSIRT Monitor</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); if(onNavigate) onNavigate('resources'); }}>Type Approval</a></li>
+                            <li><a href="#" onClick={(e) => { e.preventDefault(); if(onNavigate) onNavigate('resources'); }}>CSIRT Monitor</a></li>
                             <li><a href="#" onClick={(e) => { e.preventDefault(); setShowPrivacy(true); }}>Terms & Privacy</a></li>
                         </ul>
                         <div style={{ marginTop: '1.5rem', opacity: 0.8 }}>
@@ -611,34 +611,10 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
 
             {/* Personalized Action Modal */}
             {showDemoModal && (
-                <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    backdropFilter: 'blur(10px)',
-                    zIndex: 9999,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '2rem',
-                }}>
-                    <div style={{
-                        width: '100%',
-                        maxWidth: '1150px',
-                        background: '#ffffff',
-                        borderRadius: '0px',
-                        overflow: 'hidden',
-                        boxShadow: '0 50px 100px rgba(0, 0, 0, 0.4)',
-                        position: 'relative',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        minHeight: '480px'
-                    }}>
+                <div className="demo-modal-overlay">
+                    <div className="demo-modal-container">
                         <button 
-                            className="modal-close-btn"
+                            className="modal-close-btn demo-modal-close-btn"
                             onClick={() => setShowDemoModal(false)}
                             style={{
                                 position: 'absolute',
@@ -646,7 +622,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                                 right: '20px',
                                 width: '36px',
                                 height: '36px',
-                                borderRadius: '18px',
+                                borderRadius: '0',
                                 border: 'none',
                                 background: '#A31D1D',
                                 color: '#ffffff',
@@ -661,29 +637,18 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M11.4 10l2.83-2.83l-1.41-1.41L10 8.59L7.17 5.76L5.76 7.17L8.59 10l-2.83 2.83l1.41 1.41L10 11.41l2.83 2.83l1.41-1.41L11.41 10z"/></svg>
                         </button>
                         
-                        <div style={{
-                            width: '32%',
-                            backgroundImage: `url("${heroBgImages[2]}")`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            position: 'relative'
-                        }} >
-                            <div style={{ 
-                                width: '100%', 
-                                height: '100%', 
-                                background: 'linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.2))',
-                                padding: '3.5rem 2.5rem',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'flex-end'
-                            }}>
+                        <div 
+                            className="demo-modal-image-panel"
+                            style={{ backgroundImage: `url("${heroBgImages[2]}")` }}
+                        >
+                            <div className="demo-modal-image-inner">
                                 <h1 style={{ color: '#000000', fontSize: '2.8rem', fontWeight: '900', lineHeight: '1.1', margin: 0 }}>BOCRA<br/>UPDATES</h1>
                                 <p style={{ color: '#000000', opacity: 0.95, marginTop: '1rem', fontWeight: '600', fontSize: '1.1rem' }}>Regulating for the Future.</p>
                             </div>
                         </div>
 
-                        <div style={{ padding: '4.5rem 3rem 2.5rem', width: '68%', textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                        <div className="demo-modal-content">
+                            <div className="demo-modal-cards-grid">
                                 {/* Card 1: Phishing */}
                                 <div 
                                     className="modal-card-item"

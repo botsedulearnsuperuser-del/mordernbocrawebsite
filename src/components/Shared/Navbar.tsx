@@ -4,11 +4,12 @@ export interface NavbarProps {
     onNavigate?: (page: string) => void;
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
-    activePage?: 'landing' | 'about' | 'cybersecurity' | 'airegulation' | 'consumeraffairs' | 'regulatoryhub';
+    onConsumerPortalLogin?: () => void;
+    activePage?: 'landing' | 'about' | 'cybersecurity' | 'airegulation' | 'consumeraffairs' | 'regulatoryhub' | 'resources';
     onAboutUs?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigate, onPortalLogin, onClientPortalLogin, onAboutUs, activePage = 'landing' }) => {
+const Navbar: React.FC<NavbarProps> = ({ onNavigate, onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onAboutUs, activePage = 'landing' }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const brandLogo = '/assets/bocralogo.png';
 
@@ -118,35 +119,18 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, onPortalLogin, onClientPort
                         </li>
 
                         <li className="nav-item">
-                            <span className="nav-link-trigger">Resources</span>
-                            <div className="mega-menu">
-                                <div className="mega-menu-content">
-                                    <div className="mega-menu-header">Information Bank</div>
-                                    <div className="mega-menu-grid">
-                                        <div className="mega-menu-item" onClick={() => handleNavigation('landing')}>
-                                            <strong>Market Statistics</strong>
-                                            <span>Broadband penetration and mobile money transaction data.</span>
-                                        </div>
-                                        <div className="mega-menu-item" onClick={() => handleNavigation('landing')}>
-                                            <strong>Consultations</strong>
-                                            <span>Open papers for public comment on new regulations.</span>
-                                        </div>
-                                        <div className="mega-menu-item" onClick={() => handleNavigation('landing')}>
-                                            <strong>News & Media</strong>
-                                            <span>Official press releases, bulletins, and educational videos.</span>
-                                        </div>
-                                        <div className="mega-menu-item" onClick={() => handleNavigation('landing')}>
-                                            <strong>Annual Reports</strong>
-                                            <span>Authority performance, financial, and strategic reviews.</span>
-                                        </div>
-                                        <div className="mega-menu-item" onClick={() => handleNavigation('landing')}>
-                                            <strong>Statistics</strong>
-                                            <span>User growth and communications market penetration.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <span
+                                className={`nav-link-trigger no-caret ${activePage === 'resources' ? 'active-link' : ''}`}
+                                onClick={() => handleNavigation('resources')}
+                                style={{
+                                    cursor: 'pointer',
+                                    ...(activePage === 'resources' ? { fontWeight: '700', color: '#A31D1D' } : {})
+                                }}
+                            >
+                                Resources
+                            </span>
                         </li>
+
 
                         <li className="nav-item">
                             <span 
@@ -171,19 +155,19 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, onPortalLogin, onClientPort
                                             <strong>Clients Portal</strong>
                                             <span>Secure access for licensed operators and business partners.</span>
                                         </div>
-                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onPortalLogin) onPortalLogin(); }}>
+                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onConsumerPortalLogin) onConsumerPortalLogin(); }}>
                                             <strong>Consumer Portal</strong>
                                             <span>Self-service area for citizen queries and device tracking.</span>
                                         </div>
-                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onPortalLogin) onPortalLogin(); }}>
+                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onConsumerPortalLogin) onConsumerPortalLogin(); }}>
                                             <strong>Consumer Case Tracker</strong>
                                             <span>Follow-up on your formal dispute and complaint status.</span>
                                         </div>
                                         <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onPortalLogin) onPortalLogin(); }}>
-                                            <strong>.BW Registrar Portal</strong>
-                                            <span>Domain management for accredited registrars.</span>
+                                            <strong>Admin Portal</strong>
+                                            <span>Internal gateway for BOCRA administrative management.</span>
                                         </div>
-                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onPortalLogin) onPortalLogin(); }}>
+                                        <div className="mega-menu-item" onClick={() => { setIsMobileMenuOpen(false); if(onConsumerPortalLogin) onConsumerPortalLogin(); }}>
                                             <strong>Type Approval Lab</strong>
                                             <span>Online application for technical equipment certification.</span>
                                         </div>
@@ -193,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, onPortalLogin, onClientPort
                         </li>
 
                         <li style={{ marginLeft: '1.5rem' }}>
-                            <button className="get-started-btn" style={{ padding: '0.7rem 1.8rem', whiteSpace: 'nowrap' }} onClick={() => { setIsMobileMenuOpen(false); if(onPortalLogin) onPortalLogin(); }}>Consumer Portal</button>
+                            <button className="get-started-btn" style={{ padding: '0.7rem 1.8rem', whiteSpace: 'nowrap' }} onClick={() => { setIsMobileMenuOpen(false); if(onConsumerPortalLogin) onConsumerPortalLogin(); }}>Consumer Portal</button>
                         </li>
                     </ul>
                 </div>

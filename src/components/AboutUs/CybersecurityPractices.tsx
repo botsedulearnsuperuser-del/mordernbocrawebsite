@@ -8,10 +8,11 @@ interface CybersecurityPracticesProps {
     onBackToLanding: () => void;
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
+    onConsumerPortalLogin?: () => void;
     onNavigate?: (page: string) => void;
 }
 
-const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackToLanding, onPortalLogin, onClientPortalLogin, onNavigate }) => {
+const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackToLanding, onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onNavigate }) => {
     const heroBgImages = [
         '/assets/justice-hubane-OjmO-dNF0lQ-unsplash (1).jpg',
         '/assets/justice-hubane-tyCcpbkgaR4-unsplash (2).jpg',
@@ -156,6 +157,7 @@ const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackT
                 onNavigate={onNavigate} 
                 onPortalLogin={onPortalLogin} 
                 onClientPortalLogin={onClientPortalLogin} 
+                onConsumerPortalLogin={onConsumerPortalLogin}
                 activePage="cybersecurity" 
             />
 

@@ -6,16 +6,27 @@ export interface RegulatoryHubProps {
     onBackToLanding?: () => void;
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
+    onConsumerPortalLogin?: () => void;
     onNavigate?: (page: string) => void;
 }
 
-const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPortalLogin, onNavigate }) => {
+const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onNavigate }) => {
     const heroBgImage = '/assets/nasa-Q1p7bh3SHj8-unsplash.jpg';
 
 
 
     const [activeFaq, setActiveFaq] = useState<number | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            window.scrollTo({
+                top: element.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        }
+    };
 
 
     const searchSuggestions = [
@@ -50,6 +61,7 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                 onNavigate={onNavigate} 
                 onPortalLogin={onPortalLogin} 
                 onClientPortalLogin={onClientPortalLogin} 
+                onConsumerPortalLogin={onConsumerPortalLogin}
                 activePage="regulatoryhub" 
             />
 
@@ -100,9 +112,11 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                                     {filteredSuggestions.length > 0 ? (
                                         <ul style={{ listStyle: 'none', padding: '0.5rem', margin: 0 }}>
                                             {filteredSuggestions.map((suggestion, idx) => (
-                                                <li key={idx} style={{ padding: '0.75rem 1rem', borderRadius: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
-                                                onMouseOver={(e) => e.currentTarget.style.background = '#FDF2F2'}
-                                                onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                                                <li key={idx} 
+                                                    style={{ padding: '0.75rem 1rem', borderRadius: '10px', cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
+                                                    onMouseOver={(e) => e.currentTarget.style.background = '#FDF2F2'}
+                                                    onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                                                    onClick={() => scrollToSection(suggestion.title.toLowerCase().replace(/\s+/g, '-'))}
                                                 >
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                         <strong style={{ color: '#222', fontSize: '0.95rem' }}>{suggestion.title}</strong>
@@ -122,6 +136,31 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                 </div>
             </header>
 
+            {/* Quick Access Highlights */}
+            <section style={{ background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '2.5rem 10%' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                    {searchSuggestions.slice(0, 3).map((item, i) => (
+                        <div 
+                            key={i} 
+                            onClick={() => scrollToSection(item.title.toLowerCase().replace(/\s+/g, '-'))}
+                            style={{ 
+                                padding: '1.5rem', 
+                                borderLeft: '4px solid #A31D1D', 
+                                background: '#fcfcfc',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease'
+                            }}
+                            onMouseOver={(e) => e.currentTarget.style.background = '#FDF2F2'}
+                            onMouseOut={(e) => e.currentTarget.style.background = '#fcfcfc'}
+                        >
+                            <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#A31D1D', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.type}</span>
+                            <h3 style={{ fontSize: '1.25rem', margin: '0.25rem 0 0.5rem', color: '#1a1a1a' }}>{item.title}</h3>
+                            <p style={{ fontSize: '0.9rem', color: '#666', margin: 0 }}>{item.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
             {/* Core Functions - Feature Grid UI */}
             <section className="features">
                 <div className="section-header">
@@ -139,7 +178,7 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#A31D1D" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m-1 8h2v2h-2zm0 4h2v2h-2zm0-8h2v2h-2zm0 12h2v2h-2zm0-4h2v2h-2z" /></svg>
                             </div>
                         </div>
-                        <h3>Legislation</h3>
+                        <h3 id="cra-act-2012">Legislation</h3>
                         <p>CRA Act 2012, Evidence Act, and Cybersecurity directives – everything you need to know about the laws we enforce.</p>
                         <button className="modal-card-button" style={{ marginTop: '1.5rem', background: '#3F4E60', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>View Library</button>
                     </div>
@@ -149,7 +188,7 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#A31D1D" d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2"/></svg>
                             </div>
                         </div>
-                        <h3>Licensing Hub</h3>
+                        <h3 id="apply-for-license">Licensing Hub</h3>
                         <p>Apply for and manage Facilities (NFP) and Services (SAP) licenses. Compliance monitoring and reporting tools for operators.</p>
                         <button className="modal-card-button" onClick={onClientPortalLogin} style={{ marginTop: '1.5rem', background: '#A31D1D', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>License Portal</button>
                     </div>
@@ -218,7 +257,7 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                                 </span>
                                 Frequency Management
                             </span>
-                            <p style={{ marginLeft: '54px', fontSize: '0.9rem', color: '#666' }}>Managing the allocation of Botswana's radio frequency spectrum.</p>
+                            <p id="spectrum-map" style={{ marginLeft: '54px', fontSize: '0.9rem', color: '#666' }}>Managing the allocation of Botswana's radio frequency spectrum.</p>
                         </div>
                         <div className="scenario-item">
                             <span style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>

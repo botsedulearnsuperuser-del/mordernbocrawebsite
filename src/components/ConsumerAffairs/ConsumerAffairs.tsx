@@ -6,10 +6,11 @@ export interface ConsumerAffairsProps {
     onBackToLanding?: () => void;
     onPortalLogin?: () => void;
     onClientPortalLogin?: () => void;
+    onConsumerPortalLogin?: () => void;
     onNavigate?: (page: string) => void;
 }
 
-const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClientPortalLogin, onBackToLanding, onNavigate }) => {
+const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClientPortalLogin, onConsumerPortalLogin, onBackToLanding, onNavigate }) => {
     const heroBgImage = '/assets/closeup-shot-of-smiling-friends-in-their-20s-relaxing-with-phones-on-a-bed-in-a-blue-vacation.png';
 
 
@@ -51,6 +52,7 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                 onNavigate={onNavigate} 
                 onPortalLogin={onPortalLogin} 
                 onClientPortalLogin={onClientPortalLogin} 
+                onConsumerPortalLogin={onConsumerPortalLogin}
                 activePage="consumeraffairs" 
             />
 
@@ -69,7 +71,7 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                             Protecting your rights and ensuring excellence in communications services across Botswana.
                         </p>
                         <div style={{ display: 'flex', gap: '15px' }}>
-                            <button className="try-free-btn" onClick={onPortalLogin}>File a Complaint</button>
+                            <button className="try-free-btn" onClick={onConsumerPortalLogin}>File a Complaint</button>
                             <button className="watch-demo-btn" onClick={() => onNavigate?.('about')}>Consumer Charter</button>
                         </div>
                     </div>
@@ -151,7 +153,7 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                         </div>
                         <h3>File a Complaint</h3>
                         <p>Formal mechanism for resolving billing, quality of service, and network disputes between consumers and service providers.</p>
-                        <button className="modal-card-button" onClick={onPortalLogin} style={{ marginTop: '1.5rem', background: '#A31D1D', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>Access Portal</button>
+                        <button className="modal-card-button" onClick={onConsumerPortalLogin} style={{ marginTop: '1.5rem', background: '#A31D1D', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>Access Portal</button>
                     </div>
                     <div className="feature-card">
                         <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem' }}>
