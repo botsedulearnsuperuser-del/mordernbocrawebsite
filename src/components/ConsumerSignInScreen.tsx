@@ -38,7 +38,7 @@ const ConsumerSignInScreen: React.FC<ConsumerSignInScreenProps> = ({ onLogin, on
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin
+                redirectTo: `${window.location.origin}/dashboard`
             }
         });
         if (googleError) setError(googleError.message);
