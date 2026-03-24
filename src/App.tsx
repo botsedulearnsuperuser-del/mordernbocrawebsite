@@ -138,7 +138,7 @@ const App: React.FC = () => {
       <div className="app-container">
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LegaeLandingPage onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onAboutUs={() => navigate('/about')} onNavigate={(view) => navigate(`/${view}`)} />} />
+          <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <LegaeLandingPage onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onAboutUs={() => navigate('/about')} onNavigate={(view) => navigate(`/${view}`)} />} />
           <Route path="/about" element={<AboutUs onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
           <Route path="/cybersecurity" element={<CybersecurityPractices onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
           <Route path="/airegulation" element={<AIRegulationLaws onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
