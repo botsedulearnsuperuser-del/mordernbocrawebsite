@@ -145,10 +145,10 @@ const App: React.FC = () => {
           <Route path="/resources" element={<Resources onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
 
           {/* Auth Routes */}
-          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLoginSuccess={(role) => { setIsLoggedIn(true); setUserRole(role); navigate('/dashboard'); }} />} />
-          <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLoginSuccess={() => { setIsLoggedIn(true); setUserRole('client'); navigate('/client-dashboard'); }} />} />
-          <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLoginSuccess={() => { setIsLoggedIn(true); setUserRole('consumer'); navigate('/consumer-dashboard'); }} onSignUpClick={() => navigate('/consumer-signup')} />} />
-          <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUpSuccess={() => navigate('/consumer-signin')} onSignInClick={() => navigate('/consumer-signin')} />} />
+          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => {}} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
+          <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} />} />
+          <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
+          <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => {}} onBackToSignIn={() => navigate('/consumer-signin')} />} />
 
           {/* Protected Dashboard Routes */}
           <Route 
