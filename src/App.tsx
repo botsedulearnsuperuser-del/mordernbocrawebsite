@@ -22,7 +22,7 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // null means loading
   const [userRole, setUserRole] = useState<'admin' | 'client' | 'consumer' | null>(null);
   const navigate = useNavigate();
-  const location = useLocation();
+
 
   useEffect(() => {
     // Check initial session

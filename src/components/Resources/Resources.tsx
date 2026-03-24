@@ -363,7 +363,7 @@ const Resources: React.FC<ResourcesProps> = ({ onBackToLanding, onPortalLogin, o
                                                 <div style={{ width: '100%', height: '420px', position: 'relative', overflow: 'hidden', animation: 'fadeIn 0.6s ease' }}>
                                                     <img 
                                                         key={`blog-img-${selectedBlogIndex}`}
-                                                        src={resource.items[selectedBlogIndex]?.img ?? '/assets/hao-wang-pVq6YhmDPtk-unsplash.jpg'} 
+                                                        src={(resource.items[selectedBlogIndex] as any)?.img ?? '/assets/hao-wang-pVq6YhmDPtk-unsplash.jpg'} 
                                                         alt="Blog Feature" 
                                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                                                     />
@@ -373,7 +373,7 @@ const Resources: React.FC<ResourcesProps> = ({ onBackToLanding, onPortalLogin, o
                                                             {resource.items[selectedBlogIndex]?.label}
                                                         </h4>
                                                         <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.92rem', marginBottom: '1.2rem' }}>
-                                                            {resource.items[selectedBlogIndex]?.desc}
+                                                            {(resource.items[selectedBlogIndex] as any)?.desc}
                                                         </p>
                                                         <button style={{ background: '#fff', color: '#1a1a1a', border: 'none', padding: '0.55rem 1.4rem', fontWeight: '800', fontSize: '0.82rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                                             Read Full Story
