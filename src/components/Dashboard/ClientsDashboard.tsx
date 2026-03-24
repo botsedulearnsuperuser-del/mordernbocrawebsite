@@ -12,6 +12,7 @@ import SupportQueries from './SupportQueries';
 import MemberPayments from './MemberPayments';
 import Settings from './Settings';
 import ConsumerCases from './ConsumerCases';
+import ConsumerProfile from './ConsumerProfile';
 import { useEffect } from 'react';
 import Skeleton from '../Skeleton';
 
@@ -74,6 +75,12 @@ const LogoutIcon = ({ size = 20, className = '' }) => (
     </svg>
 );
 
+const ProfileIcon = ({ size = 20, className = '' }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" className={className}>
+        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20"/>
+    </svg>
+);
+
 const LogoutPortalIcon = ({ size = 36, className = '' }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 36 36" className={className}>
         <path fill="currentColor" d="M30.86 20.94a4.7 4.7 0 0 1 1.86.64h.05a15.1 15.1 0 0 0-.61-8.37a1 1 0 1 0-1.87.69a13.2 13.2 0 0 1 .57 7.04m-4.53 7.64a13 13 0 0 1-6.07 2.82a1 1 0 1 0 .17 2h.18a15.16 15.16 0 0 0 7.21-3.4v-.07a4.7 4.7 0 0 1-1.49-1.35m-10.71 2.76a13.3 13.3 0 0 1-4.29-1.61a15 15 0 0 1-1.63-1.11A4.7 4.7 0 0 1 8.24 30a16 16 0 0 0 2.07 1.48a15.4 15.4 0 0 0 4.94 1.86h.19a1 1 0 0 0 .18-2M4.56 21.15q.3 0 .6-.09A13 13 0 0 1 5.7 14a1 1 0 0 0-1.88-.69a15 15 0 0 0-.56 8.43a4.8 4.8 0 0 1 1.3-.59"/><path fill="currentColor" d="M31.9 23a3.2 3.2 0 0 0-2.43-.42a3.3 3.3 0 0 0-1.4.77l-3.87-2.24a6.87 6.87 0 0 0-2.77-8.43l-.11-.07a6.7 6.7 0 0 0-2.42-.81V8a3.23 3.23 0 0 0 1.88-1.5A3.3 3.3 0 0 0 19.65 2a3.15 3.15 0 0 0-2.42-.32a3.24 3.24 0 0 0-2 1.51a3.3 3.3 0 0 0 1.13 4.46a3 3 0 0 0 .74.35v3.8a6.63 6.63 0 0 0-4.86 3.28a6.85 6.85 0 0 0-.42 6l-4 2.29a4 4 0 0 0-.45-.37A3.2 3.2 0 0 0 3 24.21a3.3 3.3 0 0 0 1.1 4.46a3.2 3.2 0 0 0 1.65.46a3 3 0 0 0 .78-.1a3.25 3.25 0 0 0 2.34-3.94v-.17l3.88-2.24a7 7 0 0 0 1.89 1.71a6.49 6.49 0 0 0 8.73-1.7l3.83 2.21a3.29 3.29 0 0 0 1.45 3.64A3.18 3.18 0 0 0 33 27.41A3.3 3.3 0 0 0 31.9 23M8.05 10a13 13 0 0 1 5.35-3.77a5 5 0 0 1-.17-2.07a15.15 15.15 0 0 0-6.7 4.51A1 1 0 0 0 8.05 10"/><path fill="currentColor" d="M24.67 7.23A13.1 13.1 0 0 1 27.93 10a1 1 0 1 0 1.52-1.3a15 15 0 0 0-3.76-3.2a16 16 0 0 0-2.94-1.33a4.8 4.8 0 0 1-.15 2.06a14 14 0 0 1 2.07 1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
@@ -128,6 +135,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
 
     const menuItems = [
         { name: 'Dashboard Overview', icon: <DashboardIcon size={16} /> },
+        { name: 'My Profile', icon: <ProfileIcon size={16} /> },
         { name: 'License Manager', icon: <AccountsIcon size={16} /> },
         { name: 'Spectrum Portal', icon: <ApplicationsIcon size={16} /> },
         { name: 'Technical Vault', icon: <ActiveQueriesIcon size={16} /> },
@@ -177,6 +185,8 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                 return <ConsumerCases />;
             case 'Settings':
                 return <Settings />;
+            case 'My Profile':
+                return <ConsumerProfile />;
             case 'Dashboard Overview':
             default:
                 return (
@@ -461,7 +471,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                             )}
                         </div>
 
-                        <div className="user-profile" onClick={() => setActiveMenu('Settings')} style={{ cursor: 'pointer' }}>
+                        <div className="user-profile" onClick={() => setActiveMenu('My Profile')} style={{ cursor: 'pointer' }}>
                             <div className="avatar">C</div>
                             <div className="user-info">
                                 <span className="user-name">Client User</span>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 
 
-const ConsumerRights: React.FC = () => {
+const ConsumerRights: React.FC<{ onNavigate?: (menu: string) => void }> = ({ onNavigate }) => {
     const [activeRight, setActiveRight] = useState(0);
 
     const rights = [
@@ -115,7 +115,25 @@ const ConsumerRights: React.FC = () => {
                                  consumer@bocra.org.bw
                              </div>
                          </div>
-                    </div>
+                     </div>
+
+                     <div className="card" 
+                        style={{ padding: '1.5rem', background: '#fdf2f2', border: '1px solid #ffe4e4', cursor: 'pointer', transition: 'all 0.2s ease', display: 'block' }} 
+                        onClick={() => onNavigate?.('My Profile')}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                             <div style={{ width: '40px', height: '40px', background: '#A80000', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4m0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4"/></svg>
+                             </div>
+                             <div>
+                                 <h4 style={{ margin: 0, color: '#A80000' }}>My Profile Settings</h4>
+                                 <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#666' }}>Update your photo and security.</p>
+                             </div>
+                             <ChevronRight size={18} style={{ marginLeft: 'auto', color: '#A80000' }} />
+                         </div>
+                     </div>
 
                 </div>
             </div>

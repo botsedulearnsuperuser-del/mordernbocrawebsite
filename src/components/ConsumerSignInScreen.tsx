@@ -20,18 +20,49 @@ const ConsumerSignInScreen: React.FC<ConsumerSignInScreenProps> = ({ onLogin, on
         e.preventDefault();
         setError(null);
         setLoading(true);
+        console.log('Attempting login for:', email);
 
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        let isStillLoading = true;
 
-        if (signInError) {
-            setError(signInError.message);
-        } else {
-            onLogin();
+        // Safety timeout for login attempt
+        const loginTimeout = setTimeout(() => {
+            if (isStillLoading) {
+                setLoading(false);
+                setError('Login request timed out. Please check your internet connection and verify if you have clicked the link in your email.');
+                console.warn('Login request timed out after 10s');
+                isStillLoading = false;
+            }
+        }, 10000);
+
+        try {
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (!isStillLoading) return; // Already timed out
+            isStillLoading = false;
+            clearTimeout(loginTimeout);
+            
+            if (signInError) {
+                console.error('SignIn Error:', signInError);
+                setError(signInError.message);
+            } else if (data.session) {
+                console.log('Login successful, proceeding...');
+                onLogin();
+            } else if (data.user) {
+                // User exists but no session yet (could be email verification required)
+                setError('Please verify your email address before logging in.');
+            }
+        } catch (err: any) {
+            if (!isStillLoading) return;
+            isStillLoading = false;
+            clearTimeout(loginTimeout);
+            console.error('Unexpected Login Exception:', err);
+            setError('An unexpected error occurred during login. Please try again.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleGoogleSignIn = async () => {

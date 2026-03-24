@@ -60,34 +60,38 @@ const App: React.FC = () => {
 
   useEffect(() => {
     console.log('App mounting: Checking initial authentication session...');
+    
+    // Safety timeout to prevent infinite hang on "Initialising..."
+    const safetyTimeout = setTimeout(() => {
+      if (isLoggedIn === null) {
+        console.warn('Auth initialization timed out after 5s. Falling back to public view.');
+        setIsLoggedIn(false);
+      }
+    }, 5000);
+
     const checkUser = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) throw error;
         
+        clearTimeout(safetyTimeout);
         console.log('Session result:', session ? 'User logged in' : 'No active session');
         
         if (session?.user) {
-          console.log('Fetching user profile for ID:', session.user.id);
-          const { data: profile, error: profileError } = await supabase
+          const { data: profile } = await supabase
             .from('profiles')
             .select('role')
             .eq('id', session.user.id)
             .single();
           
-          if (profileError) {
-            console.warn('Profile fetch error (this is OK if user just signed up):', profileError);
-          }
-          
           setIsLoggedIn(true);
           setUserRole(profile?.role || 'consumer');
-          console.log('User Role set to:', profile?.role || 'consumer');
         } else {
           setIsLoggedIn(false);
         }
       } catch (err: any) {
+        clearTimeout(safetyTimeout);
         console.error('Critical Error during Auth initialization:', err);
-        // We don't block the app, just set as not logged in
         setIsLoggedIn(false);
       }
     };
@@ -147,9 +151,9 @@ const App: React.FC = () => {
           <Route path="/resources" element={<Resources onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
 
           {/* Auth Routes */}
-          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => {}} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
-          <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} />} />
-          <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => {}} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
+          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
+          <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onBackToAdmin={() => navigate('/admin-signin')} />} />
+          <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
           <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => navigate('/account-created')} onBackToSignIn={() => navigate('/consumer-signin')} />} />
           <Route path="/account-created" element={isLoggedIn ? <Navigate to="/dashboard" /> : <AccountCreatedScreen onContinueToLogin={() => navigate('/consumer-signin')} />} />
           <Route path="/account-verified" element={isLoggedIn ? <Navigate to="/dashboard" /> : <AccountVerifiedScreen onContinueToLogin={() => navigate('/consumer-signin')} />} />

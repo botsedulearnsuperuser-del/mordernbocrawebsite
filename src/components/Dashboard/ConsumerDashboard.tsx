@@ -18,6 +18,14 @@ import CybersecurityAlerts from './CybersecurityAlerts';
 import DeviceVerification from './DeviceVerification';
 import ConsumerRights from './ConsumerRights';
 import Tenders from './Tenders';
+import ConsumerProfile from './ConsumerProfile';
+import { supabase } from '../../lib/supabase';
+
+const ProfileIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20"/>
+    </svg>
+);
 
 const DashboardIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -65,6 +73,35 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
     const [activeMenu, setActiveMenu] = useState('Dashboard Overview');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [userProfile, setUserProfile] = useState<{ full_name?: string, avatar_url?: string } | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+                const user = session.user;
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('full_name, avatar_url')
+                    .eq('id', user.id)
+                    .single();
+                
+                if (data) {
+                    setUserProfile({
+                        full_name: data.full_name || user.user_metadata?.full_name,
+                        avatar_url: data.avatar_url || user.user_metadata?.avatar_url
+                    });
+                } else {
+                    // Fallback to Google metadata if no profile record yet
+                    setUserProfile({
+                        full_name: user.user_metadata?.full_name,
+                        avatar_url: user.user_metadata?.avatar_url
+                    });
+                }
+            }
+        };
+        fetchProfile();
+    }, []);
 
 
     useEffect(() => {
@@ -77,6 +114,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
 
     const menuItems = [
         { name: 'Dashboard Overview', icon: <DashboardIcon /> },
+        { name: 'My Profile', icon: <ProfileIcon /> },
         { name: 'My Complaints', icon: <ComplaintsIcon /> },
         { name: 'Device Verification', icon: <DeviceIcon /> },
         { name: 'Cybersecurity Alerts', icon: <AlertIcon /> },
@@ -222,7 +260,8 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
             case 'Cybersecurity Alerts': return <CybersecurityAlerts />;
             case 'Device Verification': return <DeviceVerification />;
             case 'Tenders': return <Tenders />;
-            case 'Consumer Rights': return <ConsumerRights />;
+            case 'Consumer Rights': return <ConsumerRights onNavigate={setActiveMenu} />;
+            case 'My Profile': return <ConsumerProfile />;
             case 'Dashboard Overview':
             default:
                 return renderDashboardOverview();
@@ -314,11 +353,15 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
 
                         </div>
 
-                        <div className="user-profile">
-                            <div className="avatar">C</div>
+                        <div className="user-profile" onClick={() => setActiveMenu('My Profile')} style={{ cursor: 'pointer' }}>
+                            {userProfile?.avatar_url ? (
+                                <img src={userProfile.avatar_url} alt="Profile" className="avatar" style={{ objectFit: 'cover' }} />
+                            ) : (
+                                <div className="avatar">{userProfile?.full_name ? userProfile.full_name.charAt(0).toUpperCase() : 'C'}</div>
+                            )}
                             <div className="user-info">
-                                <span className="user-name">BOCRA Consumer</span>
-                                <span className="user-role">Resident</span>
+                                <span className="user-name">{userProfile?.full_name ? `Mr. ${userProfile.full_name}` : 'BOCRA Consumer'}</span>
+                                <span className="user-role">{userProfile?.full_name ? 'BOCRA Consumer' : 'Resident'}</span>
                             </div>
                         </div>
 
