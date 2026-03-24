@@ -10,7 +10,9 @@ interface ConsumerSignUpScreenProps {
 }
 
 const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, onBackToSignIn }) => {
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -27,17 +29,39 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
             return;
         }
 
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-        });
+        try {
+            const { data, error: signUpError } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: fullName,
+                        phone: phone
+                    }
+                }
+            });
 
-        if (error) {
-            setError(error.message);
-        } else {
-            onSignUp();
+            if (signUpError) {
+                setError(signUpError.message);
+            } else if (data.user) {
+                // Background profile sync
+                try {
+                    await supabase.from('profiles').upsert({
+                        id: data.user.id,
+                        full_name: fullName,
+                        updated_at: new Date().toISOString()
+                    });
+                } catch (pe) {
+                    console.warn('Profile sync skipped:', pe);
+                }
+                onSignUp();
+            }
+        } catch (err: any) {
+            console.error('Unexpected Sign-up Error:', err);
+            setError('Registration failed. Please try again.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
@@ -67,10 +91,32 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
                         
                         <div className="input-group">
                             <input
+                                type="text"
+                                placeholder="Full Name"
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                className="signin-input"
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <input
                                 type="email"
                                 placeholder="Email Address"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className="signin-input"
+                                required
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <input
+                                type="tel"
+                                placeholder="Phone Number"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
                                 className="signin-input"
                                 required
                             />
@@ -103,7 +149,7 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
                         </button>
                     </form>
 
-                    <div className="signin-footer">
+                    <div className="signin-footer" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
                         <div>
                             <span>Already have an account? </span>
                             <button 

@@ -77,27 +77,50 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
 
     useEffect(() => {
         const fetchProfile = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session?.user) {
-                const user = session.user;
-                const { data } = await supabase
-                    .from('profiles')
-                    .select('full_name, avatar_url')
-                    .eq('id', user.id)
-                    .single();
+            try {
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError) throw sessionError;
                 
-                if (data) {
-                    setUserProfile({
-                        full_name: data.full_name || user.user_metadata?.full_name,
-                        avatar_url: data.avatar_url || user.user_metadata?.avatar_url
-                    });
-                } else {
-                    // Fallback to Google metadata if no profile record yet
-                    setUserProfile({
-                        full_name: user.user_metadata?.full_name,
-                        avatar_url: user.user_metadata?.avatar_url
-                    });
+                if (session?.user) {
+                    const user = session.user;
+                    console.log('Fetching profile for user:', user.id);
+                    
+                    const { data, error: profileError } = await supabase
+                        .from('profiles')
+                        .select('full_name, avatar_url')
+                        .eq('id', user.id)
+                        .maybeSingle(); // Better than single() as it doesn't throw if not found
+                    
+                    if (profileError) {
+                        console.error('Profile fetch error:', profileError);
+                    }
+                    
+                    if (data) {
+                        setUserProfile({
+                            full_name: data.full_name || user.user_metadata?.full_name,
+                            avatar_url: data.avatar_url || user.user_metadata?.avatar_url
+                        });
+                    } else {
+                        // Fallback to Google metadata if no profile record yet
+                        console.log('No profile record found, using metadata');
+                        setUserProfile({
+                            full_name: user.user_metadata?.full_name,
+                            avatar_url: user.user_metadata?.avatar_url
+                        });
+                        
+                        // Optionally create the profile record if it doesn't exist
+                        if (user.user_metadata?.full_name) {
+                            await supabase.from('profiles').upsert({
+                                id: user.id,
+                                full_name: user.user_metadata.full_name,
+                                avatar_url: user.user_metadata.avatar_url,
+                                updated_at: new Date().toISOString()
+                            });
+                        }
+                    }
                 }
+            } catch (err) {
+                console.error('Error in fetchProfile:', err);
             }
         };
         fetchProfile();

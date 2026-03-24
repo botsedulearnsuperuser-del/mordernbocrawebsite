@@ -78,16 +78,22 @@ const App: React.FC = () => {
         console.log('Session result:', session ? 'User logged in' : 'No active session');
         
         if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-          
+          try {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .maybeSingle(); // Use maybeSingle to prevent throwing on missing rows
+            
+            setUserRole(profile?.role || 'consumer');
+          } catch (profileError) {
+            console.warn('Profile role fetch failed, defaulting to consumer:', profileError);
+            setUserRole('consumer');
+          }
           setIsLoggedIn(true);
-          setUserRole(profile?.role || 'consumer');
         } else {
           setIsLoggedIn(false);
+          setUserRole(null);
         }
       } catch (err: any) {
         clearTimeout(safetyTimeout);
@@ -101,14 +107,19 @@ const App: React.FC = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       console.log('Auth event triggered:', _event);
       if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-        
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .maybeSingle();
+          
+          setUserRole(profile?.role || 'consumer');
+        } catch (error) {
+          console.warn('Profile role fetch on change failed:', error);
+          setUserRole('consumer');
+        }
         setIsLoggedIn(true);
-        setUserRole(profile?.role || 'consumer');
       } else {
         setIsLoggedIn(false);
         setUserRole(null);
