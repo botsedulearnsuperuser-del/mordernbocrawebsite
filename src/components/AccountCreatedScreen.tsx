@@ -40,7 +40,7 @@ const AccountCreatedScreen: React.FC<AccountCreatedScreenProps> = ({ onContinueT
                         marginBottom: '1.5rem',
                         color: '#28a745'
                     }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="m23 12l-2.44-2.79l.34-3.69l-3.61-.82l-1.89-3.2L12 2.96L8.6 1.5L6.71 4.69L3.1 5.5l.34 3.7L1 12l2.44 2.79l-.34 3.7l3.61.82L8.6 22.5l3.4-1.47l3.4 1.46l1.89-3.19l3.61-.82l-.34-3.69zm-12.91 4.72l-3.8-3.81l1.48-1.48l2.32 2.33l5.85-5.87l1.48 1.48z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="m15.489 21.27l-3.558-3.558l.708-.708l2.85 2.85l5.688-5.688l.708.707zM4.615 19q-.67 0-1.143-.472Q3 18.056 3 17.385V6.615q0-.67.472-1.143Q3.944 5 4.616 5h14.769q.67 0 1.143.472q.472.472.472 1.144v4.926l-5.506 5.487l-2.855-2.856l-3.533 3.533L10.4 19zM12 12.116l8-5.231L19.692 6L12 11L4.308 6L4 6.885z"/></svg>
                     </div>
 
                     <h1 className="signin-title" style={{ fontSize: '2rem', marginBottom: '1rem' }}>Account Successfully Created!</h1>
