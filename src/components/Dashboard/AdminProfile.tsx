@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Pencil, ShieldCheck, Mail, User } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import './Settings.css';
 
 const AdminProfile: React.FC = () => {

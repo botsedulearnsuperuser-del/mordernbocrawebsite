@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, ShieldAlert, Cpu, Lock, Terminal } from 'lucide-react';
+
 import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from 'react-markdown';
 
@@ -30,9 +30,11 @@ const CyberActive: React.FC = () => {
 
         try {
             const response = await ai.models.generateContent({
-                model: "gemini-3-flash-preview",
-                systemInstruction: "You are the BOCRA Cyber Active Expert. Your goal is to educate users on cybersecurity, latest attacks, simulations, and safety protocols in Botswana. Keep responses professional, highly informative, but very concise. Use **bolding** for emphasis. Encourage digital safety.",
-                contents: newHistory
+                model: "gemini-2.5-flash",
+                contents: newHistory,
+                config: {
+                    systemInstruction: "You are the BOCRA Cyber Active Expert. Your goal is to educate users on cybersecurity, latest attacks, simulations, and safety protocols in Botswana. Keep responses professional, highly informative, but very concise. Use **bolding** for emphasis. Encourage digital safety."
+                }
             });
             
             setMessages([...newHistory, { role: 'model', parts: [{ text: response.text }] }]);

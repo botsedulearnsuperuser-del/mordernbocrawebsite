@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { GoogleGenAI } from "@google/genai";
 import './LegaeLandingPage.css';
 import Navbar from '../Shared/Navbar';
@@ -73,9 +73,11 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
         try {
             // New SDK usage: generateContent with history & system instruction
             const response = await ai.models.generateContent({
-                model: "gemini-3-flash-preview",
-                systemInstruction: "You are the official BOCRA (Botswana Communications Regulatory Authority) AI assistant. Only answer questions related to BOCRA's regulatory mandate (Broadcasting, Telecommunications, Postal, and Spectrum Management). If a user asks about anything else, politely decline and redirect them to BOCRA-related topics. Keep responses professional, and very concise. Avoid using asterisks (*) for lists or emphasis; use **bolding** instead where necessary. Do not make the reply very long. Always end with a follow-up question like 'What else can I help you with?'",
-                contents: newHistory
+                model: "gemini-2.5-flash",
+                contents: newHistory,
+                config: {
+                    systemInstruction: "You are the official BOCRA (Botswana Communications Regulatory Authority) AI assistant. Only answer questions related to BOCRA's regulatory mandate (Broadcasting, Telecommunications, Postal, and Spectrum Management). If a user asks about anything else, politely decline and redirect them to BOCRA-related topics. Keep responses professional, and very concise. Avoid using asterisks (*) for lists or emphasis; use **bolding** instead where necessary. Do not make the reply very long. Always end with a follow-up question like 'What else can I help you with?'"
+                }
             });
             
             const modelMsg = { role: 'model', parts: [{ text: response.text }] };
@@ -1000,7 +1002,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                     }}
                 >
                     {isChatOpen ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="white" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="white" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z" className="clr-i-solid clr-i-solid-path-1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
                     ) : (
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 15 15">
                             <rect width="15" height="15" fill="none"/>
