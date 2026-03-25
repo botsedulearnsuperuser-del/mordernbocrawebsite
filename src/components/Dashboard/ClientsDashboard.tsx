@@ -12,9 +12,9 @@ import SupportQueries from './SupportQueries';
 import MemberPayments from './MemberPayments';
 import Settings from './Settings';
 import ConsumerCases from './ConsumerCases';
-import ConsumerProfile from './ConsumerProfile';
 import { useEffect } from 'react';
 import Skeleton from '../Skeleton';
+import { supabase } from '../../lib/supabase';
 
 // --- Custom Icon Components from SVGs provided by user ---
 
@@ -71,19 +71,13 @@ const SettingsIcon = ({ size = 20, className = '' }) => (
 
 const LogoutIcon = ({ size = 20, className = '' }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" className={className}>
-        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.393 4C4 4.617 4 5.413 4 7.004v9.994c0 1.591 0 2.387.393 3.002q.105.165.235.312c.483.546 1.249.765 2.78 1.202c1.533.438 2.3.657 2.856.329a1.5 1.5 0 0 0 .267-.202C11 21.196 11 20.4 11 18.803V5.197c0-1.596 0-2.393-.469-2.837a1.5 1.5 0 0 0-.267-.202c-.555-.328-1.323-.11-2.857.329c-1.53.437-2.296.656-2.78 1.202a2.5 2.5 0 0 0-.234.312M11 4h2.017c1.902 0 2.853 0 3.443.586c.33.326.476.764.54 1.414m-6 14h2.017c1.902 0 2.853 0 3.443-.586c.33-.326.476-.764.54-1.414m4-6h-7m5.5-2.5S22 11.34 22 12s-2.5 2.5-2.5 2.5"/>
-    </svg>
-);
-
-const ProfileIcon = ({ size = 20, className = '' }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" className={className}>
-        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20"/>
+        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4.393 4C4 4.617 4 5.413 4 7.004v9.994c0 1.591 0 2.387.393 3.002q.105.165.235.312c.483.546 1.249.765 2.78 1.202c1.533.438 2.3.657 2.856.329a1.5 1.5 0 0 0 .267-.202C11 21.196 11 20.4 11 18.803V5.197c0-1.596 0-2.393-.469-2.837a1.5 1.5 0 0 0-.267-.202c-.555-.328-1.323-.11-2.857.329c-1.53.437-2.296.656-2.78 1.202a2.5 2.5 0 0 0-.234.312M11 4h2.017c1.902 0 2.853 0 3.443.586c.33.326.476.764.54 1.414m-6 14h2.017c1.902 0 2.853 0 3.443-.586c.33-.326.476-.764.54-1.414m4-6h-7m5.5-2.5S22 11.34 22 12s-2.5 2.5-2.5 2.5" />
     </svg>
 );
 
 const LogoutPortalIcon = ({ size = 36, className = '' }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 36 36" className={className}>
-        <path fill="currentColor" d="M30.86 20.94a4.7 4.7 0 0 1 1.86.64h.05a15.1 15.1 0 0 0-.61-8.37a1 1 0 1 0-1.87.69a13.2 13.2 0 0 1 .57 7.04m-4.53 7.64a13 13 0 0 1-6.07 2.82a1 1 0 1 0 .17 2h.18a15.16 15.16 0 0 0 7.21-3.4v-.07a4.7 4.7 0 0 1-1.49-1.35m-10.71 2.76a13.3 13.3 0 0 1-4.29-1.61a15 15 0 0 1-1.63-1.11A4.7 4.7 0 0 1 8.24 30a16 16 0 0 0 2.07 1.48a15.4 15.4 0 0 0 4.94 1.86h.19a1 1 0 0 0 .18-2M4.56 21.15q.3 0 .6-.09A13 13 0 0 1 5.7 14a1 1 0 0 0-1.88-.69a15 15 0 0 0-.56 8.43a4.8 4.8 0 0 1 1.3-.59"/><path fill="currentColor" d="M31.9 23a3.2 3.2 0 0 0-2.43-.42a3.3 3.3 0 0 0-1.4.77l-3.87-2.24a6.87 6.87 0 0 0-2.77-8.43l-.11-.07a6.7 6.7 0 0 0-2.42-.81V8a3.23 3.23 0 0 0 1.88-1.5A3.3 3.3 0 0 0 19.65 2a3.15 3.15 0 0 0-2.42-.32a3.24 3.24 0 0 0-2 1.51a3.3 3.3 0 0 0 1.13 4.46a3 3 0 0 0 .74.35v3.8a6.63 6.63 0 0 0-4.86 3.28a6.85 6.85 0 0 0-.42 6l-4 2.29a4 4 0 0 0-.45-.37A3.2 3.2 0 0 0 3 24.21a3.3 3.3 0 0 0 1.1 4.46a3.2 3.2 0 0 0 1.65.46a3 3 0 0 0 .78-.1a3.25 3.25 0 0 0 2.34-3.94v-.17l3.88-2.24a7 7 0 0 0 1.89 1.71a6.49 6.49 0 0 0 8.73-1.7l3.83 2.21a3.29 3.29 0 0 0 1.45 3.64A3.18 3.18 0 0 0 33 27.41A3.3 3.3 0 0 0 31.9 23M8.05 10a13 13 0 0 1 5.35-3.77a5 5 0 0 1-.17-2.07a15.15 15.15 0 0 0-6.7 4.51A1 1 0 0 0 8.05 10"/><path fill="currentColor" d="M24.67 7.23A13.1 13.1 0 0 1 27.93 10a1 1 0 1 0 1.52-1.3a15 15 0 0 0-3.76-3.2a16 16 0 0 0-2.94-1.33a4.8 4.8 0 0 1-.15 2.06a14 14 0 0 1 2.07 1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+        <path fill="currentColor" d="M30.86 20.94a4.7 4.7 0 0 1 1.86.64h.05a15.1 15.1 0 0 0-.61-8.37a1 1 0 1 0-1.87.69a13.2 13.2 0 0 1 .57 7.04m-4.53 7.64a13 13 0 0 1-6.07 2.82a1 1 0 1 0 .17 2h.18a15.16 15.16 0 0 0 7.21-3.4v-.07a4.7 4.7 0 0 1-1.49-1.35m-10.71 2.76a13.3 13.3 0 0 1-4.29-1.61a15 15 0 0 1-1.63-1.11A4.7 4.7 0 0 1 8.24 30a16 16 0 0 0 2.07 1.48a15.4 15.4 0 0 0 4.94 1.86h.19a1 1 0 0 0 .18-2M4.56 21.15q.3 0 .6-.09A13 13 0 0 1 5.7 14a1 1 0 0 0-1.88-.69a15 15 0 0 0-.56 8.43a4.8 4.8 0 0 1 1.3-.59" /><path fill="currentColor" d="M31.9 23a3.2 3.2 0 0 0-2.43-.42a3.3 3.3 0 0 0-1.4.77l-3.87-2.24a6.87 6.87 0 0 0-2.77-8.43l-.11-.07a6.7 6.7 0 0 0-2.42-.81V8a3.23 3.23 0 0 0 1.88-1.5A3.3 3.3 0 0 0 19.65 2a3.15 3.15 0 0 0-2.42-.32a3.24 3.24 0 0 0-2 1.51a3.3 3.3 0 0 0 1.13 4.46a3 3 0 0 0 .74.35v3.8a6.63 6.63 0 0 0-4.86 3.28a6.85 6.85 0 0 0-.42 6l-4 2.29a4 4 0 0 0-.45-.37A3.2 3.2 0 0 0 3 24.21a3.3 3.3 0 0 0 1.1 4.46a3.2 3.2 0 0 0 1.65.46a3 3 0 0 0 .78-.1a3.25 3.25 0 0 0 2.34-3.94v-.17l3.88-2.24a7 7 0 0 0 1.89 1.71a6.49 6.49 0 0 0 8.73-1.7l3.83 2.21a3.29 3.29 0 0 0 1.45 3.64A3.18 3.18 0 0 0 33 27.41A3.3 3.3 0 0 0 31.9 23M8.05 10a13 13 0 0 1 5.35-3.77a5 5 0 0 1-.17-2.07a15.15 15.15 0 0 0-6.7 4.51A1 1 0 0 0 8.05 10" /><path fill="currentColor" d="M24.67 7.23A13.1 13.1 0 0 1 27.93 10a1 1 0 1 0 1.52-1.3a15 15 0 0 0-3.76-3.2a16 16 0 0 0-2.94-1.33a4.8 4.8 0 0 1-.15 2.06a14 14 0 0 1 2.07 1" /><path fill="none" d="M0 0h36v36H0z" /></svg>
 );
 
 // --- Stats Widgets Icons ---
@@ -124,6 +118,37 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [profile, setProfile] = useState<{ full_name: string; avatar_url: string | null } | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data, error } = await supabase
+                        .from('profiles')
+                        .select('full_name, avatar_url')
+                        .eq('id', user.id)
+                        .maybeSingle();
+
+                    if (data) {
+                        setProfile({
+                            full_name: data.full_name || user.email?.split('@')[0] || 'Client',
+                            avatar_url: data.avatar_url
+                        });
+                    } else {
+                        setProfile({
+                            full_name: user.email?.split('@')[0] || 'Client',
+                            avatar_url: null
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching client profile:', err);
+            }
+        };
+        fetchProfile();
+    }, []);
 
     useEffect(() => {
         setIsLoading(true);
@@ -135,7 +160,6 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
 
     const menuItems = [
         { name: 'Dashboard Overview', icon: <DashboardIcon size={16} /> },
-        { name: 'My Profile', icon: <ProfileIcon size={16} /> },
         { name: 'License Manager', icon: <AccountsIcon size={16} /> },
         { name: 'Spectrum Portal', icon: <ApplicationsIcon size={16} /> },
         { name: 'Technical Vault', icon: <ActiveQueriesIcon size={16} /> },
@@ -185,8 +209,6 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                 return <ConsumerCases />;
             case 'Settings':
                 return <Settings />;
-            case 'My Profile':
-                return <ConsumerProfile />;
             case 'Dashboard Overview':
             default:
                 return (
@@ -227,116 +249,116 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                                 </div>
 
                                 {/* Charts Row: Applications History + Overall Applications */}
-                                 <div className="charts-row">
-                                     <div className="card">
-                                         <div className="card-header">
-                                             <h3 className="card-title">Type Approval Timeline</h3>
-                                             <button style={{
-                                                 padding: '4px 12px',
-                                                 border: '1px solid #ccc',
-                                                 borderRadius: '6px',
-                                                 background: 'white',
-                                                 cursor: 'pointer',
-                                                 display: 'flex',
-                                                 alignItems: 'center',
-                                                 gap: '8px',
-                                                 fontSize: '0.8rem',
-                                                 fontWeight: '500'
-                                             }}>
-                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048">
-                                                     <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
-                                                 </svg>
-                                                 Approval Log
-                                             </button>
-                                         </div>
-                                         <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>Tracking the 5–14 day target for technical product clearance.</p>
-                                         <div className="chart-container" style={{ height: '150px' }}>
-                                             <ResponsiveContainer width="100%" height="100%">
-                                                 <BarChart data={data}>
-                                                     <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={10} />
-                                                     <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={20}>
-                                                         {data.map((entry, index) => (
-                                                             <Cell key={`cell-${index}`} fill={entry.color} />
-                                                         ))}
-                                                     </Bar>
-                                                 </BarChart>
-                                             </ResponsiveContainer>
-                                         </div>
-                                     </div>
- 
-                                     <div className="card">
-                                         <h3 className="card-title">Consumer Case Pipeline</h3>
-                                         <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: '1rem 0' }}>Dispute Tracker</h1>
-                                         <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>Visual tracker: Submitted → Provider Notified → Mediation → Decision.</p>
-                                         <div className="overall-bar">
-                                             <div className="bar-segment" style={{ width: '25%', background: '#22c55e' }}></div>
-                                             <div className="bar-segment" style={{ width: '25%', background: '#f97316' }}></div>
-                                             <div className="bar-segment" style={{ width: '25%', background: '#3b82f6' }}></div>
-                                             <div className="bar-segment" style={{ width: '25%', background: '#a855f7' }}></div>
-                                         </div>
-                                         <div className="legend">
-                                             <div className="legend-item">
-                                                 <div className="dot" style={{ background: '#22c55e' }}></div>
-                                                 <div>
-                                                     <div style={{ fontWeight: 'bold' }}>Mediation</div>
-                                                     <div style={{ color: '#666', fontSize: '0.7rem' }}>Stage 3 active</div>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <button
-                                             className="payment-btn"
-                                             style={{ marginTop: '1rem', background: '#A80000' }}
-                                             onClick={() => setActiveMenu('Consumer Cases')}
-                                         >
-                                             Upload Case Evidence
-                                         </button>
-                                     </div>
+                                <div className="charts-row">
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h3 className="card-title">Type Approval Timeline</h3>
+                                            <button style={{
+                                                padding: '4px 12px',
+                                                border: '1px solid #ccc',
+                                                borderRadius: '6px',
+                                                background: 'white',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                fontSize: '0.8rem',
+                                                fontWeight: '500'
+                                            }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 2048 2048">
+                                                    <path fill="currentColor" d="M1152 1536h896l-448 448zm0-128v-128H896v640H256v-805l-83 82l-90-90l941-942l941 942l-90 90l-83-82v293h-128V987l-640-640l-640 640v805h384v-640h512v256z" />
+                                                </svg>
+                                                Approval Log
+                                            </button>
+                                        </div>
+                                        <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>Tracking the 5–14 day target for technical product clearance.</p>
+                                        <div className="chart-container" style={{ height: '150px' }}>
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <BarChart data={data}>
+                                                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={10} />
+                                                    <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={20}>
+                                                        {data.map((entry, index) => (
+                                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                                        ))}
+                                                    </Bar>
+                                                </BarChart>
+                                            </ResponsiveContainer>
+                                        </div>
+                                    </div>
+
+                                    <div className="card">
+                                        <h3 className="card-title">Consumer Case Pipeline</h3>
+                                        <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: '1rem 0' }}>Dispute Tracker</h1>
+                                        <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '1rem' }}>Visual tracker: Submitted → Provider Notified → Mediation → Decision.</p>
+                                        <div className="overall-bar">
+                                            <div className="bar-segment" style={{ width: '25%', background: '#22c55e' }}></div>
+                                            <div className="bar-segment" style={{ width: '25%', background: '#f97316' }}></div>
+                                            <div className="bar-segment" style={{ width: '25%', background: '#3b82f6' }}></div>
+                                            <div className="bar-segment" style={{ width: '25%', background: '#a855f7' }}></div>
+                                        </div>
+                                        <div className="legend">
+                                            <div className="legend-item">
+                                                <div className="dot" style={{ background: '#22c55e' }}></div>
+                                                <div>
+                                                    <div style={{ fontWeight: 'bold' }}>Mediation</div>
+                                                    <div style={{ color: '#666', fontSize: '0.7rem' }}>Stage 3 active</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button
+                                            className="payment-btn"
+                                            style={{ marginTop: '1rem', background: '#A80000' }}
+                                            onClick={() => setActiveMenu('Consumer Cases')}
+                                        >
+                                            Upload Case Evidence
+                                        </button>
+                                    </div>
                                 </div>
 
-                                 <div className="card" style={{ height: '300px' }}>
-                                     <h3 className="card-title">Technical Compliance Vault</h3>
-                                     <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                         <p>• <b>Unified Manager:</b> Draft NFP & SAP licenses with digital document auto-save.</p>
-                                         <p>• <b>Certification Vault:</b> Directly submit ITU Region 1 certificates for type approval.</p>
-                                         <p>• <b>Label Generator:</b> Instant BOCRA Compliance Labels for approved equipment.</p>
-                                         <p>• <b>Support Network:</b> Mandatory local repair center registration and verification.</p>
-                                     </div>
-                                 </div>
+                                <div className="card" style={{ height: '300px' }}>
+                                    <h3 className="card-title">Technical Compliance Vault</h3>
+                                    <div style={{ fontSize: '0.85rem', color: '#666', marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        <p>• <b>Unified Manager:</b> Draft NFP & SAP licenses with digital document auto-save.</p>
+                                        <p>• <b>Certification Vault:</b> Directly submit ITU Region 1 certificates for type approval.</p>
+                                        <p>• <b>Label Generator:</b> Instant BOCRA Compliance Labels for approved equipment.</p>
+                                        <p>• <b>Support Network:</b> Mandatory local repair center registration and verification.</p>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Right Panel */}
                             <div className="right-panel">
                                 {/* Wrapper Card for Amounts */}
                                 <div className="card" style={{ padding: '1.5rem' }}>
-                                     <div className="red-card" style={{ padding: '1.5rem' }}>
-                                         <h3>Spectrum Bidder Access</h3>
-                                         <p>Required Frequency Auction Deposit</p>
-                                         <div className="amount" style={{ fontSize: '1.8rem' }}>BWP50,000.00</div>
-                                     </div>
- 
-                                     <div className="red-card" style={{ padding: '1.5rem' }}>
-                                         <h3>Type Approval Fee</h3>
-                                         <p>Technical Equipment Certification</p>
-                                         <div className="amount">BWP2,500.00</div>
-                                     </div>
- 
-                                     <button
-                                         className="payment-btn"
-                                         onClick={() => setActiveMenu('Spectrum Portal')}
-                                     >
-                                         Enter Bidder Portal
-                                     </button>
+                                    <div className="red-card" style={{ padding: '1.5rem' }}>
+                                        <h3>Spectrum Bidder Access</h3>
+                                        <p>Required Frequency Auction Deposit</p>
+                                        <div className="amount" style={{ fontSize: '1.8rem' }}>BWP50,000.00</div>
+                                    </div>
+
+                                    <div className="red-card" style={{ padding: '1.5rem' }}>
+                                        <h3>Type Approval Fee</h3>
+                                        <p>Technical Equipment Certification</p>
+                                        <div className="amount">BWP2,500.00</div>
+                                    </div>
+
+                                    <button
+                                        className="payment-btn"
+                                        onClick={() => setActiveMenu('Spectrum Portal')}
+                                    >
+                                        Enter Bidder Portal
+                                    </button>
                                 </div>
 
                                 {/* Account Reminders */}
                                 <div className="card" style={{ height: '300px' }}>
-                                     <h3 className="card-title">Industry & Service Updates</h3>
-                                     <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                                         <p><b>- 5G Auctions:</b> New frequency bands for Region 1 auctions are now live.</p>
-                                         <p><b>- ITU Compliance:</b> Standard updates for terminal equipment certification vault.</p>
-                                         <p><b>- Dispute Cases:</b> Provider response received for Case #BOC-2024-081.</p>
-                                     </div>
-                                 </div>
+                                    <h3 className="card-title">Industry & Service Updates</h3>
+                                    <div style={{ fontSize: '0.8rem', color: '#999', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                        <p><b>- 5G Auctions:</b> New frequency bands for Region 1 auctions are now live.</p>
+                                        <p><b>- ITU Compliance:</b> Standard updates for terminal equipment certification vault.</p>
+                                        <p><b>- Dispute Cases:</b> Provider response received for Case #BOC-2024-081.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div >
@@ -428,7 +450,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                                 <NotificationIcon size={20} />
                                 <span className="notification-badge">3</span>
                             </button>
-                            
+
                             {isNotificationsOpen && (
                                 <div className="notifications-popup">
                                     <div className="notifications-header">
@@ -437,28 +459,19 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                                     </div>
                                     <div className="notifications-list">
                                         <div className="notification-item unread">
-                                            <div className="notification-icon-wrapper primary">
-                                                <ApplicationsIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">Your NFP License application has been approved.</p>
                                                 <span className="notification-time">10 mins ago</span>
                                             </div>
                                         </div>
                                         <div className="notification-item unread">
-                                            <div className="notification-icon-wrapper warning">
-                                                <ActiveQueriesIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">Action Required: Spectrum bidding deadline approaching.</p>
                                                 <span className="notification-time">2 hours ago</span>
                                             </div>
                                         </div>
                                         <div className="notification-item">
-                                            <div className="notification-icon-wrapper success">
-                                                <PaymentsIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">Payment received for Type Approval Fee.</p>
                                                 <span className="notification-time">1 day ago</span>
                                             </div>
@@ -471,10 +484,16 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                             )}
                         </div>
 
-                        <div className="user-profile" onClick={() => setActiveMenu('My Profile')} style={{ cursor: 'pointer' }}>
-                            <div className="avatar">C</div>
+                        <div className="user-profile" onClick={() => setActiveMenu('Settings')} style={{ cursor: 'pointer' }}>
+                            <div className="avatar">
+                                {profile?.avatar_url ? (
+                                    <img src={profile.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                                ) : (
+                                    (profile?.full_name?.[0] || 'C').toUpperCase()
+                                )}
+                            </div>
                             <div className="user-info">
-                                <span className="user-name">Client User</span>
+                                <span className="user-name">{profile?.full_name || 'Client User'}</span>
                                 <span className="user-role">Client</span>
                             </div>
                         </div>

@@ -39,6 +39,37 @@ This project is a comprehensive regulatory portal for the Botswana Communication
 - Digital Inclusivity: Ensuring Botswana's digital services are accessible even in rural settlements through UASF integration.
 - Cybersecurity: Monitoring national security through CSIRT integration.
 
+## Hackathon Demo Credentials
+**By Tlhalefang Backend Dev**
+
+To facilitate the evaluation of the platform, the following demo accounts have been created for the **BOCRA Hackathon 2026 Judges**. These allow you to experience the different user roles and dashboard views (Admin, Client, and Consumer).
+
+> [!NOTE]
+> These credentials are for **demo purposes only** and will be deleted after the hackathon for security reasons.
+
+### 1. BOCRA Administrator (Full Access)
+*   **Role**: BOCRA Employee (Backend Control)
+*   **Email**: `tlhalefangntshilane@bocra.gov.bw`
+*   **Password**: `BocraPortal_2025!#SecureAdmin`
+*   **Access**: Sign in at the **Admin Panel**.
+
+### 2. Industry Licensees (Client/Provider Access)
+*   **Role**: Service Provider Portal (Manage Licenses & Disputes)
+*   **Operator 1 (Orange)**:
+    *   **Email**: `Amogelang.Tshukudu@orangebotswana.com`
+    *   **Password**: `OrangeBotswana_2025!#SecureClient`
+*   **Operator 2 (BTC)**:
+    *   **Email**: `Thato.Molobi@btc.bw`
+    *   **Password**: `BTCL-Botswana_2025!#Secure`
+*   **Operator 3 (Mascom)**:
+    *   **Email**: `Kabo.Lekone@mascom.bw`
+    *   **Password**: `MascomWireless_2025!#Secure`
+*   **Access**: Sign in at the **Client Portal**.
+
+### 3. General Public (Consumer Access)
+*   **Role**: Consumer Portal (File Complaints & Check Compliance)
+*   **Registration**: You can create your own consumer account directly on the **Consumer Portal** sign-up page.
+
 ## Development Team
 - Tlhalefang Ntshilane: Lead Developer (Full-Stack)
 - Kesego Mothokatse: Project Manager
@@ -47,3 +78,4 @@ This project is a comprehensive regulatory portal for the Botswana Communication
 
 ## License
 Developed for the official 2026 Innovation Hackathon. All rights reserved by the development team and mostly for BOCRA.
+

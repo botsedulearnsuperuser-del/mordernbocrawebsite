@@ -11,9 +11,10 @@ import Applications from './Applications';
 import FaultsMaintenance from './FaultsMaintenance';
 import Settings from './Settings';
 import Payments from './Payments';
-import ConsumerProfile from './ConsumerProfile';
+import AdminProfile from './AdminProfile';
 import { useEffect } from 'react';
 import Skeleton from '../Skeleton';
+import { supabase } from '../../lib/supabase';
 
 // --- Custom Icon Componensts from Iconify  ---
 
@@ -118,6 +119,37 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [profile, setProfile] = useState<{ full_name: string; avatar_url: string | null } | null>(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const { data, error } = await supabase
+                        .from('profiles')
+                        .select('full_name, avatar_url')
+                        .eq('id', user.id)
+                        .maybeSingle();
+
+                    if (data) {
+                        setProfile({
+                            full_name: data.full_name || user.email?.split('@')[0] || 'Admin',
+                            avatar_url: data.avatar_url
+                        });
+                    } else {
+                        setProfile({
+                            full_name: user.email?.split('@')[0] || 'Admin',
+                            avatar_url: null
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching admin profile:', err);
+            }
+        };
+        fetchProfile();
+    }, []);
 
     useEffect(() => {
         setIsLoading(true);
@@ -179,7 +211,7 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
             case 'System Setting':
                 return <Settings />;
             case 'My Profile':
-                return <ConsumerProfile />;
+                return <AdminProfile />;
             case 'Dashboard Overview':
             default:
                 return (
@@ -442,28 +474,19 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                                     </div>
                                     <div className="notifications-list">
                                         <div className="notification-item unread">
-                                            <div className="notification-icon-wrapper primary">
-                                                <ApplicationsIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">New NFP License application submitted.</p>
                                                 <span className="notification-time">5 mins ago</span>
                                             </div>
                                         </div>
                                         <div className="notification-item unread">
-                                            <div className="notification-icon-wrapper warning">
-                                                <FaultsIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">Compliance alert: 5 cases pending mediation.</p>
                                                 <span className="notification-time">1 hour ago</span>
                                             </div>
                                         </div>
                                         <div className="notification-item">
-                                            <div className="notification-icon-wrapper success">
-                                                <PaymentsIcon size={16} />
-                                            </div>
-                                            <div className="notification-content">
+                                             <div className="notification-content">
                                                 <p className="notification-text">Annual Turnover Fee payment verified.</p>
                                                 <span className="notification-time">4 hours ago</span>
                                             </div>
@@ -477,9 +500,15 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
                         </div>
 
                         <div className="user-profile" onClick={() => setActiveMenu('My Profile')} style={{ cursor: 'pointer' }}>
-                            <div className="avatar">T</div>
+                            <div className="avatar">
+                                {profile?.avatar_url ? (
+                                    <img src={profile.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                                ) : (
+                                    (profile?.full_name?.[0] || 'A').toUpperCase()
+                                )}
+                            </div>
                             <div className="user-info">
-                                <span className="user-name">Ten Ten</span>
+                                <span className="user-name">{profile?.full_name || 'Admin'}</span>
                                 <span className="user-role">Admin</span>
                             </div>
                         </div>
