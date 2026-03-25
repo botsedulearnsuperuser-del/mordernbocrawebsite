@@ -109,21 +109,20 @@ const App: React.FC = () => {
       if (session?.user) {
         setIsLoggedIn(true);
         // Fetch role in background, don't block
-        supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .maybeSingle()
-          .then(({ data }) => {
-            if (data?.role) {
-              setUserRole(data.role);
-            } else {
-              setUserRole('consumer');
-            }
-          })
-          .catch(() => {
+        (async () => {
+          try {
+            const { data } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .maybeSingle();
+            
+            setUserRole(data?.role || 'consumer');
+          } catch (error) {
+            console.warn('Silent role fetch failed:', error);
             setUserRole('consumer');
-          });
+          }
+        })();
       } else {
         setIsLoggedIn(false);
         setUserRole(null);
