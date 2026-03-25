@@ -573,17 +573,39 @@ const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackT
 
                         {/* Quick Actions */}
                         <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'flex-start', marginLeft: '38px' }}>
-                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Launching Regulatory Guide...')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><rect width="16" height="16" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M7.684.895L6.074.358a1 1 0 0 0-1.296.753L4.2 4H2.5a.5.5 0 0 0 0 1h1.626a4 4 0 0 0 .11 2.359l-2.072-.345A1 1 0 0 0 1 8v1c.364 0 .706.097 1 .268V8l1 .167l1.859.31l2.163.36l.478.08v6L2 14v-1.268A2 2 0 0 1 1 13v1a1 1 0 0 0 .836.986l6 1c.108.018.22.018.328 0l6-1A1 1 0 0 0 15 14v-1a2 2 0 0 1-1-.268V14l-5.5.917v-6l.478-.08l2.163-.36L13 8.166L14 8v1.268A2 2 0 0 1 15 9V8a1 1 0 0 0-1.164-.986l-2.073.345A4 4 0 0 0 11.874 5H13.5a.5.5 0 0 0 0-1h-1.7l-.578-2.89A1 1 0 0 0 9.925.359L8.316.895a1 1 0 0 1-.632 0m2.88 6.664A3.01 3.01 0 0 0 10.83 5H5.17a3.01 3.01 0 0 0 .266 2.559L8 7.986zM10.8 4H9.2L9 3l1.5-.5zM1 12a1 1 0 1 0 0-2a1 1 0 0 0 0 2m14 0a1 1 0 1 0 0-2a1 1 0 0 0 0 2"/></svg>
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => onNavigate?.('resources')}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36"><path fill="currentColor" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z"/></svg>
                                 Learn Regulations
                             </button>
-                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Starting Phishing Report...')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M11 8h2v1h-2zm0-4h2v1h-2zm0 6h2v1h-2z"/><path fill="currentColor" d="M21 12V9a13.12 13.12 0 0 0-8.354 3h-1.292A13.12 13.12 0 0 0 3 9v3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v4a13.15 13.15 0 0 1 9 3.55A13.2 13.2 0 0 1 21 20v-4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><circle cx="9" cy="4" r="1" fill="currentColor"/><circle cx="15" cy="4" r="1" fill="currentColor"/><path fill="currentColor" d="M16 8H8a3.003 3.003 0 0 1-3-3V3a3.003 3.003 0 0 1 3-3h8a3.003 3.003 0 0 1 3 3v2a3.003 3.003 0 0 1-3 3M8 2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/></svg>
-                                Report Phishing
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => {
+                                const text = "How do I apply for a license?";
+                                setMessages([...messages, { id: Date.now(), text, sender: 'user' }]);
+                                setTimeout(() => {
+                                    setMessages(prev => [...prev, { id: Date.now() + 1, text: "To apply for a license, please visit our Licensing portal or contact our licensing department. I can help guide you through the requirements.", sender: 'bot' }]);
+                                }, 1000);
+                            }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="currentColor" d="M33.83 23.59a6.37 6.37 0 1 0-10.77 4.59l-1.94 2.37l.9 3.61l3.66-4.46a6.26 6.26 0 0 0 3.55 0l3.66 4.46l.9-3.61l-1.94-2.37a6.34 6.34 0 0 0 1.98-4.59m-10.74 0a4.37 4.37 0 1 1 4.37 4.31a4.35 4.35 0 0 1-4.36-4.31Z"/><path fill="currentColor" d="M33.68 15.4h-4.43a8.36 8.36 0 0 1 4.75 3v-3Z"/><path fill="currentColor" d="M19.07 13.6H7V12h11.57A3.67 3.67 0 0 1 19 9.89L21.29 6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h15l.57-.7l.93-1.14a8.34 8.34 0 0 1 5.16-12.76h-3.43a3.68 3.68 0 0 1-3.16-1.8M17 24.6H7V23h10Zm1-7H7V16h11Z"/><path fill="currentColor" d="M26.85 1.14L21.13 11a1.28 1.28 0 0 0 1.1 2h11.45a1.28 1.28 0 0 0 1.1-2l-5.72-9.86a1.28 1.28 0 0 0-2.21 0"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                                Apply for License
                             </button>
-                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => alert('Connecting to human expert...')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M5.8 12.2V6H2C.9 6 0 6.9 0 8v6c0 1.1.9 2 2 2h1v3l3-3h5c1.1 0 2-.9 2-2v-1.82a1 1 0 0 1-.2.021h-7zM18 1H9c-1.1 0-2 .9-2 2v8h7l3 3v-3h1c1.1 0 2-.899 2-2V3c0-1.1-.9-2-2-2"/></svg>
-                                Chat with an expert
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => {
+                                const text = "What are the broadcasting regulations?";
+                                setMessages([...messages, { id: Date.now(), text, sender: 'user' }]);
+                                setTimeout(() => {
+                                    setMessages(prev => [...prev, { id: Date.now() + 1, text: "Broadcasting regulations in Botswana cover content quotas, licensing for radio and TV, and technical standards. You can find the full CRA Act details in our resources section.", sender: 'bot' }]);
+                                }, 1000);
+                            }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M15.963 21.788q-.213-.213-.213-.538V17q-.225-.2-.363-.462T15.25 16q0-.525.375-.888t.875-.362q.525 0 .888.363t.362.887q0 .275-.112.55t-.388.45v4.25q0 .325-.213.538T16.5 22t-.537-.213m.537-8.312q-1.05 0-1.775.725T14 15.975q0 .3.088.6t.237.575t.138.588t-.238.537t-.537.213t-.488-.263q-.35-.5-.525-1.075t-.175-1.175q0-1.675 1.175-2.837t2.825-1.163q1.675 0 2.838 1.163t1.162 2.837q0 .575-.162 1.15t-.513 1.075q-.175.25-.475.263t-.525-.213q-.225-.2-.25-.513t.125-.587t.225-.575t.075-.6q0-1.05-.725-1.775t-1.775-.725m0-2.475q-2.075 0-3.537 1.45T11.5 16q0 .8.263 1.55t.737 1.4q.2.275.175.588t-.25.537t-.525.2t-.5-.275q-.65-.875-1.025-1.887T10 16q0-2.725 1.9-4.612T16.5 9.5q2.725 0 4.613 1.888T23 16q0 1.1-.35 2.113T21.625 20q-.2.25-.513.25t-.537-.225t-.225-.525t.2-.575q.475-.65.712-1.388T21.5 16q0-2.1-1.45-3.55T16.5 11m-14 9q-.625 0-1.062-.437T1 18.5v-9q0-.625.438-1.062T2.5 8h5q.625 0 1.063.438T9 9.5v9q0 .625-.437 1.063T7.5 20zm14-12.5q-1.575 0-2.975.538T11 9.525V9.5q0-1.45-1.025-2.475T7.5 6H2.475q-.125 0-.238.013T2 6.05V6q0-.825.588-1.412T4 4h15q.825 0 1.413.588T21 6v2.8q-1.05-.625-2.162-.962T16.5 7.5M5 12.525q.325 0 .538-.225t.212-.525q0-.325-.213-.537T5 11.025q-.3 0-.525.213t-.225.537q0 .3.225.525t.525.225"/></svg>
+                                Broadcasting Regulations
+                            </button>
+                            <button className="chat-action-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => {
+                                const text = "How do I report a consumer complaint?";
+                                setMessages([...messages, { id: Date.now(), text, sender: 'user' }]);
+                                setTimeout(() => {
+                                    setMessages(prev => [...prev, { id: Date.now() + 1, text: "If you have a complaint against a service provider, you should first try to resolve it with them. If unsatisfied, you can lodge a formal complaint with BOCRA through our Consumer Portal.", sender: 'bot' }]);
+                                }, 1000);
+                            }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M6 6.25a4.75 4.75 0 1 1 9.5 0a4.75 4.75 0 0 1-9.5 0m-4.486 8.576A18.4 18.4 0 0 1 11 12.506V19.5H1v-4.389zM12.5 20v-7.5H23V20l-5.25 3z" clip-rule="evenodd"/></svg>
+                                Consumer Protection
                             </button>
                         </div>
                     </div>

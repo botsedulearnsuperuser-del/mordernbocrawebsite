@@ -19,6 +19,7 @@ import DeviceVerification from './DeviceVerification';
 import ConsumerRights from './ConsumerRights';
 import Tenders from './Tenders';
 import ConsumerProfile from './ConsumerProfile';
+import CyberActive from './CyberActive';
 import { supabase } from '../../lib/supabase';
 
 const ProfileIcon = () => (
@@ -60,6 +61,12 @@ const HelpIcon = () => (
 const TendersIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
         <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M11 6h3l3.29-3.3a1 1 0 0 1 1.42 0l2.58 2.59a1 1 0 0 1 0 1.41L19 9h-8v2a1 1 0 0 1-1 1a1 1 0 0 1-1-1V8a2 2 0 0 1 2-2m-6 5v4l-2.29 2.29a1 1 0 0 0 0 1.41l2.58 2.59a1 1 0 0 0 1.42 0L11 17h4a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1v-1h-7v1a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9Z"/>
+    </svg>
+);
+
+const CyberActiveIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M21 11c0 5.55-3.84 10.74-9 12c-5.16-1.26-9-6.45-9-12V5l9-4l9 4zM12 4.14L6 6.39v4.61c0 4.46 3.08 8.66 6 9.69c2.92-1.03 6-5.23 6-9.69V6.39zM11 14h2v2h-2zm0-7h2v5h-2z"/>
     </svg>
 );
 
@@ -142,6 +149,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
         { name: 'Device Verification', icon: <DeviceIcon /> },
         { name: 'Cybersecurity Alerts', icon: <AlertIcon /> },
         { name: 'Tenders', icon: <TendersIcon /> },
+        { name: 'Cyber Active', icon: <CyberActiveIcon /> },
         { name: 'Consumer Rights', icon: <HelpIcon /> },
         { name: 'Logout', icon: <LogoutIcon /> },
     ];
@@ -254,9 +262,14 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
                         <p style={{ fontSize: '0.9rem', opacity: 0.9, marginTop: '1rem' }}>
                             Never share your OTP or PIN with anyone claiming to be from your service provider.
                         </p>
-                        <button style={{ background: 'white', color: '#A80000', border: 'none', padding: '0.5rem 1rem', marginTop: '1rem', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setActiveMenu('Cybersecurity Alerts')}>
-                            Learn More
-                        </button>
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '1rem' }}>
+                            <button style={{ background: 'white', color: '#A80000', border: 'none', padding: '0.5rem 1rem', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setActiveMenu('Cybersecurity Alerts')}>
+                                Learn More
+                            </button>
+                            <button style={{ background: 'transparent', color: 'white', border: '1px solid white', padding: '0.5rem 1rem', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => setActiveMenu('Cyber Active')}>
+                                ASK AI
+                            </button>
+                        </div>
                     </div>
 
                     <div className="card">
@@ -281,6 +294,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
         switch (activeMenu) {
             case 'My Complaints': return <ConsumerCases />;
             case 'Cybersecurity Alerts': return <CybersecurityAlerts />;
+            case 'Cyber Active': return <CyberActive />;
             case 'Device Verification': return <DeviceVerification />;
             case 'Tenders': return <Tenders />;
             case 'Consumer Rights': return <ConsumerRights onNavigate={setActiveMenu} />;
@@ -324,13 +338,6 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
 
                 {logoutItem && (
                     <div className="sidebar-footer">
-                        <div style={{ padding: '0 20px 20px', display: 'flex', justifyContent: 'center' }}>
-                            <img 
-                                src="/assets/undraw_log-out_2vod.svg" 
-                                alt="Logout Illustration" 
-                                style={{ width: '80%', height: 'auto', opacity: 0.8 }} 
-                            />
-                        </div>
                         <div
                             className="nav-item logout-item"
                             onClick={() => onLogout?.()}

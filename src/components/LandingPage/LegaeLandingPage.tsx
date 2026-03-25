@@ -91,10 +91,6 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
         }
     };
 
-
-
-
-
     const [searchQuery, setSearchQuery] = useState('');
 
     const searchSuggestions = [
@@ -135,15 +131,6 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
         <div className="legae-landing">
             <style>
                 {`
-                    .modal-card-button:hover {
-                        transform: scale(1.05);
-                        filter: brightness(1.1);
-                    }
-                    .chatbot-trigger:hover {
-                        transform: translateY(-5px) scale(1.05);
-                        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-                        background-color: #f8f8f8 !important;
-                    }
                     .chat-action-btn {
                         background: #fff;
                         border: 1px solid #ddd;
@@ -161,10 +148,6 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         border-color: #3F4E60;
                         color: #3F4E60;
                         transform: translateX(5px);
-                    }
-                    @keyframes chatSlideUp {
-                        from { transform: translateY(20px) scale(0.95); opacity: 0; }
-                        to { transform: translateY(0) scale(1); opacity: 1; }
                     }
                 `}
             </style>
@@ -872,7 +855,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M11.4 10l2.83-2.83l-1.41-1.41L10 8.59L7.17 5.76L5.76 7.17L8.59 10l-2.83 2.83l1.41 1.41L10 11.41l2.83 2.83l1.41-1.41L11.41 10z"/></svg>
                         </button>
                         <div style={{ position: 'absolute', bottom: '-15px', right: '25px', width: '30px', height: '30px', background: 'white', transform: 'rotate(45deg)', borderRight: '1px solid #eee', borderBottom: '1px solid #eee', zIndex: -1 }}></div>
-                        <div style={{ position: 'absolute', top: '-25px', right: '20px', width: '36px', height: '36px', background: '#FF7F50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                        <div style={{ position: 'absolute', top: '-15px', right: '20px', width: '36px', height: '36px', background: '#FF7F50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 15 15"><path fill="white" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="white" fillRule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clipRule="evenodd"/></svg>
                         </div>
                         <p style={{ margin: 0, fontSize: '0.8rem', color: '#444', lineHeight: '1.4' }}>
@@ -900,7 +883,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         }}
                     >
                         {/* Header */}
-                        <div style={{ background: '#3F4E60', padding: '1rem', color: 'white', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ background: '#3F4E60', padding: '1.5rem 1.25rem 1rem 1.25rem', color: 'white', display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <div style={{ width: '32px', height: '32px', background: '#FF7F50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 15 15"><path fill="white" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="white" fillRule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clipRule="evenodd"/></svg>
                             </div>
@@ -908,7 +891,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                                 <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '600' }}>BOCRA Bot</h4>
                                 <span style={{ fontSize: '0.7rem', opacity: '0.8' }}>Online • Ready to help</span>
                             </div>
-                            <button onClick={() => setIsChatOpen(false)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'white', fontSize: '1.25rem', cursor: 'pointer' }}>&times;</button>
+                            <button onClick={() => setIsChatOpen(false)} style={{ marginLeft: 'auto', alignSelf: 'flex-start', background: 'none', border: 'none', color: 'white', fontSize: '1.25rem', cursor: 'pointer', marginTop: '0px' }}>&times;</button>
                         </div>
                         {/* Chat History */}
                         <div style={{ flex: 1, padding: '1rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', background: '#f9fafb' }}>
@@ -941,16 +924,25 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                                     </div>
                                     
                                     {msg.role === 'model' && index === chatMessages.length - 1 && (
-                                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start' }}>
                                             {index === 0 ? (
                                                 <>
                                                     <button className="chat-action-btn" onClick={() => onNavigate?.('resources')} style={{ fontSize: '0.75rem', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="currentColor" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z"/></svg>
                                                         Get Regulatory Guides
                                                     </button>
-                                                    <button className="chat-action-btn" onClick={() => handleSendChat('How do I apply for a spectrum license?')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>📡 Apply for License</button>
-                                                    <button className="chat-action-btn" onClick={() => handleSendChat('What are the latest broadcasting regulations?')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>📻 Broadcasting Regulations</button>
-                                                    <button className="chat-action-btn" onClick={() => handleSendChat('Report a consumer complaint')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>⚖️ Consumer Protection</button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('How do I apply for a spectrum license?')} style={{ fontSize: '0.75rem', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="currentColor" d="M33.83 23.59a6.37 6.37 0 1 0-10.77 4.59l-1.94 2.37l.9 3.61l3.66-4.46a6.26 6.26 0 0 0 3.55 0l3.66 4.46l.9-3.61l-1.94-2.37a6.34 6.34 0 0 0 1.98-4.59m-10.74 0a4.37 4.37 0 1 1 4.37 4.31a4.35 4.35 0 0 1-4.36-4.31Z"/><path fill="currentColor" d="M33.68 15.4h-4.43a8.36 8.36 0 0 1 4.75 3v-3Z"/><path fill="currentColor" d="M19.07 13.6H7V12h11.57A3.67 3.67 0 0 1 19 9.89L21.29 6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h15l.57-.7l.93-1.14a8.34 8.34 0 0 1 5.16-12.76h-3.43a3.68 3.68 0 0 1-3.16-1.8M17 24.6H7V23h10Zm1-7H7V16h11Z"/><path fill="currentColor" d="M26.85 1.14L21.13 11a1.28 1.28 0 0 0 1.1 2h11.45a1.28 1.28 0 0 0 1.1-2l-5.72-9.86a1.28 1.28 0 0 0-2.21 0"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                                                        Apply for License
+                                                    </button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('What are the latest broadcasting regulations?')} style={{ fontSize: '0.75rem', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" d="M15.963 21.788q-.213-.213-.213-.538V17q-.225-.2-.363-.462T15.25 16q0-.525.375-.888t.875-.362q.525 0 .888.363t.362.887q0 .275-.112.55t-.388.45v4.25q0 .325-.213.538T16.5 22t-.537-.213m.537-8.312q-1.05 0-1.775.725T14 15.975q0 .3.088.6t.237.575t.138.588t-.238.537t-.537.213t-.488-.263q-.35-.5-.525-1.075t-.175-1.175q0-1.675 1.175-2.837t2.825-1.163q1.675 0 2.838 1.163t1.162 2.837q0 .575-.162 1.15t-.513 1.075q-.175.25-.475.263t-.525-.213q-.225-.2-.25-.513t.125-.587t.225-.575t.075-.6q0-1.05-.725-1.775t-1.775-.725m0-2.475q-2.075 0-3.537 1.45T11.5 16q0 .8.263 1.55t.737 1.4q.2.275.175.588t-.25.537t-.525.2t-.5-.275q-.65-.875-1.025-1.887T10 16q0-2.725 1.9-4.612T16.5 9.5q2.725 0 4.613 1.888T23 16q0 1.1-.35 2.113T21.625 20q-.2.25-.513.25t-.537-.225t-.225-.525t.2-.575q.475-.65.712-1.388T21.5 16q0-2.1-1.45-3.55T16.5 11m-14 9q-.625 0-1.062-.437T1 18.5v-9q0-.625.438-1.062T2.5 8h5q.625 0 1.063.438T9 9.5v9q0 .625-.437 1.063T7.5 20zm14-12.5q-1.575 0-2.975.538T11 9.525V9.5q0-1.45-1.025-2.475T7.5 6H2.475q-.125 0-.238.013T2 6.05V6q0-.825.588-1.412T4 4h15q.825 0 1.413.588T21 6v2.8q-1.05-.625-2.162-.962T16.5 7.5M5 12.525q.325 0 .538-.225t.212-.525q0-.325-.213-.537T5 11.025q-.3 0-.525.213t-.225.537q0 .3.225.525t.525.225"/></svg>
+                                                        Broadcasting Regulations
+                                                    </button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('Report a consumer complaint')} style={{ fontSize: '0.75rem', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><rect width="24" height="24" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M6 6.25a4.75 4.75 0 1 1 9.5 0a4.75 4.75 0 0 1-9.5 0m-4.486 8.576A18.4 18.4 0 0 1 11 12.506V19.5H1v-4.389zM12.5 20v-7.5H23V20l-5.25 3z" clip-rule="evenodd"/></svg>
+                                                        Consumer Protection
+                                                    </button>
                                                 </>
                                             ) : (
                                                 <>
