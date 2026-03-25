@@ -14,6 +14,20 @@ const AdminProfile: React.FC = () => {
     const [avatarUrl, setAvatarUrl] = useState('');
 
     useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => setSuccess(null), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => setSuccess(null), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
+    useEffect(() => {
         fetchProfile();
         
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -119,7 +133,7 @@ const AdminProfile: React.FC = () => {
             if (updateError) throw updateError;
             
             setAvatarUrl(publicUrl);
-            setSuccess('Profile image updated!');
+            setSuccess('Profile image uploaded!');
         } catch (err: any) {
             setError(err.message || 'Error uploading image.');
         } finally {
@@ -143,7 +157,7 @@ const AdminProfile: React.FC = () => {
             )}
             
             {success && (
-                <div style={{ background: '#E6FFE6', border: '1px solid #B3FFB3', color: '#28A745', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
+                <div style={{ color: '#000', padding: '0.5rem 0', marginBottom: '1.5rem', fontWeight: '500' }}>
                     {success}
                 </div>
             )}
@@ -151,18 +165,18 @@ const AdminProfile: React.FC = () => {
             <div className="glass-card" style={{ padding: '3rem' }}>
                 <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: '300px 1fr', 
+                    gridTemplateColumns: '1.2fr 1fr', 
                     gap: '4rem'
                 }}>
                     
                     {/* Left Column: Avatar & Identity Card */}
                     <div style={{ borderRight: '1px solid #eee', paddingRight: '4rem' }}>
                         <div style={{ textAlign: 'center' }}>
-                            <div className="big-avatar" style={{ margin: '0 auto 1.5rem', width: '160px', height: '160px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderRadius: '50%', overflow: 'hidden', background: 'none' }}>
+                            <div className="big-avatar" style={{ margin: '0 auto 1.5rem', width: '160px', height: '160px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', borderRadius: '50%', overflow: 'hidden', background: 'none', border: '4px solid #A80000' }}>
                                 {avatarUrl ? (
-                                    <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                                    <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 10%', borderRadius: '50%' }} />
                                 ) : (
-                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '4rem', fontWeight: '800', color: '#A80000', background: 'none', borderRadius: '50%', border: '4px solid #A80000' }}>
+                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '4rem', fontWeight: '800', color: '#A80000', background: 'none' }}>
                                         {fullName ? fullName.charAt(0).toUpperCase() : 'A'}
                                     </div>
                                 )}
@@ -182,7 +196,7 @@ const AdminProfile: React.FC = () => {
                                 />
                             </label>
 
-                            <div style={{ background: '#f8f9fa', padding: '1.2rem', borderRadius: '12px', textAlign: 'left', border: '1px solid #eef0f2' }}>
+                            <div style={{ background: '#f8f9fa', padding: '1.8rem', borderRadius: '0', textAlign: 'left', border: '1px solid #eef0f2', width: '100%', minWidth: '320px' }}>
                                 <div style={{ marginBottom: '0.8rem' }}>
                                     <span style={{ fontSize: '0.85rem', color: '#444' }}><b>Status:</b> Verified Official</span>
                                 </div>

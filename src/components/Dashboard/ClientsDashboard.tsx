@@ -13,6 +13,7 @@ import MemberPayments from './MemberPayments';
 import Settings from './Settings';
 import ConsumerCases from './ConsumerCases';
 import { useEffect } from 'react';
+import ClientProfile from './ClientProfile';
 import Skeleton from '../Skeleton';
 import { supabase } from '../../lib/supabase';
 
@@ -21,6 +22,12 @@ import { supabase } from '../../lib/supabase';
 const NotificationIcon = ({ size = 20, className = '' }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 32 32" className={className} style={{ color: '#666' }}>
         <path fill="currentColor" d="M28.707 19.293L26 16.586V13a10.014 10.014 0 0 0-9-9.95V1h-2v2.05A10.014 10.014 0 0 0 6 13v3.586l-2.707 2.707A1 1 0 0 0 3 20v3a1 1 0 0 0 1 1h7v1a5 5 0 0 0 10 0v-1h7a1 1 0 0 0 1-1v-3a1 1 0 0 0-.293-.707M19 25a3 3 0 0 1-6 0v-1h6Z" />
+    </svg>
+);
+
+const ProfileIcon = ({ size = 18 }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <rect width="24" height="24" fill="none"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6m0 14c-2.03 0-4.43-.82-6.14-2.88a9.947 9.947 0 0 1 12.28 0C16.43 19.18 14.03 20 12 20"/>
     </svg>
 );
 
@@ -131,15 +138,18 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                         .eq('id', user.id)
                         .maybeSingle();
 
+                    const googleName = user.user_metadata?.full_name || '';
+                    const googleAvatar = user.user_metadata?.avatar_url || '';
+
                     if (data) {
                         setProfile({
-                            full_name: data.full_name || user.email?.split('@')[0] || 'Client',
-                            avatar_url: data.avatar_url
+                            full_name: data.full_name || googleName || user.email?.split('@')[0] || 'Client',
+                            avatar_url: data.avatar_url || googleAvatar
                         });
                     } else {
                         setProfile({
-                            full_name: user.email?.split('@')[0] || 'Client',
-                            avatar_url: null
+                            full_name: googleName || user.email?.split('@')[0] || 'Client',
+                            avatar_url: googleAvatar || null
                         });
                     }
                 }
@@ -160,6 +170,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
 
     const menuItems = [
         { name: 'Dashboard Overview', icon: <DashboardIcon size={16} /> },
+        { name: 'My Profile', icon: <ProfileIcon size={16} /> },
         { name: 'License Manager', icon: <AccountsIcon size={16} /> },
         { name: 'Spectrum Portal', icon: <ApplicationsIcon size={16} /> },
         { name: 'Technical Vault', icon: <ActiveQueriesIcon size={16} /> },
@@ -207,8 +218,8 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                 return <MemberPayments />;
             case 'Consumer Cases':
                 return <ConsumerCases />;
-            case 'Settings':
-                return <Settings />;
+            case 'My Profile':
+                return <ClientProfile />;
             case 'Dashboard Overview':
             default:
                 return (
@@ -396,11 +407,14 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                     ))}
                 </nav>
 
+                <div className="sidebar-help-card" style={{ margin: '1rem', padding: '1rem', background: 'linear-gradient(135deg, #004D40 0%, #00695C 100%)', borderRadius: '12px', textAlign: 'center', color: 'white' }}>
+                    <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', fontWeight: '600' }}>Client Support</h4>
+                    <p style={{ fontSize: '0.75rem', opacity: '0.8', marginBottom: '1rem', lineHeight: '1.3' }}>Need assistance with Regulatory Services? Contact our team.</p>
+                    <button style={{ width: '100%', background: 'white', color: '#004D40', border: 'none', padding: '0.6rem', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', fontSize: '0.8rem' }}>Contact Support</button>
+                </div>
+
                 {logoutItem && (
                     <div className="sidebar-footer">
-                        <div style={{ display: 'flex', justifyContent: 'flex-start', padding: '1rem 0 1rem 2.5rem', color: '#A80000' }}>
-                            <LogoutPortalIcon size={80} />
-                        </div>
                         <div
                             className="nav-item logout-item"
                             onClick={() => onLogout?.()}

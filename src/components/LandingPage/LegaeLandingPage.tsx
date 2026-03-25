@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoogleGenAI } from "@google/genai";
 import './LegaeLandingPage.css';
 import Navbar from '../Shared/Navbar';
+import ReactMarkdown from 'react-markdown';
 
 interface LegaeLandingPageProps {
     onPortalLogin?: () => void;
@@ -45,6 +48,48 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
 
     const [showPrivacy, setShowPrivacy] = useState(false);
     const [showDemoModal, setShowDemoModal] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [showChatTooltip, setShowChatTooltip] = useState(true);
+    const [chatMessages, setChatMessages] = useState<any[]>([
+        { role: 'model', parts: [{ text: "Hi there! 👋 I'm the BOCRA assistant. Ask me anything about communications regulation in Botswana." }] }
+    ]);
+    const [chatInput, setChatInput] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    // Initialize Gemini with the new SDK
+    const ai = new GoogleGenAI({ 
+        apiKey: import.meta.env.VITE_GEMINI_API_KEY || "" 
+    });
+
+    const handleSendChat = async (text: string = chatInput) => {
+        if (!text.trim() || isGenerating) return;
+        
+        const userMsg = { role: 'user', parts: [{ text }] };
+        const newHistory = [...chatMessages, userMsg];
+        setChatMessages(newHistory);
+        setChatInput('');
+        setIsGenerating(true);
+
+        try {
+            // New SDK usage: generateContent with history & system instruction
+            const response = await ai.models.generateContent({
+                model: "gemini-3-flash-preview",
+                systemInstruction: "You are the official BOCRA (Botswana Communications Regulatory Authority) AI assistant. Only answer questions related to BOCRA's regulatory mandate (Broadcasting, Telecommunications, Postal, and Spectrum Management). If a user asks about anything else, politely decline and redirect them to BOCRA-related topics. Keep responses professional, and very concise. Avoid using asterisks (*) for lists or emphasis; use **bolding** instead where necessary. Do not make the reply very long. Always end with a follow-up question like 'What else can I help you with?'",
+                contents: newHistory
+            });
+            
+            const modelMsg = { role: 'model', parts: [{ text: response.text }] };
+            setChatMessages([...newHistory, modelMsg]);
+        } catch (error: any) {
+            console.error(error);
+            const errorMsg = error.message?.includes("API key") 
+                ? "BOCRA AI Error: Invalid or missing API key. Please check your .env file."
+                : "I'm having trouble connecting to my brain right now. Please try again later.";
+            setChatMessages([...newHistory, { role: 'model', parts: [{ text: errorMsg }] }]);
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
 
 
@@ -158,7 +203,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                     ))}
                 </div>
                 <div className="hero-overlay"></div>
-                <div className="hero-container" style={{ alignItems: 'flex-start' }}>
+                <div className="hero-container" style={{ alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
                     <div className="hero-content-wrapper">
                         <h1>Regulating for a Digitally Enabled Economy</h1>
                         <p className="hero-subtitle">
@@ -266,6 +311,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         </div>
                     </div>
                 </div>
+
             </header>
 
             {/* Pillars Section */}
@@ -445,7 +491,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         <div className="scenario-item">
                             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <span style={{ background: '#FDF2F2', padding: '10px', borderRadius: '8px', display: 'flex' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><defs><mask id="SVGjA1oAU1K"><g fill="none"><path fill="#fff" stroke="#fff" strokeWidth="4" d="M24 38c7.732 0 14-6.268 14-14s-6.268-14-14-14s-14 6.268-14 14s6.268 14 14 14Z"/><path stroke="#000" strokeLinecap="round" strokeWidth="4" d="M11 29c1.509.624 4 1 5.259-.468c1.258-1.469.136-3.78 1.53-4.564c1.528-.86 2.631 2.064 5.502 1.548S28 21 28 19s-1.715-2-1.838-3.946C26 12.5 28 11 28 11m0 26c-1.086-.909-2-1.5-2-3s1-1 2-2s.5-3 1.5-3.5s4.108.556 6.5 2.5"/><circle cx="24" cy="4" r="2" fill="#fff"/><circle cx="24" cy="44" r="2" fill="#fff"/><circle cx="44" cy="24" r="2" fill="#fff"/><circle cx="38" cy="10" r="2" fill="#fff"/><circle cx="10" cy="38" r="2" fill="#fff"/><circle cx="4" cy="24" r="2" fill="#fff"/><circle cx="10" cy="10" r="2" fill="#fff"/><circle cx="38" cy="38" r="2" fill="#fff"/><path stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M10 24c0 3.815 1.526 7.273 4 9.798M24 38c7.732 0 14-6.268 14-14M24 10c3.815 0 7.273 1.526 9.798 4"/></g></mask></defs><path fill="#A31D1D" d="M0 0h48v48H0z" mask="url(#SVGjA1oAU1K)"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><defs><mask id="SVGjA1oAU1K"><g fill="none"><path fill="#fff" stroke="#fff" strokeWidth="4" d="M24 38c7.732 0 14-6.268 14-14s-6.268-14-14-14s-14 6.268-14 14s6.268 14 14 14Z"/><path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M11 29c1.509.624 4 1 5.259-.468c1.258-1.469.136-3.78 1.53-4.564c1.528-.86 2.631 2.064 5.502 1.548S28 21 28 19s-1.715-2-1.838-3.946C26 12.5 28 11 28 11m0 26c-1.086-.909-2-1.5-2-3s1-1 2-2s.5-3 1.5-3.5s4.108.556 6.5 2.5"/><circle cx="24" cy="4" r="2" fill="#fff"/><circle cx="24" cy="44" r="2" fill="#fff"/><circle cx="44" cy="24" r="2" fill="#fff"/><circle cx="38" cy="10" r="2" fill="#fff"/><circle cx="10" cy="38" r="2" fill="#fff"/><circle cx="4" cy="24" r="2" fill="#fff"/><circle cx="10" cy="10" r="2" fill="#fff"/><circle cx="38" cy="38" r="2" fill="#fff"/><path stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M10 24c0 3.815 1.526 7.273 4 9.798M24 38c7.732 0 14-6.268 14-14M24 10c3.815 0 7.273 1.526 9.798 4"/></g></mask></defs><path fill="#A31D1D" d="M0 0h48v48H0z" mask="url(#SVGjA1oAU1K)"/></svg>
                                 </span>
                                 Evidence Act & Electronic Certification
                             </span>
@@ -785,6 +831,193 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                     </div>
                 </div>
             )}
+            {/* Floating Chatbot Icon & Tooltip */}
+            <div style={{ position: 'fixed', bottom: '15px', right: '25px', zIndex: 1000, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '15px' }}>
+                {/* Tooltip Container */}
+                {!isChatOpen && showChatTooltip && (
+                    <div 
+                        className="chatbot-tooltip"
+                        style={{ 
+                            background: 'white', 
+                            padding: '0.75rem 1rem', 
+                            borderRadius: '20px 20px 5px 20px', 
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+                            maxWidth: '220px',
+                            border: '1px solid #eee',
+                            position: 'relative',
+                            marginBottom: '10px',
+                            animation: 'chatSlideUp 0.4s ease forwards'
+                        }}
+                    >
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); setShowChatTooltip(false); }}
+                            style={{ 
+                                position: 'absolute', 
+                                top: '-12px', 
+                                right: '-12px', 
+                                background: 'white', 
+                                color: '#3F4E60', 
+                                border: 'none', 
+                                borderRadius: '50%', 
+                                width: '22px', 
+                                height: '22px', 
+                                cursor: 'pointer', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                padding: 0
+                            }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M11.4 10l2.83-2.83l-1.41-1.41L10 8.59L7.17 5.76L5.76 7.17L8.59 10l-2.83 2.83l1.41 1.41L10 11.41l2.83 2.83l1.41-1.41L11.41 10z"/></svg>
+                        </button>
+                        <div style={{ position: 'absolute', bottom: '-15px', right: '25px', width: '30px', height: '30px', background: 'white', transform: 'rotate(45deg)', borderRight: '1px solid #eee', borderBottom: '1px solid #eee', zIndex: -1 }}></div>
+                        <div style={{ position: 'absolute', top: '-25px', right: '20px', width: '36px', height: '36px', background: '#FF7F50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid white', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 15 15"><path fill="white" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="white" fillRule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clipRule="evenodd"/></svg>
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.8rem', color: '#444', lineHeight: '1.4' }}>
+                            👋 Want to chat about BOCRA? I'm an AI chatbot here to help you find your way.
+                        </p>
+                    </div>
+                )}
+
+                {/* Chat Window Container */}
+                {isChatOpen && (
+                    <div 
+                        className="chatbot-window"
+                        style={{ 
+                            width: '320px', 
+                            height: '480px', 
+                            background: 'white', 
+                            borderRadius: '15px', 
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.25)', 
+                            display: 'flex', 
+                            flexDirection: 'column',
+                            overflow: 'hidden',
+                            animation: 'chatSlideUp 0.3s ease forwards',
+                            marginBottom: '10px',
+                            border: '1px solid #e0e0e0'
+                        }}
+                    >
+                        {/* Header */}
+                        <div style={{ background: '#3F4E60', padding: '1rem', color: 'white', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <div style={{ width: '32px', height: '32px', background: '#FF7F50', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 15 15"><path fill="white" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/><path fill="white" fillRule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clipRule="evenodd"/></svg>
+                            </div>
+                            <div>
+                                <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '600' }}>BOCRA Bot</h4>
+                                <span style={{ fontSize: '0.7rem', opacity: '0.8' }}>Online • Ready to help</span>
+                            </div>
+                            <button onClick={() => setIsChatOpen(false)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'white', fontSize: '1.25rem', cursor: 'pointer' }}>&times;</button>
+                        </div>
+                        {/* Chat History */}
+                        <div style={{ flex: 1, padding: '1rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', background: '#f9fafb' }}>
+                            {chatMessages.map((msg, index) => (
+                                <React.Fragment key={index}>
+                                    <div style={{ 
+                                        background: msg.role === 'user' ? '#3F4E60' : '#edf2f7', 
+                                        padding: '0.75rem', 
+                                        borderRadius: msg.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px', 
+                                        maxWidth: '90%', 
+                                        fontSize: '0.8rem', 
+                                        color: msg.role === 'user' ? 'white' : '#333', 
+                                        lineHeight: '1.4',
+                                        alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start'
+                                    }}>
+                                        {msg.role === 'user' ? (
+                                            msg.parts[0].text
+                                        ) : (
+                                            <ReactMarkdown 
+                                                components={{
+                                                    p: ({node, ...props}) => <p style={{margin: 0, paddingBottom: '0.5rem'}} {...props} />,
+                                                    strong: ({node, ...props}) => <strong style={{fontWeight: '900', color: '#1a1a1a'}} {...props} />,
+                                                    ul: ({node, ...props}) => <ul style={{margin: 0, paddingLeft: '1.2rem', paddingBottom: '0.5rem'}} {...props} />,
+                                                    li: ({node, ...props}) => <li style={{marginBottom: '0.2rem'}} {...props} />,
+                                                }}
+                                            >
+                                                {msg.parts[0].text}
+                                            </ReactMarkdown>
+                                        )}
+                                    </div>
+                                    
+                                    {msg.role === 'model' && index === chatMessages.length - 1 && (
+                                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            {index === 0 ? (
+                                                <>
+                                                    <button className="chat-action-btn" onClick={() => onNavigate?.('resources')} style={{ fontSize: '0.75rem', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="currentColor" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z"/></svg>
+                                                        Get Regulatory Guides
+                                                    </button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('How do I apply for a spectrum license?')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>📡 Apply for License</button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('What are the latest broadcasting regulations?')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>📻 Broadcasting Regulations</button>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('Report a consumer complaint')} style={{ fontSize: '0.75rem', padding: '8px 12px' }}>⚖️ Consumer Protection</button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div style={{ padding: '0.5rem', fontSize: '0.75rem', color: '#666', fontWeight: '600' }}>What would you like to do next?</div>
+                                                    <button className="chat-action-btn" onClick={() => handleSendChat('Speak with an agent')}>Chat with the team</button>
+                                                    <button className="chat-action-btn" onClick={() => setChatMessages([...chatMessages, { role: 'model', parts: [{ text: "Ask me anything else!" }] }])}>Ask another question</button>
+                                                    <button className="chat-action-btn" style={{ background: '#fdf2f2', color: '#A80000' }} onClick={() => setIsChatOpen(false)}>End chat</button>
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            {isGenerating && <div style={{ fontSize: '0.75rem', color: '#666', fontStyle: 'italic' }}>BOCRA AI is thinking...</div>}
+                        </div>
+
+                        {/* Footer Input */}
+                        <form 
+                            onSubmit={(e) => { e.preventDefault(); handleSendChat(); }}
+                            style={{ padding: '0.75rem 1rem', borderTop: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '8px' }}
+                        >
+                            <input 
+                                type="text" 
+                                placeholder="Write a message" 
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none', fontSize: '0.8rem', color: '#444' }}
+                            />
+                            <button type="submit" style={{ background: 'none', border: 'none', color: '#3F4E60', cursor: 'pointer', opacity: (chatInput.trim() && !isGenerating) ? 1 : 0.5 }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                            </button>
+                        </form>
+                    </div>
+                )}
+
+                {/* Floating Icon */}
+                <div 
+                    className="chatbot-trigger"
+                    style={{ 
+                        background: isChatOpen ? '#3F4E60' : 'white',
+                        padding: '12px',
+                        borderRadius: '50%',
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                        width: '60px',
+                        height: '60px'
+                    }}
+                    onClick={() => {
+                        setIsChatOpen(!isChatOpen);
+                        setShowChatTooltip(false);
+                    }}
+                >
+                    {isChatOpen ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 36 36"><rect width="36" height="36" fill="none"/><path fill="white" d="m33 6.4l-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36M18.83 20.13l-4.19.93l1-4.15l9.55-9.57l3.23 3.23ZM29.5 9.43L26.27 6.2l1.85-1.85l3.23 3.23Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 15 15">
+                            <rect width="15" height="15" fill="none"/>
+                            <path fill="#1a1c23" d="M7.5 5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3"/>
+                            <path fill="#1a1c23" fillRule="evenodd" d="M9 2H8V0H7v2H6a6 6 0 0 0 0 12h3q.195 0 .389-.013l3.99.998a.5.5 0 0 0 .606-.606l-.577-2.309A6 6 0 0 0 9 2M5 6.5a2.5 2.5 0 1 1 5 0a2.5 2.5 0 0 1-5 0M7.5 12a4.48 4.48 0 0 1-2.813-.987l.626-.78c.599.48 1.359.767 2.187.767s1.588-.287 2.187-.767l.626.78A4.48 4.48 0 0 1 7.5 12" clipRule="evenodd"/>
+                        </svg>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

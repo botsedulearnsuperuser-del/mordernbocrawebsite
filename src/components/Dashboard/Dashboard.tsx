@@ -122,33 +122,57 @@ const Dashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
     const [profile, setProfile] = useState<{ full_name: string; avatar_url: string | null } | null>(null);
 
     useEffect(() => {
+        let profileSubscription: any;
+
         const fetchProfile = async () => {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
-                    const { data, error } = await supabase
+                    const { data } = await supabase
                         .from('profiles')
                         .select('full_name, avatar_url')
                         .eq('id', user.id)
                         .maybeSingle();
 
+                    const googleName = user.user_metadata?.full_name || '';
+                    const googleAvatar = user.user_metadata?.avatar_url || '';
+
                     if (data) {
                         setProfile({
-                            full_name: data.full_name || user.email?.split('@')[0] || 'Admin',
-                            avatar_url: data.avatar_url
+                            full_name: data.full_name || googleName || user.email?.split('@')[0] || 'Admin',
+                            avatar_url: data.avatar_url || googleAvatar
                         });
                     } else {
                         setProfile({
-                            full_name: user.email?.split('@')[0] || 'Admin',
-                            avatar_url: null
+                            full_name: googleName || user.email?.split('@')[0] || 'Admin',
+                            avatar_url: googleAvatar || null
                         });
                     }
+
+                    // Subscribe to real-time changes
+                    profileSubscription = supabase
+                        .channel('profile-changes')
+                        .on('postgres_changes', 
+                            { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `id=eq.${user.id}` },
+                            (payload) => {
+                                setProfile({
+                                    full_name: payload.new.full_name || user.email?.split('@')[0] || 'Admin',
+                                    avatar_url: payload.new.avatar_url
+                                });
+                            }
+                        )
+                        .subscribe();
                 }
             } catch (err) {
                 console.error('Error fetching admin profile:', err);
             }
         };
+
         fetchProfile();
+
+        return () => {
+            if (profileSubscription) supabase.removeChannel(profileSubscription);
+        };
     }, []);
 
     useEffect(() => {

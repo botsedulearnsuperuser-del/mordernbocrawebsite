@@ -3,7 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { Pencil } from 'lucide-react';
 import './Settings.css';
 
-const ConsumerProfile: React.FC = () => {
+const ClientProfile: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -133,7 +133,7 @@ const ConsumerProfile: React.FC = () => {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session?.user) return;
         
-        const fileName = `${session.user.id}-${Math.random()}.${fileExt}`;
+        const fileName = `client-${session.user.id}-${Math.random()}.${fileExt}`;
         
         setUpdating(true);
         setError(null);
@@ -241,8 +241,8 @@ const ConsumerProfile: React.FC = () => {
 
     return (
         <div className="settings-container" style={{ maxWidth: '1000px' }}>
-            <h2 className="settings-title">BOCRA Consumer Profile</h2>
-            <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '3rem' }}>Manage your personal identity and account preferences.</p>
+            <h2 className="settings-title">BOCRA Client Profile</h2>
+            <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '3rem' }}>Manage your organization's administrative identity and preferences.</p>
 
             {error && (
                 <div style={{ background: '#FDF2F2', border: '1px solid #FFE4E4', color: '#A80000', padding: '1rem', borderRadius: '0', marginBottom: '1.5rem' }}>
@@ -276,7 +276,7 @@ const ConsumerProfile: React.FC = () => {
                                 )}
                             </div>
                             
-                            <h3 style={{ fontSize: '1.5rem', color: '#1a1a1a', marginBottom: '1.5rem' }}>{fullName || 'BOCRA Consumer'}</h3>
+                            <h3 style={{ fontSize: '1.5rem', color: '#1a1a1a', marginBottom: '1.5rem' }}>{fullName || 'BOCRA Client'}</h3>
                             
                             <label className="edit-profile-btn" style={{ cursor: 'pointer', marginBottom: '1.5rem', background: '#333' }}>
                                 <Pencil size={16} fill="white" />
@@ -292,10 +292,10 @@ const ConsumerProfile: React.FC = () => {
 
                             <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '0', textAlign: 'left', border: '1px solid #eef0f2', width: '100%' }}>
                                 <div style={{ marginBottom: '0.8rem' }}>
-                                    <span style={{ fontSize: '0.85rem', color: '#444' }}><b>Status:</b> Verified</span>
+                                    <span style={{ fontSize: '0.85rem', color: '#444' }}><b>Status:</b> Verified Entity</span>
                                 </div>
                                 <div style={{ marginBottom: '0.8rem' }}>
-                                    <span style={{ fontSize: '0.85rem', color: '#444' }}><b>User Type:</b> Consumer Resident</span>
+                                    <span style={{ fontSize: '0.85rem', color: '#444' }}><b>User Type:</b> Client Representative</span>
                                 </div>
                                 <div style={{ marginBottom: '0.8rem' }}>
                                     <span style={{ fontSize: '0.85rem', color: '#444' }}><b>Member Since:</b> March 2024</span>
@@ -309,10 +309,10 @@ const ConsumerProfile: React.FC = () => {
 
                     {/* Column 2: Personal Info & Controls */}
                     <div>
-                        <h3 style={{ fontSize: '1.4rem', color: '#333', marginBottom: '2rem' }}>Personal Information</h3>
+                        <h3 style={{ fontSize: '1.4rem', color: '#333', marginBottom: '2rem' }}>Administrative Information</h3>
                         <form className="settings-form" onSubmit={handleUpdateProfile}>
                             <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                                <label style={{ fontWeight: '600', color: '#444', marginBottom: '0.75rem', display: 'block' }}>Email Address</label>
+                                <label style={{ fontWeight: '600', color: '#444', marginBottom: '0.75rem', display: 'block' }}>Official Email Address</label>
                                 <input 
                                     type="text" 
                                     className="form-input" 
@@ -323,13 +323,13 @@ const ConsumerProfile: React.FC = () => {
                             </div>
 
                             <div className="form-group" style={{ marginBottom: '2rem' }}>
-                                <label style={{ fontWeight: '600', color: '#444', marginBottom: '0.75rem', display: 'block' }}>Full Name</label>
+                                <label style={{ fontWeight: '600', color: '#444', marginBottom: '0.75rem', display: 'block' }}>Representative Full Name</label>
                                 <input 
                                     type="text" 
                                     className="form-input" 
                                     value={fullName} 
                                     onChange={(e) => setFullName(e.target.value)}
-                                    placeholder="Enter your full name"
+                                    placeholder="Enter full name"
                                 />
                             </div>
 
@@ -340,7 +340,7 @@ const ConsumerProfile: React.FC = () => {
                                     disabled={updating}
                                     style={{ background: '#A80000', borderRadius: '0' }}
                                 >
-                                    {updating ? 'Saving...' : 'Update Personal Info'}
+                                    {updating ? 'Saving...' : 'Update Details'}
                                 </button>
                                 <button 
                                     type="button" 
@@ -359,7 +359,7 @@ const ConsumerProfile: React.FC = () => {
                                 onClick={() => setShowPreferencesModal(true)}
                                 style={{ background: 'none', border: 'none', color: '#A80000', fontWeight: '600', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.95rem' }}
                             >
-                                Account Preferences
+                                Organization Preferences
                             </button>
                         </div>
                     </div>
@@ -383,7 +383,7 @@ const ConsumerProfile: React.FC = () => {
                             onClick={handlePasswordReset}
                             style={{ background: 'none', border: 'none', color: '#A80000', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.8rem', textAlign: 'left', marginTop: '0.3rem', width: 'fit-content' }}
                         >
-                            Forgot current password?
+                            Forgot password?
                         </button>
                     </div>
 
@@ -422,18 +422,18 @@ const ConsumerProfile: React.FC = () => {
             </Modal>
 
             {/* Preferences Modal */}
-            <Modal isOpen={showPreferencesModal} onClose={() => setShowPreferencesModal(false)} title="Account Preferences">
+            <Modal isOpen={showPreferencesModal} onClose={() => setShowPreferencesModal(false)} title="Organization Preferences">
                 <div className="form-group" style={{ marginBottom: '1.5rem' }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                         <input type="checkbox" defaultChecked style={{ width: '18px', height: '18px' }} />
-                        <span style={{ fontSize: '0.9rem', color: '#444' }}>Receive email notifications for case updates</span>
+                        <span style={{ fontSize: '0.9rem', color: '#444' }}>Email alerts for spectrum auctions</span>
                     </label>
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '1.5rem' }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                         <input type="checkbox" defaultChecked style={{ width: '18px', height: '18px' }} />
-                        <span style={{ fontSize: '0.9rem', color: '#444' }}>Monthly newsletter and regulatory alerts</span>
+                        <span style={{ fontSize: '0.9rem', color: '#444' }}>Notification of type-approval updates</span>
                     </label>
                 </div>
             </Modal>
@@ -441,4 +441,4 @@ const ConsumerProfile: React.FC = () => {
     );
 };
 
-export default ConsumerProfile;
+export default ClientProfile;

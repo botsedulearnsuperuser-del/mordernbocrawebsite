@@ -57,7 +57,6 @@ const App: React.FC = () => {
   const [userRole, setUserRole] = useState<'admin' | 'client' | 'consumer' | null>(null);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     console.log('App mounting: Checking initial authentication session...');
     
@@ -83,12 +82,21 @@ const App: React.FC = () => {
               .from('profiles')
               .select('role')
               .eq('id', session.user.id)
-              .maybeSingle(); // Use maybeSingle to prevent throwing on missing rows
+              .maybeSingle(); 
             
-            setUserRole(profile?.role || 'consumer');
+            const email = session.user.email || '';
+            const isClientDomain = email.toLowerCase().includes('@mascom.bw') || 
+                                   email.toLowerCase().includes('@btc.bw') || 
+                                   email.toLowerCase().includes('@orange.bw');
+            const isAdminDomain = email.toLowerCase().includes('@bocra.gov.bw');
+
+            const derivedRole = profile?.role || (isAdminDomain ? 'admin' : isClientDomain ? 'client' : 'consumer');
+            setUserRole(derivedRole);
           } catch (profileError) {
-            console.warn('Profile role fetch failed, defaulting to consumer:', profileError);
-            setUserRole('consumer');
+            console.warn('Profile role fetch failed, defaulting by domain:', profileError);
+            const email = session.user.email || '';
+            const isClientDomain = email.includes('@mascom.bw') || email.includes('@btc.bw') || email.includes('@orange.bw');
+            setUserRole(isClientDomain ? 'client' : 'consumer');
           }
           setIsLoggedIn(true);
         } else {
@@ -111,16 +119,25 @@ const App: React.FC = () => {
         // Fetch role in background, don't block
         (async () => {
           try {
-            const { data } = await supabase
+            const { data: profile } = await supabase
               .from('profiles')
               .select('role')
               .eq('id', session.user.id)
               .maybeSingle();
             
-            setUserRole(data?.role || 'consumer');
+            const email = session.user.email || '';
+            const isClientDomain = email.toLowerCase().includes('@mascom.bw') || 
+                                   email.toLowerCase().includes('@btc.bw') || 
+                                   email.toLowerCase().includes('@orange.bw');
+            const isAdminDomain = email.toLowerCase().includes('@bocra.gov.bw');
+
+            const derivedRole = profile?.role || (isAdminDomain ? 'admin' : isClientDomain ? 'client' : 'consumer');
+            setUserRole(derivedRole);
           } catch (error) {
             console.warn('Silent role fetch failed:', error);
-            setUserRole('consumer');
+            const email = session.user.email || '';
+            const isClientDomain = email.includes('@mascom.bw') || email.includes('@btc.bw') || email.includes('@orange.bw');
+            setUserRole(isClientDomain ? 'client' : 'consumer');
           }
         })();
       } else {
@@ -131,7 +148,6 @@ const App: React.FC = () => {
 
     return () => subscription.unsubscribe();
   }, []);
-
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -189,8 +205,6 @@ const App: React.FC = () => {
       </div>
     </ErrorBoundary>
   );
-}
+};
 
 export default App;
-
-
