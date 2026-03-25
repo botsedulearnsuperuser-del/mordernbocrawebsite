@@ -104,22 +104,26 @@ const App: React.FC = () => {
     checkUser();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       console.log('Auth event triggered:', _event);
       if (session?.user) {
-        try {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .maybeSingle();
-          
-          setUserRole(profile?.role || 'consumer');
-        } catch (error) {
-          console.warn('Profile role fetch on change failed:', error);
-          setUserRole('consumer');
-        }
         setIsLoggedIn(true);
+        // Fetch role in background, don't block
+        supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .maybeSingle()
+          .then(({ data }) => {
+            if (data?.role) {
+              setUserRole(data.role);
+            } else {
+              setUserRole('consumer');
+            }
+          })
+          .catch(() => {
+            setUserRole('consumer');
+          });
       } else {
         setIsLoggedIn(false);
         setUserRole(null);
