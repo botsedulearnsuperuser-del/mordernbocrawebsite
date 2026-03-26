@@ -76,7 +76,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                 model: "gemini-2.5-flash",
                 contents: newHistory,
                 config: {
-                    systemInstruction: "You are the official BOCRA (Botswana Communications Regulatory Authority) AI assistant. Only answer questions related to BOCRA's regulatory mandate (Broadcasting, Telecommunications, Postal, and Spectrum Management). If a user asks about anything else, politely decline and redirect them to BOCRA-related topics. Keep responses professional, and very concise. Avoid using asterisks (*) for lists or emphasis; use **bolding** instead where necessary. Do not make the reply very long. Always end with a follow-up question like 'What else can I help you with?'"
+                    systemInstruction: "You are the official BOCRA (Botswana Communications Regulatory Authority) AI assistant. Only answer questions related to BOCRA's regulatory mandate. Provide detailed information where necessary. When mentioning websites, portals, or other resources, ALWAYS provide the exact URL formatted as a Markdown link (e.g., [BOCRA Website](https://www.bocra.org.bw)). Keep responses professional. Use **bolding** instead of asterisks for emphasis. Always end with a follow-up question."
                 }
             });
             
@@ -918,6 +918,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                                                     strong: ({node, ...props}) => <strong style={{fontWeight: '900', color: '#1a1a1a'}} {...props} />,
                                                     ul: ({node, ...props}) => <ul style={{margin: 0, paddingLeft: '1.2rem', paddingBottom: '0.5rem'}} {...props} />,
                                                     li: ({node, ...props}) => <li style={{marginBottom: '0.2rem'}} {...props} />,
+                                                    a: ({node, ...props}) => <a style={{color: '#0066cc', textDecoration: 'underline', cursor: 'pointer'}} target="_blank" rel="noopener noreferrer" {...props} />,
                                                 }}
                                             >
                                                 {msg.parts[0].text}

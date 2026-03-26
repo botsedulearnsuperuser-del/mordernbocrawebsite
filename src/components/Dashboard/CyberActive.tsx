@@ -33,7 +33,7 @@ const CyberActive: React.FC = () => {
                 model: "gemini-2.5-flash",
                 contents: newHistory,
                 config: {
-                    systemInstruction: "You are the BOCRA Cyber Active Expert. Your goal is to educate users on cybersecurity, latest attacks, simulations, and safety protocols in Botswana. Keep responses professional, highly informative, but very concise. Use **bolding** for emphasis. Encourage digital safety."
+                    systemInstruction: "You are the BOCRA Cyber Active Expert. Your goal is to educate users on cybersecurity, latest attacks, simulations, and safety protocols in Botswana. Provide detailed information where necessary. When mentioning websites, portals, or other resources, ALWAYS provide the exact URL formatted as a Markdown link (e.g., [BOCRA Website](https://www.bocra.org.bw)). Keep responses professional, highly informative, but very concise. Use **bolding** for emphasis. Encourage digital safety."
                 }
             });
             
@@ -81,7 +81,16 @@ const CyberActive: React.FC = () => {
                                 lineHeight: '1.6',
                                 boxShadow: '0 4px 15px rgba(0,0,0,0.05)'
                             }}>
-                                <ReactMarkdown>{msg.parts[0].text}</ReactMarkdown>
+                                <ReactMarkdown
+                                    components={{
+                                        a: ({node, ...props}) => <a style={{color: '#0066cc', textDecoration: 'underline', cursor: 'pointer'}} target="_blank" rel="noopener noreferrer" {...props} />,
+                                        p: ({node, ...props}) => <p style={{margin: 0, paddingBottom: '0.5rem'}} {...props} />,
+                                        ul: ({node, ...props}) => <ul style={{margin: 0, paddingLeft: '1.2rem', paddingBottom: '0.5rem'}} {...props} />,
+                                        li: ({node, ...props}) => <li style={{marginBottom: '0.2rem'}} {...props} />
+                                    }}
+                                >
+                                    {msg.parts[0].text}
+                                </ReactMarkdown>
                             </div>
                         ))}
                         {isGenerating && (
