@@ -13,6 +13,7 @@ import MemberPayments from './MemberPayments';
 import ConsumerCases from './ConsumerCases';
 import { useEffect } from 'react';
 import ClientProfile from './ClientProfile';
+import LicensingSystem from './LicensingSystem';
 import Skeleton from '../Skeleton';
 import { supabase } from '../../lib/supabase';
 
@@ -166,6 +167,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
     const menuItems = [
         { name: 'Dashboard Overview', icon: <DashboardIcon size={16} /> },
         { name: 'My Profile', icon: <ProfileIcon size={16} /> },
+        { name: 'Apply for Licence', icon: <ApplicationsIcon size={16} /> },
         { name: 'License Manager', icon: <AccountsIcon size={16} /> },
         { name: 'Spectrum Portal', icon: <ApplicationsIcon size={16} /> },
         { name: 'Technical Vault', icon: <ActiveQueriesIcon size={16} /> },
@@ -203,6 +205,8 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
     const renderContent = () => {
         if (isLoading) return <DashboardSkeleton />;
         switch (activeMenu) {
+            case 'Apply for Licence':
+                return <LicensingSystem />;
             case 'License Manager':
                 return <MyPolicy />;
             case 'Spectrum Portal':
@@ -438,7 +442,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                             </g>
                         </svg>
                     </button>
-                    {!['License Manager', 'Spectrum Portal', 'Technical Vault', 'Consumer Cases', 'Compliance Labels'].includes(activeMenu) ? (
+                    {!['License Manager', 'Spectrum Portal', 'Technical Vault', 'Consumer Cases', 'Compliance Labels', 'Apply for Licence'].includes(activeMenu) ? (
                         <>
                             <h1 className="header-title">
                                 {activeMenu}
