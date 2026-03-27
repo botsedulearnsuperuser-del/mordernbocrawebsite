@@ -262,7 +262,7 @@ const LicensingSystem: React.FC = () => {
     {
       id: uid(),
       licenseIds: ['isp'],
-      formData: { applicant_name: 'Amogelang Tshukudu', company_name: 'Orange Botswana', reg_number: 'BW-2018-00456', email: 'Amogelang.Tshukudu@orangebotswana.com', phone: '+267 71 234 567', physical_address: 'Plot 50370, Fairground, Gaborone', business_description: 'National telecommunications provider.', network_architecture: 'Hybrid fibre-LTE network', coverage_plan: 'Nationwide', bandwidth_capacity: '100000', peering_arrangement: 'Both' },
+      formData: { applicant_name: 'Lyden Sebinyane', company_name: 'Orange Botswana', reg_number: 'BW-2018-00456', email: 'Lyden.Sebinyane@orangebotswana.com', phone: '+267 71 234 567', physical_address: 'Plot 50370, Fairground, Gaborone', business_description: 'National telecommunications provider.', network_architecture: 'Hybrid fibre-LTE network', coverage_plan: 'Nationwide', bandwidth_capacity: '100000', peering_arrangement: 'Both' },
       uploadedDocs: [],
       status: 'under_review',
       submittedAt: '2026-03-10T09:30:00Z',
@@ -272,7 +272,7 @@ const LicensingSystem: React.FC = () => {
     {
       id: uid(),
       licenseIds: ['radio'],
-      formData: { applicant_name: 'Amogelang Tshukudu', company_name: 'Orange Botswana', reg_number: 'BW-2018-00456', email: 'Amogelang.Tshukudu@orangebotswana.com', phone: '+267 71 234 567', physical_address: 'Plot 50370, Fairground, Gaborone', business_description: 'National telecommunications provider.', frequency_band: '900 MHz & 1800 MHz', transmission_area: 'Nationwide', equipment_type: 'Ericsson RBS 6000', transmit_power: '50' },
+      formData: { applicant_name: 'Lyden Sebinyane', company_name: 'Orange Botswana', reg_number: 'BW-2018-00456', email: 'Lyden.Sebinyane@orangebotswana.com', phone: '+267 71 234 567', physical_address: 'Plot 50370, Fairground, Gaborone', business_description: 'National telecommunications provider.', frequency_band: '900 MHz & 1800 MHz', transmission_area: 'Nationwide', equipment_type: 'Ericsson RBS 6000', transmit_power: '50' },
       uploadedDocs: [],
       status: 'approved',
       submittedAt: '2026-02-15T08:00:00Z',

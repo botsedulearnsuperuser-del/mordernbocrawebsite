@@ -26,7 +26,7 @@ const Settings: React.FC = () => {
                 <div className="form-row">
                     <div className="form-group">
                         <label>First name</label>
-                        <input type="text" className="form-input" defaultValue="Amogelang" />
+                        <input type="text" className="form-input" defaultValue="Lyden" />
                     </div>
                     <div className="form-group">
                         <label>Last name</label>
