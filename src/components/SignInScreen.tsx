@@ -8,9 +8,10 @@ interface SignInScreenProps {
     onLogin: () => void;
     onSwitchToClient: () => void;
     onSwitchToConsumer: () => void;
+    onSwitchToConsumerSignUp: () => void;
 }
 
-const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient, onSwitchToConsumer }) => {
+const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToConsumer, onSwitchToConsumerSignUp }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -90,44 +91,25 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onLogin, onSwitchToClient, 
 
                 <div className="signin-footer">
                     <div>
-                        <span>Dont have an account? </span>
-                        <button 
-                            type="button" 
-                            className="contact-link" 
-                            style={{ 
-                                background: 'none', 
-                                border: 'none', 
-                                font: 'inherit', 
-                                cursor: 'pointer',
-                                color: '#A80000',
-                                padding: 0,
-                                textDecoration: 'underline',
-                                fontWeight: 'bold'
-                            }}
-                            onClick={onSwitchToClient}
+                        <span>New here? </span>
+                        <button
+                            type="button"
+                            className="contact-link"
+                            style={{ background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', color: '#A80000', padding: 0, textDecoration: 'underline', fontWeight: 'bold' }}
+                            onClick={onSwitchToConsumerSignUp}
                         >
-                            Sign In to Client Portal
+                            Sign up as a Consumer
                         </button>
                     </div>
-                    
                     <div style={{ marginTop: '0.75rem' }}>
-                         <span>Are you a consumer? </span>
-                        <button 
-                            type="button" 
-                            className="contact-link" 
-                            style={{ 
-                                background: 'none', 
-                                border: 'none', 
-                                font: 'inherit', 
-                                cursor: 'pointer',
-                                color: '#A80000',
-                                padding: 0,
-                                textDecoration: 'underline',
-                                fontWeight: 'bold'
-                            }}
+                        <span>Already a consumer? </span>
+                        <button
+                            type="button"
+                            className="contact-link"
+                            style={{ background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', color: '#A80000', padding: 0, textDecoration: 'underline', fontWeight: 'bold' }}
                             onClick={onSwitchToConsumer}
                         >
-                            Consumer Sign In
+                            Sign in as a Consumer
                         </button>
                     </div>
                 </div>

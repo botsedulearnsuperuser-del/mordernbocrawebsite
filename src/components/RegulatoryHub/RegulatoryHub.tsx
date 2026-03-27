@@ -77,7 +77,7 @@ const RegulatoryHub: React.FC<RegulatoryHubProps> = ({ onPortalLogin, onClientPo
                     <div className="hero-content-wrapper">
                         <h1>BOCRA Regulatory Hub</h1>
                         <p className="hero-subtitle">
-                            Empowering the communications sector through robust legislative oversight and world-class standards.
+                            Empowering the communications sector through robust legislative oversight and world class standards.
                         </p>
                         <div style={{ display: 'flex', gap: '15px' }}>
                             <button className="try-free-btn" onClick={onClientPortalLogin}>Licensee Portal</button>

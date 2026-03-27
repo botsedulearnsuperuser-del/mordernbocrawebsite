@@ -576,7 +576,7 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBackToLanding, onPortalLogin, onCli
                                         Active Risk: AI Spoofing & Phishing
                                     </h3>
                                     <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                                        Advanced persistent threats utilizing AI-generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross-border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
+                                        Advanced persistent threats utilizing AI generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
                                     </p>
                                 </div>
 

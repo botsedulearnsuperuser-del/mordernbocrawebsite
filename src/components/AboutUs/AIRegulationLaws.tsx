@@ -329,7 +329,7 @@ const AIRegulationLaws: React.FC<AIRegulationLawsProps> = ({ onBackToLanding, on
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 14 14" style={{ color: '#3F4E60', flexShrink: 0 }}><rect width="14" height="14" fill="none"/><path fill="currentColor" fill-rule="evenodd" d="M1.5 0A1.5 1.5 0 0 0 0 1.5v9A1.5 1.5 0 0 0 1.5 12h3.164l.048-.06a1.998 1.998 0 0 1 0-3.373a2 2 0 0 1 2.72-2.89A4.33 4.33 0 0 1 11 5.406V3.5a.5.5 0 0 0-.146-.354l-3-3A.5.5 0 0 0 7.5 0zm4.198 6.788a.75.75 0 0 1 1.059-.05l.781.709a2.83 2.83 0 0 1 3.95 0l.782-.71a.75.75 0 0 1 1.008 1.11l-1.022.93q.086.338.086.695v.032h.898a.75.75 0 0 1 0 1.5h-.898v.032q-.001.356-.086.696l1.022.929a.75.75 0 1 1-1.008 1.11l-.781-.71a2.83 2.83 0 0 1-3.95 0l-.782.71a.75.75 0 0 1-1.009-1.11l1.023-.93a2.8 2.8 0 0 1-.087-.695v-.032h-.897a.75.75 0 0 1 0-1.5h.897v-.032q0-.357.087-.695l-1.023-.93a.75.75 0 0 1-.05-1.059" clip-rule="evenodd"/></svg>
                                 <h3 style={{ fontSize: '1.6rem', color: '#1a1a1a', margin: 0 }}>Section D: Reporting & Liability</h3>
                             </div>
-                            <p style={{ lineHeight: '1.7', color: '#666', fontSize: '1.05rem', margin: 0 }}>Organizations deploying generative tools must conspicuously label AI-generated content (deepfakes, synthetically generated news, or automated financial advice) to prevent public deception. Failure to do so establishes direct liability on the deploying entity for any resultant damages.</p>
+                            <p style={{ lineHeight: '1.7', color: '#666', fontSize: '1.05rem', margin: 0 }}>Organizations deploying generative tools must conspicuously label AI generated content (deepfakes, synthetically generated news, or automated financial advice) to prevent public deception. Failure to do so establishes direct liability on the deploying entity for any resultant damages.</p>
                         </div>
 
                     </div>
@@ -434,7 +434,7 @@ const AIRegulationLaws: React.FC<AIRegulationLawsProps> = ({ onBackToLanding, on
                                         Active Risk: AI Spoofing & Phishing
                                     </h3>
                                     <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                                        Advanced persistent threats utilizing AI-generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross-border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
+                                        Advanced persistent threats utilizing AI generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
                                     </p>
                                 </div>
 

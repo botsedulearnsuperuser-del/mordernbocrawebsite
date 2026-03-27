@@ -17,6 +17,7 @@ import AIRegulationLaws from './components/AboutUs/AIRegulationLaws';
 import ConsumerAffairs from './components/ConsumerAffairs/ConsumerAffairs';
 import RegulatoryHub from './components/RegulatoryHub/RegulatoryHub';
 import Resources from './components/Resources/Resources';
+import ContactPage from './components/Contact/ContactPage';
 import { supabase } from './lib/supabase';
 import './App.css';
 
@@ -179,9 +180,10 @@ const App: React.FC = () => {
           <Route path="/consumeraffairs" element={<ConsumerAffairs onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
           <Route path="/regulatoryhub" element={<RegulatoryHub onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
           <Route path="/resources" element={<Resources onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
+          <Route path="/contact" element={<ContactPage onBackToLanding={() => navigate('/')} onPortalLogin={() => navigate('/admin-signin')} onClientPortalLogin={() => navigate('/client-signin')} onConsumerPortalLogin={() => navigate('/consumer-signin')} onNavigate={(view) => navigate(`/${view}`)} />} />
 
           {/* Auth Routes */}
-          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} />} />
+          <Route path="/admin-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <SignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onSwitchToClient={() => navigate('/client-signin')} onSwitchToConsumer={() => navigate('/consumer-signin')} onSwitchToConsumerSignUp={() => navigate('/consumer-signup')} />} />
           <Route path="/client-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ClientSignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onBackToAdmin={() => navigate('/admin-signin')} />} />
           <Route path="/consumer-signin" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignInScreen onLogin={() => { setIsLoggedIn(true); navigate('/dashboard'); }} onBackToAdmin={() => navigate('/admin-signin')} onSwitchToSignUp={() => navigate('/consumer-signup')} />} />
           <Route path="/consumer-signup" element={isLoggedIn ? <Navigate to="/dashboard" /> : <ConsumerSignUpScreen onSignUp={() => navigate('/account-created')} onBackToSignIn={() => navigate('/consumer-signin')} />} />

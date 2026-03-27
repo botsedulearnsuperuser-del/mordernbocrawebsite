@@ -377,7 +377,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                     <div className="feature-card">
                         <img src={featureImg1} alt="Telecommunications" />
                         <h3>Telecommunications & ICT</h3>
-                        <p>Regulation of Public Telecommunications Operators (PTOs) like BTC, Mascom, Orange, and BoFiNet. Focus on affordable, high-quality real-time services.</p>
+                        <p>Regulation of Public Telecommunications Operators (PTOs) like BTC, Mascom, Orange, and BoFiNet. Focus on affordable, high quality real time services.</p>
                     </div>
                     <div className="feature-card">
                         <img src={featureImg2} alt="Broadcasting" />
@@ -440,7 +440,7 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
                         <div className="step-item">
                             <div className="step-number">04</div>
                             <h3>Technical Safety</h3>
-                            <p>Ensuring every device is type-approved for electrical safety and network compatibility.</p>
+                            <p>Ensuring every device is type approved for electrical safety and network compatibility.</p>
                         </div>
                     </div>
                     <div className="steps-image">
@@ -532,13 +532,31 @@ const LegaeLandingPage: React.FC<LegaeLandingPageProps> = ({ onPortalLogin, onCl
             {/* Early Access - Repurposed for Portal */}
             <section className="early-access">
                 <h2>Access Customer Portal</h2>
-                <p>Track your complaints, check type-approved devices, and manage your registrations in one place.</p>
+                <p>Track your complaints, check type approved devices, and manage your registrations in one place.</p>
                 <button className="try-free-btn" style={{ background: '#A31D1D', marginBottom: '2rem' }} onClick={onConsumerPortalLogin}>Login to Portal</button>
                 <div className="early-access-images">
                     <img src={featureImg1} alt="Portal 1" />
                     <img src={featureImg2} alt="Portal 2" />
                     <img src={featureImg3} alt="Portal 3" />
                 </div>
+            </section>
+
+            {/* Get In Touch CTA */}
+            <section style={{ padding: '4rem 10%', background: '#fff', borderTop: '1px solid #f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap' }}>
+                <div>
+                    <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#A31D1D', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Have a question?</span>
+                    <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#111', margin: '0.35rem 0 0.5rem' }}>Get in Touch With Us</h2>
+                    <p style={{ color: '#666', fontSize: '0.92rem', margin: 0, lineHeight: '1.6', maxWidth: '480px' }}>
+                        Our regulatory team is ready to assist with licensing, consumer complaints, spectrum management, and more.
+                    </p>
+                </div>
+                <button
+                    className="try-free-btn"
+                    style={{ background: '#A31D1D', padding: '0.85rem 2.2rem', fontSize: '0.95rem', whiteSpace: 'nowrap', flexShrink: 0 }}
+                    onClick={() => { if (onNavigate) onNavigate('contact'); }}
+                >
+                    Contact BOCRA
+                </button>
             </section>
 
             {/* Footer */}

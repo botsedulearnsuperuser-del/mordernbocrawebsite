@@ -21,8 +21,8 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
 
     const searchSuggestions = [
         { title: 'Consumer Rights', type: 'Guide', desc: 'Learn your rights when dealing with communications providers' },
-        { title: 'File a Complaint', type: 'Service', desc: 'Step-by-step guide to escalating a dispute' },
-        { title: 'Device Verification', type: 'Tool', desc: 'Check if your phone is type-approved for use in Botswana' },
+        { title: 'File a Complaint', type: 'Service', desc: 'Step by step guide to escalating a dispute' },
+        { title: 'Device Verification', type: 'Tool', desc: 'Check if your phone is type approved for use in Botswana' },
         { title: 'Price Regulation', type: 'Regulation', desc: 'How BOCRA ensures fair pricing in the market' },
         { title: 'Network Quality', type: 'Metric', desc: 'Latest QoS reports from operators' },
     ];
@@ -146,9 +146,9 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
 
                 <div className="features-grid">
                     <div className="feature-card">
-                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem' }}>
-                            <div className="feature-icon-box" style={{ width: '60px', height: '60px', background: '#FDF2F2', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#A31D1D" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m-1 15.93c-3.95-.49-7-3.85-7-7.93c0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41c0 2.08-.8 3.97-2.1 5.39z" /></svg>
+                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem', height: 'auto' }}>
+                            <div className="feature-icon-box" style={{ width: '100%', height: '260px', background: 'transparent', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, boxShadow: 'none' }}>
+                                <img src="/assets/folder-with-the-label-complaints (1).png" alt="File Complaint Icon" style={{ width: '100%', height: '100%', objectFit: 'contain', margin: 0 }} />
                             </div>
                         </div>
                         <h3>File a Complaint</h3>
@@ -156,19 +156,19 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                         <button className="modal-card-button" onClick={onConsumerPortalLogin} style={{ marginTop: '1.5rem', background: '#A31D1D', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>Access Portal</button>
                     </div>
                     <div className="feature-card">
-                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem' }}>
-                            <div className="feature-icon-box" style={{ width: '60px', height: '60px', background: '#FDF2F2', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#A31D1D" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem', height: 'auto' }}>
+                            <div className="feature-icon-box" style={{ width: '100%', height: '260px', background: 'transparent', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, boxShadow: 'none' }}>
+                                <img src="/assets/DEVICEVERIFIED.png" alt="Verify Device Icon" style={{ width: '100%', height: '100%', objectFit: 'contain', margin: 0 }} />
                             </div>
                         </div>
                         <h3>Device Verification</h3>
-                        <p>Ensure your communication equipment (phones, routers) is legally type-approved for safety and compatibility.</p>
+                        <p>Ensure your communication equipment (phones, routers) is legally type approved for safety and compatibility.</p>
                         <button className="modal-card-button" style={{ marginTop: '1.5rem', background: '#3F4E60', color: '#fff', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '50px', cursor: 'pointer', fontWeight: '700' }}>Verify Device</button>
                     </div>
                     <div className="feature-card">
-                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem' }}>
-                            <div className="feature-icon-box" style={{ width: '60px', height: '60px', background: '#FDF2F2', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="#A31D1D" d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8z"/></svg>
+                        <div className="feature-icon-container" style={{ margin: '0 auto 1.5rem', height: 'auto' }}>
+                            <div className="feature-icon-box" style={{ width: '100%', height: '260px', background: 'transparent', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, boxShadow: 'none' }}>
+                                <img src="/assets/certified.png" alt="License Checker Icon" style={{ width: '100%', height: '100%', objectFit: 'contain', margin: 0 }} />
                             </div>
                         </div>
                         <h3>License Checker</h3>
@@ -231,7 +231,7 @@ const ConsumerAffairs: React.FC<ConsumerAffairsProps> = ({ onPortalLogin, onClie
                                 </span>
                                 Network Quality Monitoring
                             </span>
-                            <p style={{ marginLeft: '54px', fontSize: '0.9rem', color: '#666' }}>Real-time nationwide testing of signal strength and data speeds.</p>
+                            <p style={{ marginLeft: '54px', fontSize: '0.9rem', color: '#666' }}>Real time nationwide testing of signal strength and data speeds.</p>
                         </div>
                         <div className="scenario-item">
                             <span style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>

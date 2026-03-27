@@ -14,6 +14,7 @@ import ConsumerCases from './ConsumerCases';
 import { useEffect } from 'react';
 import ClientProfile from './ClientProfile';
 import LicensingSystem from './LicensingSystem';
+import NotificationsPage from './NotificationsPage';
 import Skeleton from '../Skeleton';
 import { supabase } from '../../lib/supabase';
 
@@ -207,6 +208,8 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
         switch (activeMenu) {
             case 'Apply for Licence':
                 return <LicensingSystem />;
+            case 'Notifications':
+                return <NotificationsPage />;
             case 'License Manager':
                 return <MyPolicy />;
             case 'Spectrum Portal':
@@ -382,7 +385,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
             {isSidebarOpen && <div className="sidebar-overlay" onClick={toggleSidebar}></div>}
 
             {/* Sidebar */}
-            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`} style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
                 <div className="sidebar-logo">
                     <img src={logo} alt="Logo" className="logo-img" />
                     <p className="sidebar-org-name">Botswana Communications Regulatory Authority</p>
@@ -390,7 +393,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
 
                 <div className="menu-label">MENU</div>
 
-                <nav className="nav-menu">
+                <nav className="nav-menu" style={{ flex: 1, overflowY: 'auto' }}>
                     {topMenuItems.map((item) => (
                         <div
                             key={item.name}
@@ -406,14 +409,14 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                     ))}
                 </nav>
 
-                <div className="sidebar-help-card" style={{ margin: '1rem', padding: '1rem', background: 'linear-gradient(135deg, #004D40 0%, #00695C 100%)', borderRadius: '12px', textAlign: 'center', color: 'white' }}>
-                    <h4 style={{ fontSize: '0.9rem', marginBottom: '0.5rem', fontWeight: '600' }}>Client Support</h4>
-                    <p style={{ fontSize: '0.75rem', opacity: '0.8', marginBottom: '1rem', lineHeight: '1.3' }}>Need assistance with Regulatory Services? Contact our team.</p>
-                    <button style={{ width: '100%', background: 'white', color: '#004D40', border: 'none', padding: '0.6rem', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', fontSize: '0.8rem' }}>Contact Support</button>
+                <div className="sidebar-help-card" style={{ margin: '0.75rem 1rem', padding: '0.85rem 1rem', background: 'linear-gradient(135deg, #004D40 0%, #00695C 100%)', borderRadius: '12px', textAlign: 'center', color: 'white', flexShrink: 0 }}>
+                    <h4 style={{ fontSize: '0.8rem', marginBottom: '0.3rem', fontWeight: '700' }}>Client Support</h4>
+                    <p style={{ fontSize: '0.7rem', opacity: 0.8, marginBottom: '0.75rem', lineHeight: '1.4' }}>Need help? Contact the BOCRA team.</p>
+                    <button style={{ width: '100%', background: 'white', color: '#004D40', border: 'none', padding: '0.45rem', borderRadius: '8px', fontWeight: '700', cursor: 'pointer', fontSize: '0.75rem' }}>Contact Support</button>
                 </div>
 
                 {logoutItem && (
-                    <div className="sidebar-footer">
+                    <div className="sidebar-footer" style={{ flexShrink: 0, borderTop: '1px solid rgba(255,255,255,0.08)', padding: '0.25rem 0' }}>
                         <div
                             className="nav-item logout-item"
                             onClick={() => onLogout?.()}
@@ -442,7 +445,7 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                             </g>
                         </svg>
                     </button>
-                    {!['License Manager', 'Spectrum Portal', 'Technical Vault', 'Consumer Cases', 'Compliance Labels', 'Apply for Licence'].includes(activeMenu) ? (
+                    {!['License Manager', 'Spectrum Portal', 'Technical Vault', 'Consumer Cases', 'Compliance Labels', 'Apply for Licence', 'Notifications'].includes(activeMenu) ? (
                         <>
                             <h1 className="header-title">
                                 {activeMenu}
@@ -490,7 +493,14 @@ const ClientsDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => 
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="notifications-footer">
+                                    <div
+                                        className="notifications-footer"
+                                        onClick={() => {
+                                            setIsNotificationsOpen(false);
+                                            setActiveMenu('Notifications');
+                                        }}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         View All Notifications
                                     </div>
                                 </div>

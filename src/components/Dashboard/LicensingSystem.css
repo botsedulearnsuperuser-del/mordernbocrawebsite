@@ -1023,13 +1023,13 @@
 }
 
 .ls-doc-pill.missing {
-  background: #fff3e0;
-  color: #e65100;
+  background: #f5f5f5;
+  color: #666;
 }
 
 .ls-submit-warning {
-  background: #fff8e1;
-  border: 1.5px solid #fdd835;
+  background: #fafafa;
+  border: 1px solid #eee;
   border-radius: 10px;
   padding: 1rem 1.2rem;
   font-size: 0.84rem;

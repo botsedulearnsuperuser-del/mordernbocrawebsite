@@ -44,7 +44,7 @@ const ClientSignInScreen: React.FC<ClientSignInScreenProps> = ({ onLogin, onBack
                     </div>
                     <h1 className="welcome-title">Welcome to BOCRA Client Portal</h1>
                     <p className="welcome-text">
-                        Access regulatory services, file complaints, and check type-approved devices securely from our integrated client portal.
+                        Access regulatory services, file complaints, and check type approved devices securely from our integrated client portal.
                     </p>
 
                     <div className="welcome-safety-notice">

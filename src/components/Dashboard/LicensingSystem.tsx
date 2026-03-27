@@ -154,7 +154,7 @@ const LICENSE_CATALOG: LicenseDef[] = [
   },
   {
     id: 'vans',
-    name: 'Value-Added Network Services (VANS)',
+    name: 'Value Added Network Services (VANS)',
     category: 'ICT',
     description: 'Licence for enhanced data services over existing telecom infrastructure.',
     fee: 'BWP 10,000',
@@ -197,7 +197,7 @@ const LICENSE_CATALOG: LicenseDef[] = [
 const WIZARD_QUESTIONS = [
   { id: 'q1', question: 'What does your business primarily do?', options: ['Provide internet access to customers', 'Operate a radio/TV station', 'Deliver packages or mail', 'Sell or import telecom equipment', 'Provide cloud or VoIP services', 'Use radio frequencies for my business'] },
   { id: 'q2', question: 'What is your intended reach?',          options: ['Nationwide', 'Regional / District', 'Community / Local', 'Specific Sites Only'] },
-  { id: 'q3', question: 'What best describes your organisation?', options: ['Established Company', 'New Start-up', 'Public Entity / Government', 'NGO / Non-profit'] },
+  { id: 'q3', question: 'What best describes your organisation?', options: ['Established Company', 'New Start up', 'Public Entity / Government', 'NGO / Non profit'] },
 ];
 
 const WIZARD_RECOMMENDATIONS: Record<string, string[]> = {
@@ -491,19 +491,19 @@ const LicensingSystem: React.FC = () => {
       <div className="ls-home-grid">
         <div className="ls-info-card">
           <h4>Dynamic Forms</h4>
-          <p>Forms auto-generated based on the licence type. Apply for multiple licences with shared fields filled once.</p>
+          <p>Forms auto generated based on the licence type. Apply for multiple licences with shared fields filled once.</p>
         </div>
         <div className="ls-info-card">
           <h4>Secure Document Vault</h4>
-          <p>Sensitive documents encrypted at rest. Files referenced by ID, never embedded — compliant with Botswana data protection laws.</p>
+          <p>Sensitive documents encrypted at rest. Files referenced by ID, never embedded, compliant with Botswana data protection laws.</p>
         </div>
         <div className="ls-info-card">
           <h4>Workflow Tracking</h4>
           <p>Track every application from submission through review, approval or rejection with full audit trail.</p>
         </div>
         <div className="ls-info-card">
-          <h4>AI-Ready</h4>
-          <p>Built for future AI/chatbot integration. Every schema is data-driven and extensible — add new licence types without code changes.</p>
+          <h4>AI Ready</h4>
+          <p>Built for future AI/chatbot integration. Every schema is data driven and extensible, add new licence types without code changes.</p>
         </div>
       </div>
 
@@ -518,7 +518,7 @@ const LicensingSystem: React.FC = () => {
                 <div key={app.id} className="ls-app-row" onClick={() => { setActiveTrackerId(app.id); setView('tracker'); }}>
                   <div>
                     <div className="ls-app-name">{names}</div>
-                    <div className="ls-app-date">{app.submittedAt ? `Submitted: ${new Date(app.submittedAt).toLocaleDateString()}` : `Draft — ${new Date(app.createdAt).toLocaleDateString()}`}</div>
+                    <div className="ls-app-date">{app.submittedAt ? `Submitted: ${new Date(app.submittedAt).toLocaleDateString()}` : `Draft ${new Date(app.createdAt).toLocaleDateString()}`}</div>
                   </div>
                   <span className="ls-status-badge" style={{ background: meta.color + '20', color: meta.color }}>
                     {meta.icon} {meta.label}
@@ -580,7 +580,7 @@ const LicensingSystem: React.FC = () => {
                 </button>
                 <button className="ls-btn ls-btn-primary ls-btn-sm"
                   onClick={() => startApplication([lic.id])}>
-                  Apply Now →
+                  Apply Now
                 </button>
               </div>
             </div>
@@ -624,8 +624,8 @@ const LicensingSystem: React.FC = () => {
           </div>
           {recommended.length === 0 && <p style={{ color: '#666' }}>No specific licences matched. Please <button className="ls-link-btn" onClick={() => setView('discover')}>browse all licences</button>.</p>}
           <div className="ls-wizard-nav" style={{ marginTop: '2rem' }}>
-            <button className="ls-btn ls-btn-outline" onClick={() => { setWizardResults(null); setWizardStep(0); setWizardAnswers([]); }}>↩ Restart Wizard</button>
-            {selectedIds.length > 0 && <button className="ls-btn ls-btn-primary" onClick={() => startApplication()}>Apply for {selectedIds.length} licence(s) →</button>}
+            <button className="ls-btn ls-btn-outline" onClick={() => { setWizardResults(null); setWizardStep(0); setWizardAnswers([]); }}>Restart Wizard</button>
+            {selectedIds.length > 0 && <button className="ls-btn ls-btn-primary" onClick={() => startApplication()}>Apply for {selectedIds.length} licence(s)</button>}
             <button className="ls-link-btn" onClick={() => setView('discover')}>Browse all licences</button>
           </div>
         </div>
@@ -664,7 +664,7 @@ const LicensingSystem: React.FC = () => {
         </div>
         <div className="ls-wizard-nav">
           {wizardStep > 0 && <button className="ls-btn ls-btn-outline" onClick={() => setWizardStep(wizardStep - 1)}>← Back</button>}
-          <button className="ls-link-btn" onClick={() => setView('discover')}>Skip — browse all licences</button>
+          <button className="ls-link-btn" onClick={() => setView('discover')}>Skip browse all licences</button>
         </div>
       </div>
     );
@@ -689,7 +689,7 @@ const LicensingSystem: React.FC = () => {
           <div className="ls-selected-summary">
             <h4>Applying for:</h4>
             {selectedLicenses.map(l => (
-              <div key={l.id} className="ls-selected-pill">{l.category} — {l.name}</div>
+              <div key={l.id} className="ls-selected-pill">{l.category} {l.name}</div>
             ))}
           </div>
 
@@ -700,7 +700,7 @@ const LicensingSystem: React.FC = () => {
           <div className="ls-form-actions">
             <button className="ls-btn ls-btn-ghost" onClick={handleSaveDraft}>Save Draft</button>
             <button className="ls-btn ls-btn-primary" disabled={!consentGiven} onClick={() => setStep(1)}>
-              Next: Upload Documents →
+              Next: Upload Documents
             </button>
           </div>
         </div>
@@ -717,7 +717,7 @@ const LicensingSystem: React.FC = () => {
             {allDocs.map(renderDocUpload)}
           </div>
           <div className="ls-form-actions">
-            <button className="ls-btn ls-btn-outline" onClick={() => setStep(0)}>← Back</button>
+            <button className="ls-btn ls-btn-outline" onClick={() => setStep(0)}>Back</button>
             <button className="ls-btn ls-btn-ghost" onClick={handleSaveDraft}>Save Draft</button>
             <button className="ls-btn ls-btn-primary" onClick={() => setStep(2)}>Next: Review</button>
           </div>
@@ -760,7 +760,7 @@ const LicensingSystem: React.FC = () => {
                     const up = licDocs[i];
                     return (
                       <span key={d.id} className={`ls-doc-pill ${up ? 'ok' : 'missing'}`}>
-                        {up ? `✓ ${d.name}` : `⚠ ${d.name} (missing)`}
+                        {up ? `✓ ${d.name}` : `${d.name} (missing)`}
                       </span>
                     );
                   })}
@@ -787,7 +787,9 @@ const LicensingSystem: React.FC = () => {
 
   const renderSubmitted = () => (
     <div className="ls-submitted">
-      <div className="ls-submitted-check">&#10003;</div>
+      <div className="ls-submitted-check">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"><path fill="currentColor" d="m9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83z"/></svg>
+      </div>
       <h3>Applications Submitted Successfully!</h3>
       <p>Your application(s) have been received by BOCRA and assigned a tracking ID. You will receive email notifications as your applications progress through the review workflow.</p>
       <p className="ls-compliance-note">In compliance with Botswana's Electronic Communications Act and Data Protection Act, an electronic audit trail has been created for your submission. You may request a copy at any time.</p>

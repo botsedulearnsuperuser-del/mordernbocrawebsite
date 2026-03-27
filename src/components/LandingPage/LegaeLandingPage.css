@@ -42,6 +42,7 @@ body {
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
+    overflow: visible;
 }
 
 .logo {
@@ -57,6 +58,7 @@ body {
     display: flex;
     align-items: center;
     gap: 1.25rem;
+    overflow: visible;
 }
 
 .mobile-menu-btn {
@@ -78,6 +80,7 @@ body {
     margin: 0;
     padding: 0;
     align-items: center;
+    overflow: visible;
 }
 
 .nav-item {
@@ -203,6 +206,163 @@ body {
     font-size: 0.75rem;
     color: var(--legae-text-muted);
     line-height: 1.3;
+}
+
+/* ── 3-Level Resources Mega Menu ─────────────────────────────────── */
+
+/* L2 panel — appears on hover of .res-nav-item */
+.res-nav-item { position: relative; }
+
+.res-menu-l2 {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.165,0.84,0.44,1),
+                transform 0.25s cubic-bezier(0.165,0.84,0.44,1),
+                visibility 0.25s;
+    z-index: 2100;
+    margin-top: 0.5rem;
+}
+
+.res-nav-item:hover .res-menu-l2 {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+}
+
+.res-menu-l2-inner {
+    width: 260px;
+    background: rgba(255,255,255,0.99);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.13);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.res-menu-header {
+    color: var(--legae-red);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.4rem 0.5rem 0.6rem;
+    border-bottom: 1px solid rgba(163,29,29,0.1);
+    margin-bottom: 4px;
+}
+
+/* L2 row */
+.res-l2-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+
+.res-l2-item:hover,
+.res-l2-item.active {
+    background: #FDF2F2;
+}
+
+.res-l2-item-label {
+    font-size: 0.83rem;
+    font-weight: 700;
+    color: var(--legae-text);
+    line-height: 1.3;
+}
+
+.res-l2-item-desc {
+    font-size: 0.72rem;
+    color: var(--legae-text-muted);
+    margin-top: 2px;
+    line-height: 1.35;
+}
+
+.res-l2-arrow {
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: var(--legae-red);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.res-l2-item:hover .res-l2-arrow,
+.res-l2-item.active .res-l2-arrow {
+    opacity: 1;
+}
+
+/* L3 panel — slides out to the right of the active L2 item */
+.res-menu-l3 {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 10px);
+    width: 240px;
+    background: rgba(255,255,255,0.99);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.13);
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 2200;
+}
+
+.res-l2-item:hover .res-menu-l3,
+.res-l2-item.active .res-menu-l3 {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+/* L3 row */
+.res-l3-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.55rem 0.7rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.16s, transform 0.16s;
+}
+
+.res-l3-item:hover {
+    background: #FDF2F2;
+    transform: translateX(3px);
+}
+
+.res-l3-item-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--legae-text);
+}
+
+.res-l3-item-desc {
+    font-size: 0.7rem;
+    color: var(--legae-text-muted);
+    margin-top: 2px;
+    line-height: 1.35;
 }
 
 .nav-actions {

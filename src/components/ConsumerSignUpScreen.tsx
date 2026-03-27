@@ -72,7 +72,7 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
                     <div className="signin-logo-container">
                         <img src={logo} alt="BOCRA Logo" className="signin-logo" />
                     </div>
-                    <h1 className="welcome-title">Create Your BOCRA Consumer Account</h1>
+                    <h1 className="welcome-title">Create Your BOCRA Account</h1>
                     <p className="welcome-text">
                         Join our integrated consumer portal to access regulatory services, file complaints, and track your requests securely.
                     </p>
@@ -84,7 +84,7 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
 
                 {/* Right Side: Sign Up Form */}
                 <div className="glass-card">
-                    <h1 className="signin-title">Sign Up to Consumer Portal</h1>
+                    <h1 className="signin-title">Sign Up to BOCRA Portal</h1>
 
                     <form onSubmit={handleSignUp} className="signin-form">
                         {error && <div className="error-message" style={{ color: '#ff4d4d', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
@@ -151,22 +151,14 @@ const ConsumerSignUpScreen: React.FC<ConsumerSignUpScreenProps> = ({ onSignUp, o
 
                     <div className="signin-footer" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
                         <div>
-                            <span>Already have an account? </span>
-                            <button 
-                                type="button" 
-                                className="contact-link" 
-                                style={{ 
-                                    background: 'none', 
-                                    border: 'none', 
-                                    font: 'inherit', 
-                                    cursor: 'pointer',
-                                    color: '#A80000',
-                                    padding: 0,
-                                    textDecoration: 'underline'
-                                }}
+                            <span>Already registered? </span>
+                            <button
+                                type="button"
+                                className="contact-link"
+                                style={{ background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', color: '#A80000', padding: 0, textDecoration: 'underline', fontWeight: 'bold' }}
                                 onClick={onBackToSignIn}
                             >
-                                Sign In
+                                Login as Consumer
                             </button>
                         </div>
                     </div>

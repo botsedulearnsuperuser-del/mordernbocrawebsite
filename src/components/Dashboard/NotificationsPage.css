@@ -1,0 +1,419 @@
+/* ─── Notifications Page CSS ─── */
+
+.np-root {
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    min-height: 100%;
+    background: #f5f5f5;
+}
+
+/* ── Page Header ── */
+.np-header {
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.np-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.np-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0;
+}
+
+.np-unread-badge {
+    background: #A80000;
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+}
+
+.np-mark-all-btn {
+    background: none;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 7px;
+    padding: 0.45rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #A80000;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+}
+
+.np-mark-all-btn:hover:not(:disabled) {
+    background: #fdf2f2;
+    border-color: #A80000;
+}
+
+.np-mark-all-btn:disabled {
+    color: #bbb;
+    border-color: #eee;
+    cursor: not-allowed;
+}
+
+/* ── Filter Tabs ── */
+.np-filter-tabs {
+    background: white;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+}
+
+.np-filter-tab {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background: transparent;
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: -1px;
+}
+
+.np-filter-tab:hover {
+    color: #A80000;
+}
+
+.np-filter-tab.active {
+    color: #A80000;
+    border-bottom-color: #A80000;
+    font-weight: 600;
+}
+
+.np-tab-count {
+    background: #A80000;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 10px;
+    line-height: 1.4;
+}
+
+/* ── Layout ── */
+.np-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: calc(100vh - 140px);
+}
+
+.np-layout.split {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    align-items: start;
+    gap: 0;
+}
+
+/* ── Notification List ── */
+.np-list {
+    background: white;
+    border-right: 1px solid #e8e8e8;
+    min-height: calc(100vh - 140px);
+}
+
+.np-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    color: #aaa;
+    font-size: 0.9rem;
+    gap: 1rem;
+}
+
+.np-empty-icon {
+    opacity: 0.5;
+}
+
+.np-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+}
+
+.np-item:hover {
+    background: #fafafa;
+}
+
+.np-item.unread {
+    background: #fffbfb;
+}
+
+.np-item.active {
+    background: #fdf2f2;
+    border-left: 3px solid #A80000;
+}
+
+
+
+.np-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.np-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+}
+
+.np-item-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.3;
+}
+
+.np-item.unread .np-item-title {
+    color: #111;
+    font-weight: 700;
+}
+
+.np-item-time {
+    font-size: 0.72rem;
+    color: #aaa;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.np-item-preview {
+    font-size: 0.8rem;
+    color: #777;
+    line-height: 1.5;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.np-item-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+}
+
+.np-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #A80000;
+    display: block;
+}
+
+.np-delete-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s, background 0.15s;
+    opacity: 0;
+}
+
+.np-item:hover .np-delete-btn {
+    opacity: 1;
+}
+
+.np-delete-btn:hover {
+    color: #A80000;
+    background: #fdf2f2;
+}
+
+/* ── Detail Panel ── */
+.np-detail {
+    background: white;
+    border-left: 1px solid #e8e8e8;
+    position: sticky;
+    top: 140px;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    flex-direction: column;
+}
+
+.np-detail-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+
+
+.np-detail-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 0.4rem;
+    line-height: 1.35;
+    flex: 1;
+}
+
+.np-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.np-type-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.np-detail-date {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.np-close-detail {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: color 0.15s;
+}
+
+.np-close-detail:hover {
+    color: #555;
+    background: #f5f5f5;
+}
+
+.np-detail-body {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.np-detail-body p {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.np-detail-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.np-action-btn {
+    background: #A80000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.15s;
+}
+
+.np-action-btn:hover {
+    background: #8b0000;
+}
+
+.np-dismiss-btn {
+    background: none;
+    color: #888;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+}
+
+.np-dismiss-btn:hover {
+    border-color: #ccc;
+    color: #555;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .np-layout.split {
+        grid-template-columns: 1fr;
+    }
+
+    .np-detail {
+        position: static;
+        border-left: none;
+        border-top: 1px solid #e8e8e8;
+    }
+
+    .np-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .np-filter-tabs {
+        padding: 0 1.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .np-item {
+        padding: 0.9rem 1rem;
+    }
+
+    .np-header {
+        padding: 0.85rem 1rem;
+    }
+
+    .np-filter-tabs {
+        padding: 0 1rem;
+    }
+}

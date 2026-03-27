@@ -314,7 +314,7 @@ const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackT
                                 <div style={{ color: '#A31D1D', fontWeight: '900', fontSize: '2.2rem', lineHeight: '1' }}>2</div>
                                 <h3 style={{ fontSize: '1.6rem', color: '#1a1a1a', margin: 0 }}>Password Hygiene & MFA</h3>
                             </div>
-                            <p style={{ lineHeight: '1.7', color: '#666', fontSize: '1.05rem', margin: 0 }}>Implement Multi-Factor Authentication (MFA) across all digital footprints. Ensure passwords are at least 12 characters long, combining uppercase, lowercase, numbers, and symbols. Utilize a secure password manager rather than reusing passwords across critical banking and work systems.</p>
+                            <p style={{ lineHeight: '1.7', color: '#666', fontSize: '1.05rem', margin: 0 }}>Implement Multi Factor Authentication (MFA) across all digital footprints. Ensure passwords are at least 12 characters long, combining uppercase, lowercase, numbers, and symbols. Utilize a secure password manager rather than reusing passwords across critical banking and work systems.</p>
                         </div>
 
                         <div style={{ background: '#FDF2F2', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 4px 15px rgba(0,0,0,0.02)' }}>
@@ -434,7 +434,7 @@ const CybersecurityPractices: React.FC<CybersecurityPracticesProps> = ({ onBackT
                                         Active Risk: AI Spoofing & Phishing
                                     </h3>
                                     <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                                        Advanced persistent threats utilizing AI-generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross-border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
+                                        Advanced persistent threats utilizing AI generated deepfakes and mass phishing campaigns are currently targeting domestic financial ecosystems. Cross border traffic analysis indicates coordinated spoofing attacks originating from external nodes.
                                     </p>
                                 </div>
 

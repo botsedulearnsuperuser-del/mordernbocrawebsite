@@ -233,7 +233,7 @@ const ConsumerDashboard: React.FC<{ onLogout?: () => void }> = ({ onLogout }) =>
                                 <input type="text" placeholder="Enter IMEI or Model No." style={{ flex: 1, border: 'none', background: 'transparent', outline: 'none' }} />
                             </div>
                             <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '1rem' }}>
-                                Verify if your mobile device is type-approved for use in Botswana.
+                                Verify if your mobile device is type approved for use in Botswana.
                             </p>
                             <button className="payment-btn" style={{ marginTop: '1.5rem', background: '#A80000' }} onClick={() => setActiveMenu('Device Verification')}>
                                 Verify Device Now

@@ -70,9 +70,9 @@ const ConsumerSignInScreen: React.FC<ConsumerSignInScreenProps> = ({ onLogin, on
                     <div className="signin-logo-container">
                         <img src={logo} alt="BOCRA Logo" className="signin-logo" />
                     </div>
-                    <h1 className="welcome-title">Welcome to BOCRA Consumer Portal</h1>
+                    <h1 className="welcome-title">Welcome to BOCRA Portal</h1>
                     <p className="welcome-text">
-                        Access regulatory services, file complaints, and check type-approved devices securely from our integrated consumer portal.
+                        Access regulatory services, file complaints, and check type approved devices securely from our integrated consumer portal.
                     </p>
 
                     <div className="welcome-safety-notice">
@@ -83,7 +83,7 @@ const ConsumerSignInScreen: React.FC<ConsumerSignInScreenProps> = ({ onLogin, on
                 {/* Right Side: Login Form */}
                 <div className="glass-card">
 
-                    <h1 className="signin-title">Sign In to the Consumer Portal</h1>
+                    <h1 className="signin-title">Sign In to BOCRA Portal</h1>
 
                     <form onSubmit={handleSubmit} className="signin-form">
                         {error && <div className="error-message" style={{ color: '#ff4d4d', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
@@ -167,27 +167,7 @@ const ConsumerSignInScreen: React.FC<ConsumerSignInScreenProps> = ({ onLogin, on
 
                     </form>
 
-                    <div className="signin-footer">
-                        <div>
-                            <span>Are you an Admin? </span>
-                            <button 
-                                type="button" 
-                                className="contact-link" 
-                                style={{ 
-                                    background: 'none', 
-                                    border: 'none', 
-                                    font: 'inherit', 
-                                    cursor: 'pointer',
-                                    color: '#A80000',
-                                    padding: 0,
-                                    textDecoration: 'underline'
-                                }}
-                                onClick={onBackToAdmin}
-                            >
-                                Sign In to Admin Panel
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
