@@ -71,10 +71,12 @@ To facilitate the evaluation of the platform, the following demo accounts have b
 *   **Registration**: You can create your own consumer account directly on the **Consumer Portal** sign-up page.
 
 ## Development Team
-- Tlhalefang Ntshilane: Lead Developer (Full-Stack)
-- Kesego Mothokatse: Project Manager
-- Amogelang Tshukudu: UI/UX Designer
-- Benhard Chepete: Front-End Developer
+- Lesotlho Koorapetse
+- Lyden Sebinyane
+- Bobo Sentsima
+- Pearl Ntetda
+- Agape Kgomotso
+- Botlhe Moemisi
 
 ## License
 Developed for the official 2026 Innovation Hackathon. All rights reserved by the development team and mostly for BOCRA.
